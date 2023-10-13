@@ -1,0 +1,96 @@
+@import url('https://cdn.syncfusion.com/ej2/material.css');
+
+.sidebar {
+  box-shadow: rgb(113 122 131 / 11%) 0px 7px 30px 0px;
+}
+.nav-item,
+.navbar {
+  z-index: 10000;
+}
+@media  screen and (max-width:800px) {
+  .sidebar{
+    z-index: 10000000;
+  }
+}
+
+.e-dlg-center-center, .e-quick-popup-wrapper.e-device{
+  z-index: 1000000 !important;
+}
+
+.e-toolbar-right {      
+  left: 10px; 
+} 
+.e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-left { 
+  left: 230px; 
+} 
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(216, 216, 216);
+  border-radius: 40px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.form-wrap {
+  margin-bottom: 2.25rem;
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  font-family: "Open Sans";
+  font-size: .85rem;
+  font-weight: 500;
+  color: #181c32;
+}
+
+.form-input {
+  background-color: #f5f8fa;
+  border-color: #f5f8fa;
+  color: #5e6278;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  width: 100%;
+  padding: .5rem .8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Open Sans";
+  line-height: 1.5;
+  border-radius: .4rem;
+  border: #cfcfcf 1px solid;
+}
+
+.form-readonly {
+  background-color: #ededed;
+  pointer-events: none;
+}
+
+.form-readonly:focus {
+  border: #cfcfcf 1px solid;
+  outline: none;
+}
+
+/* color-picker style  */
+
+ #preview {
+  background: transparent
+    url('https://ej2.syncfusion.com/react/demos/src/color-picker/images/pen.png')
+    no-repeat;
+  display: inline-block;
+  height: 80px;
+  margin: 10px 0;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #008000;
+}
+
+.e-input-group:not(.e-float-icon-left), .e-input-group.e-success:not(.e-float-icon-left), .e-input-group.e-warning:not(.e-float-icon-left), .e-input-group.e-error:not(.e-float-icon-left), .e-input-group.e-control-wrapper:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-success:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-warning:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left){
+  border: none;
+}

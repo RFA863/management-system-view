@@ -1,0 +1,46 @@
+.e-toolbar-left {
+  left: 250px !important;
+}
+
+.e-cell {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+.e-grid .e-headercell {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+.e-lampiranParent {
+  display: flex;
+  justify-content: center;
+}
+
+.e-lampiran {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  align-items: center;
+  padding: 6px 8px;
+  background-color: #3b82f6;
+  font-weight: 500;
+  color: white;
+  border-radius: 9999px;
+}
+
+.e-lampiranIcon {
+  color: white;
+  width: 18px;
+  height: 18px;
+}
+
+.e-nomorHp {
+  color: blue;
+  text-decoration: underline;
+}
+
+.e-headercelldiv {
+  text-align: center !important;
+}
