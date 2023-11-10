@@ -1,5 +1,5 @@
-import React from "react";
-import { IoMdContacts } from "react-icons/io";
+import React, { useState } from "react";
+import { IoMdContacts, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -7,13 +7,99 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const Sidebar = () => {
+  const [openSection, setOpenSection] = useState(null);
+
+  const handleSectionClick = (sectionIndex) => {
+    if (sectionIndex === openSection) {
+      setOpenSection(null);
+    } else {
+      setOpenSection(sectionIndex);
+    }
+  };
+
   const links = [
     {
-      title: "Pelamar",
+      title: "master",
+      icon: <IoMdContacts />,
       links: [
         {
-          name: "data",
+          name: "type box",
           icon: <IoMdContacts />,
+        },
+        {
+          name: "kualitas",
+        },
+        {
+          name: "kualitas detail",
+        },
+        {
+          name: "type box detail",
+        },
+        {
+          name: "kualitas type box",
+        },
+        {
+          name: "rekening",
+        },
+        {
+          name: "user",
+        },
+        {
+          name: "mobil",
+        },
+        {
+          name: "sopir",
+        },
+      ],
+    },
+    {
+      title: "index",
+      links: [
+        {
+          name: "index",
+        },
+      ],
+    },
+    {
+      title: "customer",
+      links: [
+        {
+          name: "customers",
+        },
+      ],
+    },
+    {
+      title: "order",
+      links: [
+        {
+          name: "order baru",
+        },
+        {
+          name: "list",
+        },
+      ],
+    },
+    {
+      title: "order detail",
+      links: [
+        {
+          name: "detail",
+        },
+      ],
+    },
+    {
+      title: "job",
+      links: [
+        {
+          name: "job",
+        },
+      ],
+    },
+    {
+      title: "cancel job",
+      links: [
+        {
+          name: "cancel job",
         },
       ],
     },
@@ -57,31 +143,46 @@ const Sidebar = () => {
             </TooltipComponent>
           </div>
           <div className="mt-10 ">
-            {links.map((item) => (
+            {links.map((item, index) => (
               <div key={item.title}>
-                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-                  {item.title}
-                </p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/dashboard/${item.title
-                      .toLowerCase()
-                      .replace(" ", "-")}/${link.name
-                      .toLowerCase()
-                      .replace(" ", "-")}`}
-                    key={link.name}
-                    onClick={handleCloseSideBar}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize ">{link.name}</span>
-                  </NavLink>
-                ))}
+                <button
+                  className="flex justify-between items-center w-[240px] cursor-pointer text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase"
+                  onClick={() => handleSectionClick(index)}
+                >
+                  <div>
+                    {item.title}
+                    {item.icon}
+                  </div>
+                  <div>
+                    {openSection === index ? (
+                      <IoIosArrowUp />
+                    ) : (
+                      <IoIosArrowDown />
+                    )}
+                  </div>
+                </button>
+                {openSection === index &&
+                  item.links.map((link) => (
+                    <NavLink
+                      to={`/dashboard/${item.title
+                        .toLowerCase()
+                        .replace(" ", "-")}/${link.name
+                        .toLowerCase()
+                        .replace(" ", "-")}`}
+                      key={link.name}
+                      onClick={handleCloseSideBar}
+                      style={({ isActive }) => ({
+                        backgroundColor: isActive ? currentColor : "",
+                      })}
+                      className={({ isActive }) =>
+                        isActive ? activeLink : normalLink
+                      }
+                    >
+                      {link.icon}
+                      <span className="capitalize ">{link.name}</span>
+                    </NavLink>
+                  ))}
+                <hr />
               </div>
             ))}
           </div>
