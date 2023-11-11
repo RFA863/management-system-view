@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-import { Typebox, BuatTypebox } from "../pages";
+import { Typebox, BuatTypebox, Customer, TambahCustomer } from "../pages";
 
 import {
   Navbar,
@@ -84,7 +84,9 @@ const Main = () => {
             <Routes>
               {/* Pelamar  */}
               <Route path="/TypeBox/Typebox" element={<Typebox />} />
-              <Route path="TypeBox/BuatTypebox" element={<BuatTypebox/>}/>
+              <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
+              <Route path="/customer/customers" element={<Customer />} />
+              <Route path="/customer/tambah" element={<TambahCustomer />} />
             </Routes>
           </div>
           <Footer />
