@@ -1,28 +1,34 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
-import { CgClose } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { CgClose } from "react-icons/cg";
+import { getCookie } from "cookies-next";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const TambahCustomer = () => {
+const UpdateCustomer = () => {
   const navigate = useNavigate();
+  const { data } = useStateContext();
 
-  const [Nomor, setNomor] = useState("");
-  const [nama, setNama] = useState("");
-  const [kode, setKode] = useState("");
-  const [email, setEmail] = useState("");
-  const [Npwp, setNpwp] = useState("");
-  const [noNpwp, setNoNpwp] = useState("");
-  const [noTelp, setNoTelp] = useState("");
-  const [noFax, setNoFax] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [alamatInvoice, setAlamatInvoice] = useState("");
+  if (data.length === 0) {
+    navigate("/dashboard/customer/customers");
+  }
+
+  const [nama, setNama] = useState(data.Nama);
+  const [Nomor, setNomor] = useState(data.Nomor);
+  const [email, setEmail] = useState(data.Email);
+  const [Npwp, setNpwp] = useState(String(data.NPWP));
+  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
+  const [kode, setKode] = useState(data.Kode);
+  const [noTelp, setNoTelp] = useState(data.NoTelp);
+  const [noFax, setNoFax] = useState(data.NoFax);
+  const [alamat, setAlamat] = useState(data.Alamat);
+  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -72,15 +78,15 @@ const TambahCustomer = () => {
     return true;
   };
 
-  const postData = async (e) => {
+  const updateData = async (e) => {
     e.preventDefault();
 
     if (!Validator()) {
       return;
     }
     await axios
-      .post(
-        HOST + "/marketing/customer/input",
+      .put(
+        HOST + "/marketing/customer/update/" + data.id,
         {
           nomor: Number(Nomor),
           nama,
@@ -112,6 +118,8 @@ const TambahCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
+
+          navigate("/dashboard/customer/customers");
         }
       })
       .catch((error) => {
@@ -152,6 +160,7 @@ const TambahCustomer = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
+          <p>{data.Nama}</p>
           <Header title="Tambah Customer" />
           <CgClose
             className="text-4xl cursor-pointer"
@@ -332,7 +341,7 @@ const TambahCustomer = () => {
             <div>
               <button
                 className="bg-blue-700 rounded-xl text-white px-4 py-2"
-                onClick={postData}
+                onClick={updateData}
               >
                 Submit
               </button>
@@ -355,4 +364,4 @@ const TambahCustomer = () => {
     </div>
   );
 };
-export default TambahCustomer;
+export default UpdateCustomer;
