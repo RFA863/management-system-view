@@ -96,7 +96,7 @@ const Login = () => {
               e.preventDefault();
               axios
                 .post(
-                  HOST + "/admin/auth",
+                  HOST + "/auth",
                   { username, password },
                   {
                     headers: {
@@ -112,7 +112,7 @@ const Login = () => {
                       expires: new Date(new Date().getTime() + 10800000),
                     });
 
-                    navigate("/dashboard/pelamar/data");
+                    navigate("/dashboard");
                   }
                 })
                 .catch((error) => {
