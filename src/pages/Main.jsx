@@ -9,6 +9,9 @@ import {
   Customer,
   TambahCustomer,
   UpdateCustomer,
+  Sopir,
+  UpdateKualitas,
+  TambahKualitas
 } from "../pages";
 
 import {
@@ -22,6 +25,7 @@ import {
 import "../App.css";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import Kualitas from "./Kualitas/Kualitas";
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -94,6 +98,10 @@ const Main = () => {
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
+              <Route path="/master/sopir" element={<Sopir />} />
+              <Route path="/master/Kualitas" element={<Kualitas />} />
+              <Route path="/master/Kualitas/update" element={<UpdateKualitas />} />
+              <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
             </Routes>
           </div>
           <Footer />
