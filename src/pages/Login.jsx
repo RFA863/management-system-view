@@ -112,7 +112,7 @@ const Login = () => {
                       expires: new Date(new Date().getTime() + 10800000),
                     });
 
-                    navigate("/dashboard");
+                    navigate("/dashboard/TypeBox/Typebox");
                   }
                 })
                 .catch((error) => {

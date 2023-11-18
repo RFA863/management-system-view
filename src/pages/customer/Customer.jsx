@@ -14,8 +14,10 @@ import {
   Sort,
   Toolbar,
   Resize,
+  ExcelExport,
 } from "@syncfusion/ej2-react-grids";
 
+// import "./data.css";
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -25,9 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Customer = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
-  const { data, setData } = useStateContext();
 
-  const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
   const gridRef = useRef(null);
@@ -53,42 +53,8 @@ const Customer = () => {
             Email: item.email,
             NPWP: item.npwp,
             NoNpwp: item.nonpwp,
-            NoTelp: item.notelp,
-            NoFax: item.nofax,
-            Alamat: item.alamat,
-            AlamatInvoice: item.alamatinvoice,
           }))
         );
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
-  const deleteData = async (id) => {
-    await axios
-      .delete(HOST + "/marketing/customer/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-        fetchData();
       })
       .catch((error) => {
         if (error.response.status == 401) {
@@ -107,53 +73,57 @@ const Customer = () => {
     }
   }, [customer]);
 
+  //   const lampiranTemplate = (props) => {
+  //     return (
+  //       <div className="e-lampiranParent">
+  //         <a href={props.LampiranCv} target="_blank" className="e-lampiran">
+  //           <HiDocument className="e-lampiranIcon" />
+  //           <div>Buka</div>
+  //         </a>
+  //       </div>
+  //     );
+  //   };
+
+  //   const nomorHpTemplate = (props) => {
+  //     return <div className="e-nomorHp">{props.NomorHp}</div>;
+  //   };
+
   const dataBound = () => {
     if (gridRef.current) {
       gridRef.current.autoFitColumns();
     }
   };
 
-  const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
-      setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/customer/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
-    }
-  };
+  //   const rowSelected = () => {
+  //     if (gridRef.current) {
+  //       if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 2)
+  //         return;
+  //       else if (
+  //         gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 4
+  //       ) {
+  //         const selectedNomorHp = gridRef.current.getSelectedRecords()[0].NomorHp;
 
-  const actionButton = () => {
-    return (
-      <div className="flex gap-2">
-        <button
-          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("update");
-          }}
-        >
-          Update
-        </button>
-        <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("delete");
-          }}
-        >
-          Delete
-        </button>
-      </div>
-    );
+  //         window.open(
+  //           `https://api.whatsapp.com/send/?phone=${selectedNomorHp}&text=&type=phone_number&app_absent=0`,
+  //           "_blank"
+  //         );
+  //       }
+  //     }
+  //   };
+
+  const toolbarClick = (args) => {
+    if (gridRef.current && args.item.id.includes("excelexport")) {
+      const excelExportProperties = {
+        fileName: "Data Pelamar.xlsx",
+      };
+      gridRef.current.excelExport(excelExportProperties);
+    }
   };
 
   return pageLoading ? (
     <PageLoading />
   ) : (
-    <div>
+    <div className="">
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
         <Header title="Data Customer" />
@@ -168,10 +138,10 @@ const Customer = () => {
           </button>
         </div>
         <div className="overflow-x-auto">
-          <div className=" cursor-pointer">
+          <div className="w-fit cursor-pointer">
             <GridComponent
               dataSource={customer}
-              width="fit-content"
+              width="auto"
               allowPaging
               allowSorting
               allowTextWrap={true}
@@ -180,9 +150,11 @@ const Customer = () => {
                 pageSizes: ["All", "10", "25", "50"],
               }}
               textWrapSettings={{ wrapMode: "Content" }}
-              toolbar={["Search"]}
+              toolbar={["Search", "ExcelExport"]}
               selectionSettings={{ type: "Single", mode: "Both" }}
-              rowSelected={rowSelected}
+              //   rowSelected={rowSelected}
+              allowExcelExport={true}
+              toolbarClick={toolbarClick}
               dataBound={dataBound}
               ref={gridRef}
             >
@@ -228,32 +200,15 @@ const Customer = () => {
                   headerText="No. NPWP"
                   textAlign="center"
                 />
-                <ColumnDirective
-                  field="NoTelp"
-                  headerText="No. Telpn"
-                  textAlign="center"
-                />
-                <ColumnDirective
-                  field="NoFax"
-                  headerText="No. fax"
-                  textAlign="center"
-                />
-
-                <ColumnDirective
-                  field="Alamat"
-                  headerText="Alamat"
-                  textAlign="center"
-                />
-
-                <ColumnDirective
-                  field="AlamatInvoice"
-                  headerText="Alamat Invoice"
-                  textAlign="center"
-                />
-
-                <ColumnDirective headerText="Action" template={actionButton} />
+                {/* <ColumnDirective
+                  field="KeahlianTeknis"
+                  headerText="Keahlian Teknis"
+                  textAlign="Left"
+                /> */}
               </ColumnsDirective>
-              <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
+              <Inject
+                services={[Search, Toolbar, Page, Sort, Resize, ExcelExport]}
+              />
             </GridComponent>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
+<<<<<<< HEAD
 import {
   Typebox,
   BuatTypebox,
@@ -13,6 +14,9 @@ import {
   UpdateKualitas,
   TambahKualitas
 } from "../pages";
+=======
+import { Typebox, BuatTypebox, Customer, TambahCustomer } from "../pages";
+>>>>>>> parent of 599209e (feat: customer update, delete)
 
 import {
   Navbar,
@@ -97,11 +101,14 @@ const Main = () => {
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
+<<<<<<< HEAD
               <Route path="/customer/update" element={<UpdateCustomer />} />
               <Route path="/master/sopir" element={<Sopir />} />
               <Route path="/master/Kualitas" element={<Kualitas />} />
               <Route path="/master/Kualitas/update" element={<UpdateKualitas />} />
               <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
+=======
+>>>>>>> parent of 599209e (feat: customer update, delete)
             </Routes>
           </div>
           <Footer />
