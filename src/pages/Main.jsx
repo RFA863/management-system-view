@@ -9,6 +9,10 @@ import {
   Customer,
   TambahCustomer,
   UpdateCustomer,
+  UpdateTypebox,
+  TypeboxDetail,
+  TambahTypeboxDetail,
+  UpdateTypeboxDetail,
 } from "../pages";
 
 import {
@@ -88,11 +92,19 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-              <Route path="/TypeBox/Typebox" element={<Typebox />} />
+
+              {/* Pelamar  */}
+              <Route path="/master/type-box" element={<Typebox />} />
+
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
+              <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
+              <Route path="/master/type-box%20detail" element={<TypeboxDetail />} />
+              <Route path="/TypeboxDetail/Update" element={<UpdateTypeboxDetail />} />
+              <Route path="/TypeboxDetail/Buat" element={<TambahTypeboxDetail />} />  
+
             </Routes>
           </div>
           <Footer />

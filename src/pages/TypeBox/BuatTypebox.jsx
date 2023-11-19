@@ -3,12 +3,36 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { Header, PageLoading } from "../../components";
 import { getCookie } from "cookies-next";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import { HOST } from "../../config";
 
 const BuatTypebox = () => {
+  const navigate = useNavigate();
   const [nama, setNama] = useState("");
   const [kode, setKode] = useState("");
+
+  const Validator = () => {
+    
+
+    if (!(nama && kode)) {
+      toast.error("Data must be entered", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
@@ -51,6 +75,9 @@ const BuatTypebox = () => {
           className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
           onClick={(e) => {
             e.preventDefault();
+            if (!Validator()) {
+              return;
+            }
             axios
               .post(
                 HOST + "/marketing/tipebox/input",
@@ -64,21 +91,67 @@ const BuatTypebox = () => {
               )
               .then((response) => {
                 if (response.status === 200) {
-                 console.log("ok")
-
-                 
-
-                 
+                  toast.success("Data successfully inputted", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  });
                 }
               })
               .catch((error) => {
-                console.log(error)
+                if (error.response) {
+                  console.log(error.response.data.message);
+                  if (
+                    error.response.data.type === "token" &&
+                    error.response.data.data.code === -2
+                  ) {
+                    navigate("/dashboard/login");
+                  }
+                  toast.error(error.response.data.message, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  });
+                } else {
+                  toast.error("Internal Server Error, Try again later !", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  });
+                }
               });
           }}
         >
           Submit
         </button>
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };
