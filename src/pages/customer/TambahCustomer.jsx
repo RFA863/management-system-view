@@ -8,8 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-import "react-toastify/dist/ReactToastify.css";
-
 const TambahCustomer = () => {
   const navigate = useNavigate();
 
@@ -116,7 +114,6 @@ const TambahCustomer = () => {
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2

@@ -26,7 +26,6 @@ const Customer = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
   const { data, setData } = useStateContext();
-
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
@@ -107,6 +106,7 @@ const Customer = () => {
     }
   }, [customer]);
 
+  //
   const dataBound = () => {
     if (gridRef.current) {
       gridRef.current.autoFitColumns();
@@ -168,10 +168,10 @@ const Customer = () => {
           </button>
         </div>
         <div className="overflow-x-auto">
-          <div className=" cursor-pointer">
+          <div className="w-fit cursor-pointer">
             <GridComponent
               dataSource={customer}
-              width="fit-content"
+              width="auto"
               allowPaging
               allowSorting
               allowTextWrap={true}

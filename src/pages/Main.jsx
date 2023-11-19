@@ -92,8 +92,10 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
+
               {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
+
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
               <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
               <Route path="/customer/customers" element={<Customer />} />
