@@ -22,11 +22,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-const TambahMobil = () => {
-=======
-const TypeboxDetail = () => {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+const UpdateRekening = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
   const { data, setData } = useStateContext();
@@ -38,11 +34,7 @@ const TypeboxDetail = () => {
 
   const fetchData = async () => {
     await axios
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-      .get(HOST + "/marketing/mobil/get", {
-=======
-      .get(HOST + "/marketing/tipebox_detail/get", {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+      .get(HOST + "/marketing/rekening/update/:id", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -50,23 +42,16 @@ const TypeboxDetail = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        
 
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-            Nama: item.noplat,
-           
-=======
-            Nama: item.nama,
-            id_tipebox : item.id_tipebox,
-            rumus_panjang : item.rumus_panjang,
-            rumus_lebar : item.rumus_lebar,
-            rumus_oversize : item.rumus_oversize,
-            tipebox : item.tipeBox,
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+            Bank: item.bank,
+            NoRekening: item.noRekening,
+            CT: item.ct,
+            AtasNama: item.atasNama
+
           }))
         );
       })
@@ -79,11 +64,7 @@ const TypeboxDetail = () => {
 
   const deleteData = async (id) => {
     await axios
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-      .delete(HOST + "/marketing/mobil/delete/" + id, {
-=======
-      .delete(HOST + "/marketing/tipebox_detail/delete/" + id, {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+      .delete(HOST + "/marketing/rekening/delete/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -128,17 +109,12 @@ const TypeboxDetail = () => {
   };
 
   const rowSelected = () => {
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex)
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 8) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
           console.log(data);
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-          navigate("/dashboard/master/mobil/tambah");
-=======
-          navigate("/dashboard/TypeboxDetail/Update");
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+          navigate("/dashboard/master/rekening/update");
         }
       } else if (getActionButton === "delete") {
         deleteData(data.id);
@@ -175,26 +151,15 @@ const TypeboxDetail = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
         <Header title="Data Sopir" />
-=======
-        <Header title="Data Typebox Detail" />
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-              navigate("/dashboard/master/mobil/tambah");
+              navigate("/dashboard/master/rekening/update");
             }}
           >
-            Tambah Sopir
-=======
-              navigate("/dashboard/TypeboxDetail/Buat");
-            }}
-          >
-            Tambah Typebox Detail
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+            Tambah Rekening
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -228,39 +193,25 @@ const TypeboxDetail = () => {
                   headerText="No"
                   textAlign="Center"
                 />
+                
                 <ColumnDirective
-                  field="id_tipebox"
-                  headerText="Nomor"
+                  field="No. Rekening"
+                  headerText="No.Rekening"
                   textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="CT"
+                  headerText="CT"
+                  isPrimaryKey={true}
                   visible={false}
                 />
                 <ColumnDirective
-                  field="tipebox"
-                  headerText="Typebox"
+                  field="Atas Nama"
+                  headerText="Atas Nama"
                   textAlign="Center"
                 />
-                <ColumnDirective
-                  field="No. Plat"
-                  headerText="No.Plat"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="rumus_panjang"
-                  headerText="Rumus Panjang"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="rumus_lebar"
-                  headerText="Rumus Lebar"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="rumus_oversize"
-                  headerText="Rumus Oversize"
-                  textAlign="Center"
-                />
-               
-
+                
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
@@ -271,8 +222,4 @@ const TypeboxDetail = () => {
     </div>
   );
 };
-<<<<<<< HEAD:src/pages/mobil/TambahMobil.jsx
-export default TambahMobil;
-=======
-export default TypeboxDetail;
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TypeboxDetail.jsx
+export default UpdateRekening;

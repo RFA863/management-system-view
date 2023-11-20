@@ -13,6 +13,21 @@ import "react-toastify/dist/ReactToastify.css";
 const TambahTypeboxDetail = () => {
   const navigate = useNavigate();
 
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+  const [nama, setNama] = useState("");
+
+  const Validator = () => {
+    const isNumeric = (input) => {
+      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+      const numericRegex = /^[0-9]+$/;
+      return numericRegex.test(input);
+    };
+
+    if
+      (
+       ! nama
+       ) {
+=======
   const [Id_tipebox, setId_tipebox] = useState("");
   const [nama, setNama] = useState("");
   const [rumusPanjang, setRumusPanjang] = useState("");
@@ -32,6 +47,7 @@ const TambahTypeboxDetail = () => {
         KonstantaLebar
       )
     ) {
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -44,7 +60,11 @@ const TambahTypeboxDetail = () => {
       });
 
       return false;
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+    } 
+=======
     }
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
 
     return true;
   };
@@ -57,6 +77,11 @@ const TambahTypeboxDetail = () => {
     }
     await axios
       .post(
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+        HOST + "/marketing/supir/input",
+        {
+          nama, 
+=======
         HOST + "/marketing/tipebox_detail/input",
         {
           id_tipebox: Number(Id_tipebox),
@@ -66,6 +91,7 @@ const TambahTypeboxDetail = () => {
           rumusOversize,
           konstantaPanjang: JSON.parse(KonstantaPanjang),
           konstantaLebar: JSON.parse(KonstantaLebar),
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
         },
         {
           headers: {
@@ -130,13 +156,20 @@ const TambahTypeboxDetail = () => {
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+              navigate("/dashboard/master/sopir/");
+=======
               navigate("/dashboard/master/type-box%20detail");
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+              
+=======
               <tr>
                 <td>ID Typebox</td>
                 <td>:</td>
@@ -152,6 +185,7 @@ const TambahTypeboxDetail = () => {
                   />
                 </td>
               </tr>
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
               <tr>
                 <td>Nama</td>
                 <td>:</td>
@@ -167,6 +201,8 @@ const TambahTypeboxDetail = () => {
                   />
                 </td>
               </tr>
+<<<<<<< HEAD:src/pages/sopir/TambahSopir.jsx
+=======
               <tr>
                 <td>Rumus Panjang</td>
                 <td>:</td>
@@ -276,6 +312,7 @@ const TambahTypeboxDetail = () => {
                   </label>
                 </td>
               </tr>
+>>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeboxDetail/TambahTypeboxDetail.jsx
             </table>
             <div>
               <button

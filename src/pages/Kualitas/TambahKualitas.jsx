@@ -1,48 +1,27 @@
 import axios from "axios";
-import { useState } from "react";
-import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
+import { CgClose } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-const UpdateKualitas= () => {
-=======
-const UpdateTypebox = () => {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+const TambahKualitas = () => {
   const navigate = useNavigate();
-  const { data } = useStateContext();
 
-  if (data.length === 0) {
-    navigate("/dashboard/master/Kualitas");
-  }
+  const [nama, setNama] = useState("");
 
-  const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
-  const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
 
   const Validator = () => {
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
     
+
     if (
       !nama
     ) {
-=======
-    if (!(nama && kode)) {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -55,35 +34,22 @@ const UpdateTypebox = () => {
       });
 
       return false;
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
     } 
-=======
-    }
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
 
     return true;
   };
 
-  const updateData = async (e) => {
+  const postData = async (e) => {
     e.preventDefault();
 
     if (!Validator()) {
       return;
     }
     await axios
-      .put(
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-        HOST + "/marketing/kualitas/update/" + data.id,
-        {
-          
-          nama,
-          
-=======
-        HOST + "/marketing/tipebox/update/" + data.id,
+      .post(
+        HOST + "/marketing/kualitas/input",
         {
           nama,
-          kode,
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
         },
         {
           headers: {
@@ -104,12 +70,6 @@ const UpdateTypebox = () => {
             progress: undefined,
             theme: "colored",
           });
-
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-          navigate("/dashboard/master/Kualitas");
-=======
-          navigate("/dashboard/master/type-box");
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
         }
       })
       .catch((error) => {
@@ -150,22 +110,18 @@ const UpdateTypebox = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
           <Header title="Tambah Customer" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/type-box");
+              navigate("/dashboard/master/Kualitas");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-=======
-              <tr></tr>
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+              
               <tr>
                 <td>Nama</td>
                 <td>:</td>
@@ -181,37 +137,12 @@ const UpdateTypebox = () => {
                   />
                 </td>
               </tr>
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
              
-=======
-              <tr>
-                <td>Kode</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
-                    onChange={(e) => {
-                      setKode(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
             </table>
             <div>
               <button
                 className="bg-blue-700 rounded-xl text-white px-4 py-2"
-                onClick={updateData}
+                onClick={postData}
               >
                 Submit
               </button>
@@ -234,8 +165,4 @@ const UpdateTypebox = () => {
     </div>
   );
 };
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-export default UpdateKualitas;
-=======
-export default UpdateTypebox;
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+export default TambahKualitas;

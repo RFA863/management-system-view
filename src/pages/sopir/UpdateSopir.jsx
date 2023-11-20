@@ -11,38 +11,29 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-const UpdateKualitas= () => {
-=======
-const UpdateTypebox = () => {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+const UpdateCustomer = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
 
   if (data.length === 0) {
-    navigate("/dashboard/master/Kualitas");
+    navigate("/dashboard/master/sopir");
   }
 
-  const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
-  const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
-
+  const [nama, setNama] = useState(data.nama);
+  
   const Validator = () => {
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-    
-    if (
-      !nama
-    ) {
-=======
-    if (!(nama && kode)) {
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+    const isNumeric = (input) => {
+      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+      const numericRegex = /^[0-9]+$/;
+      return numericRegex.test(input);
+    };
+
+    if 
+    ( 
+      ! nama
+      )
+
+     {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -55,11 +46,7 @@ const UpdateTypebox = () => {
       });
 
       return false;
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
     } 
-=======
-    }
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
 
     return true;
   };
@@ -72,18 +59,9 @@ const UpdateTypebox = () => {
     }
     await axios
       .put(
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-        HOST + "/marketing/kualitas/update/" + data.id,
-        {
-          
-          nama,
-          
-=======
-        HOST + "/marketing/tipebox/update/" + data.id,
+        HOST + "/marketing/supir/update/" + data.id,
         {
           nama,
-          kode,
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
         },
         {
           headers: {
@@ -105,11 +83,7 @@ const UpdateTypebox = () => {
             theme: "colored",
           });
 
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-          navigate("/dashboard/master/Kualitas");
-=======
-          navigate("/dashboard/master/type-box");
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+          navigate("/dashboard/master/sopir");
         }
       })
       .catch((error) => {
@@ -155,17 +129,13 @@ const UpdateTypebox = () => {
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/type-box");
+              navigate("/dashboard/master/sopir");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-=======
-              <tr></tr>
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
               <tr>
                 <td>Nama</td>
                 <td>:</td>
@@ -181,32 +151,6 @@ const UpdateTypebox = () => {
                   />
                 </td>
               </tr>
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-             
-=======
-              <tr>
-                <td>Kode</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
-                    onChange={(e) => {
-                      setKode(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
             </table>
             <div>
               <button
@@ -234,8 +178,4 @@ const UpdateTypebox = () => {
     </div>
   );
 };
-<<<<<<< HEAD:src/pages/Kualitas/UpdateKualitas.jsx
-export default UpdateKualitas;
-=======
-export default UpdateTypebox;
->>>>>>> 17b78c4f7a4eb52d0c81eef584ebc37705a783d7:src/pages/TypeBox/UpdateTypebox.jsx
+export default UpdateCustomer;
