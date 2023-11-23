@@ -34,7 +34,7 @@ const Mobil = () => {
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/supir/get", {
+      .get(HOST + "/marketing/mobil/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -47,7 +47,7 @@ const Mobil = () => {
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Nama: item.noplat,
+            Noplat: item.noplat,
            
           }))
         );
@@ -61,7 +61,7 @@ const Mobil = () => {
 
   const deleteData = async (id) => {
     await axios
-      .delete(HOST + "/marketing/customer/delete/" + id, {
+      .delete(HOST + "/marketing/mobil/delete/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -106,12 +106,12 @@ const Mobil = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 3) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
           console.log(data);
-          navigate("/dashboard/customer/update");
+          navigate("/dashboard/master/mobil/update");
         }
       } else if (getActionButton === "delete") {
         deleteData(data.id);
@@ -148,15 +148,15 @@ const Mobil = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Sopir" />
+        <Header title="Data Mobil" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/customer/tambah");
+              navigate("/dashboard/master/mobil/tambah");
             }}
           >
-            Tambah Sopir
+            Tambah Mobil
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -192,7 +192,7 @@ const Mobil = () => {
                 />
                 
                 <ColumnDirective
-                  field="No. Plat"
+                  field="Noplat"
                   headerText="No.Plat"
                   textAlign="Center"
                 />

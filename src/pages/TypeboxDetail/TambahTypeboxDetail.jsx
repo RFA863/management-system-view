@@ -8,19 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const TambahCustomer = () => {
+import "react-toastify/dist/ReactToastify.css";
+
+const TambahTypeboxDetail = () => {
   const navigate = useNavigate();
 
-  const [Nomor, setNomor] = useState("");
   const [nama, setNama] = useState("");
-  const [kode, setKode] = useState("");
-  const [email, setEmail] = useState("");
-  const [Npwp, setNpwp] = useState("");
-  const [noNpwp, setNoNpwp] = useState("");
-  const [noTelp, setNoTelp] = useState("");
-  const [noFax, setNoFax] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [alamatInvoice, setAlamatInvoice] = useState("");
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -29,16 +22,27 @@ const TambahCustomer = () => {
       return numericRegex.test(input);
     };
 
+    if
+      (
+       ! nama
+       ) {
+  const [Id_tipebox, setId_tipebox] = useState("");
+  const [nama, setNama] = useState("");
+  const [rumusPanjang, setRumusPanjang] = useState("");
+  const [rumusLebar, setRumusLebar] = useState("");
+  const [rumusOversize, setRumusOversize] = useState("");
+  const [KonstantaPanjang, setKonstantaPanjang] = useState("");
+  const [KonstantaLebar, setKonstantaLebar] = useState("");
+
+  const Validator = () => {
     if (
       !(
-        Nomor &&
-        Npwp &&
-        nama &&
-        kode &&
-        email &&
-        alamat &&
-        alamatInvoice &&
-        noTelp
+        Id_tipebox &&
+        rumusPanjang &&
+        rumusLebar &&
+        rumusOversize &&
+        KonstantaPanjang &&
+        KonstantaLebar
       )
     ) {
       toast.error("Data must be entered", {
@@ -53,18 +57,9 @@ const TambahCustomer = () => {
       });
 
       return false;
-    } else if (isNumeric(Nomor) === false) {
-      toast.error("Number must be numeric", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return false;
+
+    } 
+
     }
 
     return true;
@@ -78,18 +73,20 @@ const TambahCustomer = () => {
     }
     await axios
       .post(
-        HOST + "/marketing/customer/input",
+
+        HOST + "/marketing/supir/input",
+        
+          nama, 
+
+        HOST + "/marketing/tipebox_detail/input",
         {
-          nomor: Number(Nomor),
+          id_tipebox: Number(Id_tipebox),
           nama,
-          kode,
-          email,
-          npwp: JSON.parse(Npwp),
-          noNpwp,
-          noTelp,
-          noFax,
-          alamat,
-          alamatInvoice,
+          rumusPanjang,
+          rumusLebar,
+          rumusOversize,
+          konstantaPanjang: JSON.parse(KonstantaPanjang),
+          konstantaLebar: JSON.parse(KonstantaLebar),
         },
         {
           headers: {
@@ -114,6 +111,7 @@ const TambahCustomer = () => {
       })
       .catch((error) => {
         if (error.response) {
+          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -149,27 +147,33 @@ const TambahCustomer = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah Customer" />
+          <Header title="Tambah Typebox Detail" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/customer/customers");
+
+              navigate("/dashboard/master/sopir/");
+
+              navigate("/dashboard/master/type-box%20detail");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
+
+              
+
               <tr>
-                <td>Nomor</td>
+                <td>ID Typebox</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
-                    value={Nomor}
+                    value={Id_tipebox}
                     onChange={(e) => {
-                      setNomor(e.target.value);
+                      setId_tipebox(e.target.value);
                     }}
                     required
                   />
@@ -190,48 +194,64 @@ const TambahCustomer = () => {
                   />
                 </td>
               </tr>
+
               <tr>
-                <td>Kode</td>
+                <td>Rumus Panjang</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
+                    value={rumusPanjang}
                     onChange={(e) => {
-                      setKode(e.target.value);
+                      setRumusPanjang(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Email</td>
+                <td>Rumus Lebar</td>
                 <td>:</td>
                 <td>
                   <input
                     type="email"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={email}
+                    value={rumusLebar}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setRumusLebar(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Npwp</td>
+                <td>Rumus Oversize</td>
+                <td>:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    value={rumusOversize}
+                    onChange={(e) => {
+                      setRumusOversize(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Konstanta Panjang</td>
                 <td>:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
+                      name="KonstantaPanjang"
                       value="true"
-                      checked={Npwp === "true"}
+                      checked={KonstantaPanjang === "true"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setKonstantaPanjang(e.target.value);
                       }}
                       required
                     />
@@ -240,11 +260,11 @@ const TambahCustomer = () => {
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
+                      name="KonstantaPanjang"
                       value="false"
-                      checked={Npwp === "false"}
+                      checked={KonstantaPanjang === "false"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setKonstantaPanjang(e.target.value);
                       }}
                       required
                     />
@@ -253,76 +273,35 @@ const TambahCustomer = () => {
                 </td>
               </tr>
               <tr>
-                <td>No. Npwp</td>
+                <td>Konstanta Lebar</td>
                 <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noNpwp}
-                    onChange={(e) => {
-                      setNoNpwp(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>No. Telpn</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noTelp}
-                    onChange={(e) => {
-                      setNoTelp(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>No. Fax</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noFax}
-                    onChange={(e) => {
-                      setNoFax(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={alamat}
-                    onChange={(e) => {
-                      setAlamat(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat Invoice</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={alamatInvoice}
-                    onChange={(e) => {
-                      setAlamatInvoice(e.target.value);
-                    }}
-                    required
-                  />
+                <td className="flex gap-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="KonstantaLebar"
+                      value="true"
+                      checked={KonstantaLebar === "true"}
+                      onChange={(e) => {
+                        setKonstantaLebar(e.target.value);
+                      }}
+                      required
+                    />
+                    True
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="KonstantaLebar"
+                      value="false"
+                      checked={KonstantaLebar === "false"}
+                      onChange={(e) => {
+                        setKonstantaLebar(e.target.value);
+                      }}
+                      required
+                    />
+                    false
+                  </label>
                 </td>
               </tr>
             </table>
@@ -352,4 +331,5 @@ const TambahCustomer = () => {
     </div>
   );
 };
-export default TambahCustomer;
+}
+export default TambahTypeboxDetail;

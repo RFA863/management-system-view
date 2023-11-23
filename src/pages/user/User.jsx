@@ -22,7 +22,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const Sopir = () => {
+const User = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
   const { data, setData } = useStateContext();
@@ -34,7 +34,7 @@ const Sopir = () => {
 
   const fetchData = async () => {
     await axios
-      .get( HOST + "/marketing/supir/get", {
+      .get(HOST + "/marketing/user/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -46,10 +46,11 @@ const Sopir = () => {
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
-            no: index + 1,
-            nama : item.nama
-
-           
+            No: index + 1,
+            Email: item.email,
+            Password: item.password,
+            Posisi: item.posisi,
+            Akses: item.akses
           }))
         );
       })
@@ -62,7 +63,7 @@ const Sopir = () => {
 
   const deleteData = async (id) => {
     await axios
-      .delete(HOST + "marketing/supir/get" + id, {
+      .delete(HOST + "/marketing/user/delete/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -107,12 +108,12 @@ const Sopir = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
           console.log(data);
-          navigate("/dashboard/master/sopir/update");
+          navigate("/dashboard/master/user/update");
         }
       } else if (getActionButton === "delete") {
         deleteData(data.id);
@@ -149,15 +150,15 @@ const Sopir = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Sopir" />
+        <Header title="Data User" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/master/sopir/tambah");
+              navigate("/dashboard/master/user/tambah");
             }}
           >
-            Tambah Sopir
+            Tambah User
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -187,14 +188,31 @@ const Sopir = () => {
                   visible={false}
                 />
                 <ColumnDirective
-                  field="no"
+                  field="No"
                   headerText="No"
                   textAlign="Center"
                 />
                 
                 <ColumnDirective
-                  field="nama"
-                  headerText="Nama"
+                  field="Email"
+                  headerText="Email"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="Password"
+                  headerText="Password"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="Posisi"
+                  headerText="Posisi"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="Akses"
+                  headerText="Akses"
                   textAlign="Center"
                 />
 
@@ -208,4 +226,4 @@ const Sopir = () => {
     </div>
   );
 };
-export default Sopir;
+export default User;

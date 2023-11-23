@@ -29,6 +29,8 @@ import "react-toastify/dist/ReactToastify.css";
 const Typebox = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
+  const [getActionButton, setActionButton] = useState("");
+  const { data, setData } = useStateContext();
 
   const [pageLoading, setPageLoading] = useState(true);
   const [Typebox, setTypebox] = useState([]);
@@ -53,6 +55,36 @@ const Typebox = () => {
             Kode: item.kode,
           }))
         );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const deleteData = async (id) => {
+    await axios
+      .delete(HOST + "/marketing/tipebox/delete/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Data successfully deleted", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+        fetchData();
       })
       .catch((error) => {
         if (error.response.status == 401) {
@@ -118,6 +150,43 @@ const Typebox = () => {
     }
   };
 
+  const rowSelected = () => {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 4) {
+      setData(gridRef.current.selectionModule.data);
+      if (getActionButton === "update") {
+        if (data.length !== 0) {
+          console.log(data);
+          navigate("/dashboard/TypeBox/UpdateTypebox");
+        }
+      } else if (getActionButton === "delete") {
+        deleteData(data.id);
+      }
+    }
+  };
+
+  const actionButton = () => {
+    return (
+      <div className="flex gap-2">
+        <button
+          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("update");
+          }}
+        >
+          Update
+        </button>
+        <button
+          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("delete");
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    );
+  };
+
   return pageLoading ? (
     <PageLoading />
   ) : (
@@ -126,11 +195,14 @@ const Typebox = () => {
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
         <Header title="Data Type Box" />
         <div className="mb-4 -mt-4">
-        
-            <button className="bg-blue-700 rounded-xl text-white px-4 py-2" onClick={() => {navigate("/dashboard/TypeBox/BuatTypebox")}}>
-              Tambah Typebox
-            </button>
-        
+          <button
+            className="bg-blue-700 rounded-xl text-white px-4 py-2"
+            onClick={() => {
+              navigate("/dashboard/TypeBox/BuatTypebox");
+            }}
+          >
+            Tambah Typebox
+          </button>
         </div>
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
@@ -147,7 +219,7 @@ const Typebox = () => {
               textWrapSettings={{ wrapMode: "Content" }}
               toolbar={["Search", "ExcelExport"]}
               selectionSettings={{ type: "Single", mode: "Both" }}
-              // rowSelected={rowSelected}
+              rowSelected={rowSelected}
               allowExcelExport={true}
               toolbarClick={toolbarClick}
               dataBound={dataBound}
@@ -174,34 +246,19 @@ const Typebox = () => {
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
-                  textAlign="Left"
+                  textAlign="center"
                 />
                 <ColumnDirective
                   field="Kode"
                   headerText="Kode"
-                  textAlign="Left"
+                  textAlign="center"
                   // template={nomorHpTemplate}
                 />
-                {/* <ColumnDirective
-                  field="JenisKelamin"
-                  headerText="Jenis Kelamin"
-                  textAlign="Center"
-                />
                 <ColumnDirective
-                  field="PengalamanKerja"
-                  headerText="Pengalaman Kerja"
-                  textAlign="Center"
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
                 />
-                <ColumnDirective
-                  field="SpesialisUtama"
-                  headerText="SpesialisUtama"
-                  textAlign="Left"
-                />
-                <ColumnDirective
-                  field="KeahlianTeknis"
-                  headerText="Keahlian Teknis"
-                  textAlign="Left"
-                /> */}
               </ColumnsDirective>
               <Inject
                 services={[Search, Toolbar, Page, Sort, Resize, ExcelExport]}

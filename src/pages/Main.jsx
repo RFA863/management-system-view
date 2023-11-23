@@ -6,12 +6,26 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import {
   Typebox,
   BuatTypebox,
+  UpdateTypebox,
+  Rekening,
+  TambahRekening,
+  UpdateRekening,
+  User,
+  TambahUser,
+  UpdateUser,
   Customer,
   TambahCustomer,
   UpdateCustomer,
   Sopir,
+  TambahSopir,
+  UpdateSopir,
+  Mobil,
+  TambahMobil,
+  UpdateMobil,
+  Kualitas,
   UpdateKualitas,
-  TambahKualitas
+  TambahKualitas,
+
 } from "../pages";
 
 import {
@@ -25,7 +39,6 @@ import {
 import "../App.css";
 
 import { useStateContext } from "../contexts/ContextProvider";
-import Kualitas from "./Kualitas/Kualitas";
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -92,15 +105,35 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
+
               {/* Pelamar  */}
-              <Route path="/TypeBox/Typebox" element={<Typebox />} />
+              <Route path="/master/type-box" element={<Typebox />} />
+
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
+              <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
+              
               <Route path="/master/sopir" element={<Sopir />} />
+              <Route path="/master/sopir/tambah" element={<TambahSopir />} />
+              <Route path="/master/sopir/update" element={<UpdateSopir />} />
+              
+              <Route path="/master/mobil" element={<Mobil />} />
+              <Route path="/master/mobil/tambah" element={<TambahMobil />} />
+              <Route path="/master/mobil/update" element={<UpdateMobil />} />
+              
+              <Route path="/master/rekening" element={<Rekening />} />
+              <Route path="/master/rekening/tambah" element={<TambahRekening />} />
+              <Route path="/master/rekening/update" element={<UpdateRekening />} />
+              
+              <Route path="/master/user" element={<User />} />
+              <Route path="/master/user/tambah" element={<TambahUser />} />
+              <Route path="/master/user/update" element={<UpdateUser />} />
+
+
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              <Route path="/master/Kualitas/update" element={<UpdateKualitas />} />
+              {/* <Route path="/master/Kualitas/update" element={<UpdateKualitas />} /> */}
               <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
             </Routes>
           </div>

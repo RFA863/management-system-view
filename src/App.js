@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Login, Main  } from "./pages";
+import { Login, Main,  } from "./pages";
 // import {Typebox} from "./pages/TypeBox/"
 
 import "./App.css";

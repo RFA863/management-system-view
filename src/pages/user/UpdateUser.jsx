@@ -11,16 +11,21 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const UpdateMobil = () => {
+const UpdateUser = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
 
   if (data.length === 0) {
-    navigate("/dashboard/master/mobil/");
+    navigate("/dashboard/master/user");
   }
 
-  const [noPlat, setnoPlat] = useState(data.Noplat);
   
+  const [email, setEmail] = useState(data.Email);
+  const [password, setPassword] = useState(data.Password);
+  const [posisi, setPosisi] = useState(data.Posisi);
+  const [Akses, setAkses] = useState(String(data.Akses))
+
+
   const Validator = () => {
     const isNumeric = (input) => {
       // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
@@ -28,12 +33,15 @@ const UpdateMobil = () => {
       return numericRegex.test(input);
     };
 
-    if 
-    ( 
-      !noPlat
+    if (
+      !(
+       
+        email &&
+        password &&
+        posisi &&
+        Akses
       )
-
-     {
+    ) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -59,9 +67,12 @@ const UpdateMobil = () => {
     }
     await axios
       .put(
-        HOST + "/marketing/mobil/update/" + data.id,
+        HOST + "/marketing/user/update/" + data.id,
         {
-          noPlat,
+          email,
+          password,
+          posisi,
+          akses:JSON.parse(Akses)
         },
         {
           headers: {
@@ -83,7 +94,7 @@ const UpdateMobil = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/master/mobil");
+          navigate("/dashboard/master/user/");
         }
       })
       .catch((error) => {
@@ -124,33 +135,100 @@ const UpdateMobil = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.noPlat}</p>
-          <Header title="Update Mobil" />
+          <p>{data.Nama}</p>
+          <Header title="Update User" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/mobil");
+              navigate("/dashboard/master/user/");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-              <tr>
-                <td>No. Plat</td>
+              
+            <tr>
+                <td>Email</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noPlat}
+                    value={email}
                     onChange={(e) => {
-                      setnoPlat(e.target.value);
+                      setEmail(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
+
+              <tr>
+                <td>Password</td> 
+                <td>:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Posisi</td>
+                <td>:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    value={posisi}
+                    onChange={(e) => {
+                      setPosisi(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Akses</td>
+                <td>:</td>
+                <td className="flex gap-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="npwp"
+                      value="true"
+                      checked={Akses === "true"}
+                      onChange={(e) => {
+                        setAkses(e.target.value);
+                      }}
+                      required
+                    />
+                    True
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="npwp"
+                      value="false"
+                      checked={Akses === "false"}
+                      onChange={(e) => {
+                        setAkses(e.target.value);
+                      }}
+                      required
+                    />
+                    false
+                  </label>
+                </td>
+              </tr>
+
             </table>
             <div>
               <button
@@ -178,4 +256,4 @@ const UpdateMobil = () => {
     </div>
   );
 };
-export default UpdateMobil;
+export default UpdateUser;
