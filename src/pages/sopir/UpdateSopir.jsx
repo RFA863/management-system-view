@@ -11,7 +11,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const UpdateCustomer = () => {
+const UpdateSopir = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
 
@@ -125,7 +125,7 @@ const UpdateCustomer = () => {
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
           <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <Header title="Update Sopir" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -178,4 +178,4 @@ const UpdateCustomer = () => {
     </div>
   );
 };
-export default UpdateCustomer;
+export default UpdateSopir;

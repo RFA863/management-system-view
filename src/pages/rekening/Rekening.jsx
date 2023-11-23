@@ -42,16 +42,15 @@ const Rekening = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-
+        console.log (listCustomer)
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Bank: item.namabank,
-            NoRekening: item.norek,
-            CT: item.ct,
-            AtasNama: item.an
-
+            Bank: item.bank,
+            Norek: item.norekening,
+            AN: item.atasnama,
+            CT: item.ct
           }))
         );
       })
@@ -109,12 +108,12 @@ const Rekening = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
           console.log(data);
-          navigate("/dashboard/master/rekening");
+          navigate("/dashboard/master/rekening/update");
         }
       } else if (getActionButton === "delete") {
         deleteData(data.id);
@@ -151,12 +150,12 @@ const Rekening = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Sopir" />
+        <Header title="Data Rekening" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/master/rekening");
+              navigate("/dashboard/master/rekening/tambah");
             }}
           >
             Tambah Rekening
@@ -195,22 +194,28 @@ const Rekening = () => {
                 />
                 
                 <ColumnDirective
-                  field="No. Rekening"
+                  field="Bank"
+                  headerText="Bank"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="Norek"
                   headerText="No.Rekening"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="AN"
+                  headerText="Atas Nama"
                   textAlign="Center"
                 />
 
                 <ColumnDirective
                   field="CT"
                   headerText="CT"
-                  isPrimaryKey={true}
-                  visible={false}
+                  textAlign="Center"
                 />
-                <ColumnDirective
-                  field="Atas Nama"
-                  headerText="Atas Nama"
-                />
-                
+
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />

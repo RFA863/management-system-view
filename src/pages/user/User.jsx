@@ -46,12 +46,11 @@ const User = () => {
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
-            Email: index.email,
-            Password: item.pass,
+            No: index + 1,
+            Email: item.email,
+            Password: item.password,
             Posisi: item.posisi,
-            Akses: item.akses,
-           
-
+            Akses: item.akses
           }))
         );
       })
@@ -109,7 +108,7 @@ const User = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
@@ -151,7 +150,7 @@ const User = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Sopir" />
+        <Header title="Data User" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
@@ -203,20 +202,20 @@ const User = () => {
                 <ColumnDirective
                   field="Password"
                   headerText="Password"
+                  textAlign="Center"
                 />
-
                 <ColumnDirective
                   field="Posisi"
                   headerText="Posisi"
+                  textAlign="Center"
                 />
 
                 <ColumnDirective
                   field="Akses"
                   headerText="Akses"
-                  isPrimaryKey={true}
-                  visible={false}
+                  textAlign="Center"
                 />
-                
+
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />

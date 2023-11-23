@@ -8,13 +8,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const TambahUser = () => {
+const TambahMobil = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [posisi, setPosisi] = useState("");
-  const [Akses, setAkses] = useState("");
-
+  const [noPlat, setnoPlat] = useState("");
+  
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -23,13 +20,7 @@ const TambahUser = () => {
       return numericRegex.test(input);
     };
 
-    if (!
-      email &&
-      password &&
-      posisi &&
-      Akses
-      
-      )
+    if (!noPlat )
         
      {
       toast.error("Data must be entered", {
@@ -57,13 +48,10 @@ const TambahUser = () => {
     }
     await axios
       .post(
-        HOST + "/marketing/user/input",
+        HOST + "/marketing/mobil/input",
         {
          
-          email,
-          password,
-          posisi,
-          akses:JSON.parse(Akses)
+          noPlat,
        
         },
         {
@@ -124,11 +112,11 @@ const TambahUser = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah User" />
+          <Header title="Tambah Mobil" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/user");
+              navigate("/dashboard/master/Mobil");
             }}
           />
         </div>
@@ -137,82 +125,18 @@ const TambahUser = () => {
             <table className="font-semibold">
               
               <tr>
-                <td>Email</td>
+                <td>No.Plat</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={email}
+                    value={noPlat}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setnoPlat(e.target.value);
                     }}
                     required
                   />
-                </td>
-              </tr>
-
-              <tr>
-                <td>Password</td> 
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-
-              <tr>
-                <td>Posisi</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={posisi}
-                    onChange={(e) => {
-                      setPosisi(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Akses</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="npwp"
-                      value="true"
-                      checked={Akses === "true"}
-                      onChange={(e) => {
-                        setAkses(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="npwp"
-                      value="false"
-                      checked={Akses === "false"}
-                      onChange={(e) => {
-                        setAkses(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
                 </td>
               </tr>
             </table>
@@ -242,4 +166,4 @@ const TambahUser = () => {
     </div>
   );
 };
-export default TambahUser;
+export default TambahMobil;
