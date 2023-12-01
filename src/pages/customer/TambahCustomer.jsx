@@ -252,20 +252,23 @@ const TambahCustomer = () => {
                   </label>
                 </td>
               </tr>
-              <tr>
-                <td>No. Npwp</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noNpwp}
-                    onChange={(e) => {
-                      setNoNpwp(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
+              {Npwp === "true" && (
+                <tr>
+                  <td>No. Npwp</td>
+                  <td>:</td>
+                  <td>
+                    <input
+                      type="text"
+                      className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                      value={noNpwp}
+                      onChange={(e) => {
+                        setNoNpwp(e.target.value);
+                      }}
+                    />
+                  </td>
+                </tr>
+              )}
+
               <tr>
                 <td>No. Telpn</td>
                 <td>:</td>
