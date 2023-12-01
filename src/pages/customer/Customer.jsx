@@ -83,16 +83,7 @@ const Customer = () => {
             text: "Your file has been deleted.",
             icon: "success",
           });
-          // toast.success("Data successfully deleted", {
-          //   position: "top-center",
-          //   autoClose: 5000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          //   theme: "colored",
-          // });
+          
         }
 
         setData([]);
