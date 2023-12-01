@@ -22,7 +22,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const TypeboxDetail = () => {
+const User = () => {
   const navigate = useNavigate();
   const { currentColor } = useStateContext();
   const { data, setData } = useStateContext();
@@ -34,7 +34,7 @@ const TypeboxDetail = () => {
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/tipebox_detail/get", {
+      .get(HOST + "/marketing/user/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -42,18 +42,15 @@ const TypeboxDetail = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        
 
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Nama: item.nama,
-            id_tipebox : item.id_tipebox,
-            rumus_panjang : item.rumus_panjang,
-            rumus_lebar : item.rumus_lebar,
-            rumus_oversize : item.rumus_oversize,
-            tipebox : item.tipeBox,
+            Email: item.email,
+            Password: item.password,
+            Posisi: item.posisi,
+            Akses: item.akses
           }))
         );
       })
@@ -66,7 +63,7 @@ const TypeboxDetail = () => {
 
   const deleteData = async (id) => {
     await axios
-      .delete(HOST + "/marketing/tipebox_detail/delete/" + id, {
+      .delete(HOST + "/marketing/user/delete/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -111,13 +108,12 @@ const TypeboxDetail = () => {
   };
 
   const rowSelected = () => {
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex)
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 8) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
         if (data.length !== 0) {
           console.log(data);
-          navigate("/dashboard/TypeboxDetail/Update");
+          navigate("/dashboard/master/user/update");
         }
       } else if (getActionButton === "delete") {
         deleteData(data.id);
@@ -154,15 +150,15 @@ const TypeboxDetail = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Typebox Detail" />
+        <Header title="Data User" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/TypeboxDetail/Buat");
+              navigate("/dashboard/master/user/tambah");
             }}
           >
-            Tambah Typebox Detail
+            Tambah User
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -196,38 +192,29 @@ const TypeboxDetail = () => {
                   headerText="No"
                   textAlign="Center"
                 />
+                
                 <ColumnDirective
-                  field="id_tipebox"
-                  headerText="Nomor"
-                  textAlign="Center"
-                  visible={false}
-                />
-                <ColumnDirective
-                  field="tipebox"
-                  headerText="Typebox"
+                  field="Email"
+                  headerText="Email"
                   textAlign="Center"
                 />
+
                 <ColumnDirective
-                  field="No. Plat"
-                  headerText="No.Plat"
+                  field="Password"
+                  headerText="Password"
                   textAlign="Center"
                 />
                 <ColumnDirective
-                  field="rumus_panjang"
-                  headerText="Rumus Panjang"
+                  field="Posisi"
+                  headerText="Posisi"
                   textAlign="Center"
                 />
+
                 <ColumnDirective
-                  field="rumus_lebar"
-                  headerText="Rumus Lebar"
+                  field="Akses"
+                  headerText="Akses"
                   textAlign="Center"
                 />
-                <ColumnDirective
-                  field="rumus_oversize"
-                  headerText="Rumus Oversize"
-                  textAlign="Center"
-                />
-               
 
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
@@ -239,4 +226,4 @@ const TypeboxDetail = () => {
     </div>
   );
 };
-export default TypeboxDetail;
+export default User;

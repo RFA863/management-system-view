@@ -1,42 +1,37 @@
 import axios from "axios";
-import { useState } from "react";
-import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
+import { CgClose } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
 
-import "react-toastify/dist/ReactToastify.css";
-
-const UpdateTypebox = () => {
+const TambahRekening = () => {
   const navigate = useNavigate();
-  const { data } = useStateContext();
 
-  if (data.length === 0) {
-    navigate("/dashboard/master/Kualitas");
-  }
+  const [bank, setbank] = useState("");
+  const [noRekening, setnoRekening] = useState("");
+  const [atasNama, setatasNama] = useState("");
+  const [CT, setCT] = useState("");
 
-  const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
-  const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
 
   const Validator = () => {
-    
-    if (
-      !nama
-    ) {
+    const isNumeric = (input) => {
+      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+      const numericRegex = /^[0-9]+$/;
+      return numericRegex.test(input);
+    };
 
-    if (!(nama && kode)) {
+    if (
+      !(
+        bank &&
+        noRekening &&
+        atasNama &&
+        CT
+      )
+    ) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -51,29 +46,23 @@ const UpdateTypebox = () => {
       return false;
     } 
 
-    }
-
     return true;
   };
 
-  const updateData = async (e) => {
+  const postData = async (e) => {
     e.preventDefault();
 
     if (!Validator()) {
       return;
     }
     await axios
-      .put(
-        HOST + "/marketing/kualitas/update/" + data.id,
-        
-          
-          nama,
-          
-
-        HOST + "/marketing/tipebox/update/" + data.id,
+      .post(
+        HOST + "/marketing/rekening/input",
         {
-          nama,
-          kode,
+          bank,
+          noRekening,
+          atasNama,
+          ct:JSON.parse(CT)
         },
         {
           headers: {
@@ -94,14 +83,10 @@ const UpdateTypebox = () => {
             progress: undefined,
             theme: "colored",
           });
-
-          navigate("/dashboard/master/Kualitas");
-          navigate("/dashboard/master/type-box");
         }
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -137,61 +122,97 @@ const UpdateTypebox = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <Header title="Tambah Rekening" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/type-box");
+              navigate("/dashboard/master/rekening");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-              <tr></tr>
               <tr>
-                <td>Nama</td>
+                <td>Bank</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={nama}
+                    value={bank}
                     onChange={(e) => {
-                      setNama(e.target.value);
+                      setbank(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Kode</td>
+                <td>No.Rekening</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
+                    value={noRekening}
                     onChange={(e) => {
-                      setKode(e.target.value);
+                      setnoRekening(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
+              <tr>
+                <td>Atas Nama</td>
+                <td>:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    value={atasNama}
+                    onChange={(e) => {
+                      setatasNama(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>CT</td>
+                <td>:</td>
+                <td className="flex gap-4">
+                  <label>
+                    <input
+                      type="radio"
+                      value="true"
+                      checked={CT === "true"}
+                      onChange={(e) => {
+                        setCT(e.target.value);
+                      }}
+                      required
+                    />
+                    True
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      value="false"
+                      checked={CT === "false"}
+                      onChange={(e) => {
+                        setCT(e.target.value);
+                      }}
+                      required
+                    />
+                    false
+                  </label>
+                </td>
+              </tr>
             </table>
             <div>
               <button
                 className="bg-blue-700 rounded-xl text-white px-4 py-2"
-                onClick={updateData}
+                onClick={postData}
               >
                 Submit
               </button>
@@ -214,4 +235,4 @@ const UpdateTypebox = () => {
     </div>
   );
 };
-export default UpdateTypebox;
+export default TambahRekening;

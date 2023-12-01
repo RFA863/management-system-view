@@ -11,32 +11,29 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const UpdateTypebox = () => {
+const UpdateMobil = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
 
   if (data.length === 0) {
-    navigate("/dashboard/master/Kualitas");
+    navigate("/dashboard/master/mobil/");
   }
 
-  const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
-  const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
-
+  const [noPlat, setnoPlat] = useState(data.Noplat);
+  
   const Validator = () => {
-    
-    if (
-      !nama
-    ) {
+    const isNumeric = (input) => {
+      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+      const numericRegex = /^[0-9]+$/;
+      return numericRegex.test(input);
+    };
 
-    if (!(nama && kode)) {
+    if 
+    ( 
+      !noPlat
+      )
+
+     {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -51,8 +48,6 @@ const UpdateTypebox = () => {
       return false;
     } 
 
-    }
-
     return true;
   };
 
@@ -64,16 +59,9 @@ const UpdateTypebox = () => {
     }
     await axios
       .put(
-        HOST + "/marketing/kualitas/update/" + data.id,
-        
-          
-          nama,
-          
-
-        HOST + "/marketing/tipebox/update/" + data.id,
+        HOST + "/marketing/mobil/update/" + data.id,
         {
-          nama,
-          kode,
+          noPlat,
         },
         {
           headers: {
@@ -95,8 +83,7 @@ const UpdateTypebox = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/master/Kualitas");
-          navigate("/dashboard/master/type-box");
+          navigate("/dashboard/master/mobil");
         }
       })
       .catch((error) => {
@@ -137,56 +124,33 @@ const UpdateTypebox = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <p>{data.noPlat}</p>
+          <Header title="Update Mobil" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/type-box");
+              navigate("/dashboard/master/mobil");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-              <tr></tr>
               <tr>
-                <td>Nama</td>
+                <td>No. Plat</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={nama}
+                    value={noPlat}
                     onChange={(e) => {
-                      setNama(e.target.value);
+                      setnoPlat(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
-              <tr>
-                <td>Kode</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
-                    onChange={(e) => {
-                      setKode(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
             </table>
             <div>
               <button
@@ -214,4 +178,4 @@ const UpdateTypebox = () => {
     </div>
   );
 };
-export default UpdateTypebox;
+export default UpdateMobil;
