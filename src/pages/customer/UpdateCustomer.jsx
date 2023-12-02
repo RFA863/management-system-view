@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
@@ -13,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateCustomer = () => {
   const navigate = useNavigate();
-  const { data } = useStateContext();
+  const { data, setData } = useStateContext();
 
   if (data.length === 0) {
     navigate("/dashboard/customer/customers");
@@ -118,7 +119,7 @@ const UpdateCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
-
+          setData([]);
           navigate("/dashboard/customer/customers");
         }
       })
@@ -160,8 +161,7 @@ const UpdateCustomer = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <Header title="Update Customer" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
