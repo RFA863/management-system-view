@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 // import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -60,9 +61,9 @@ const Kualitas = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/kualitas/delete/" + id, {
+      .delete(HOST + "/marketing/kualitas/delete/" + data.id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -70,17 +71,15 @@ const Kualitas = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
           });
+          
         }
+
+        setData([]);
         fetchData();
       })
       .catch((error) => {
@@ -90,7 +89,9 @@ const Kualitas = () => {
       });
   };
 
+
   useEffect(() => {
+    setData([]);
     fetchData();
   }, []);
 
@@ -110,16 +111,33 @@ const Kualitas = () => {
     
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/master/Kualitas/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
+      
     }
   };
+
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/master/Kualitas/update");
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!" + data.Nama,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
+    }
+  }, [data, getActionButton]);
+
 
   const actionButton = () => {
     return (
