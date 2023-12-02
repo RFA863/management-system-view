@@ -20,8 +20,12 @@ export { default as UpdateMobil } from "./mobil/UpdateMobil";
 
 
 export { default as Kualitas } from "./Kualitas/Kualitas";
-// export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
+export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
 export { default as TambahKualitas } from "./Kualitas/TambahKualitas";
+
+export { default as KualitasDetail } from "./KualitasDetail/KualitasDetail";
+export { default as UpdateKualitasDetail } from "./KualitasDetail/UpdateKualitasDetail";
+export { default as TambahKualitasDetail } from "./KualitasDetail/TambahKualitasDetail";
 
 export { default as Rekening } from "./rekening/Rekening";
 export { default as TambahRekening } from "./rekening/TambahRekening";

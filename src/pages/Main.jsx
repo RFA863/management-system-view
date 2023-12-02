@@ -25,6 +25,9 @@ import {
   Kualitas,
   UpdateKualitas,
   TambahKualitas,
+  KualitasDetail,
+  UpdateKualitasDetail,
+  TambahKualitasDetail,
 
 } from "../pages";
 
@@ -133,8 +136,13 @@ const Main = () => {
 
 
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              {/* <Route path="/master/Kualitas/update" element={<UpdateKualitas />} /> */}
+              <Route path="/master/Kualitas/update" element={<UpdateKualitas />} />
               <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
+
+
+              <Route path="/master/kualitas-detail" element={<KualitasDetail />} />
+              <Route path="/master/kualitas-detail/update" element={<UpdateKualitasDetail />} />
+              <Route path="/master/kualitas-detail/tambah" element={<TambahKualitasDetail />} />
             </Routes>
           </div>
           <Footer />
