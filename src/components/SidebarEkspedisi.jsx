@@ -6,7 +6,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import { useStateContext } from "../contexts/ContextProvider";
 
-const Sidebar = () => {
+const SidebarEkspedisi = () => {
   const [openSection, setOpenSection] = useState(null);
 
   const handleSectionClick = (sectionIndex) => {
@@ -19,86 +19,25 @@ const Sidebar = () => {
 
   const links = [
     {
-      title: "master",
+      title: "Job Order",
 
       links: [
         {
-          name: "type box",
+          name: "List",
         },
         {
-          name: "kualitas",
+          name: "Belum Dibuat Surat Jalan",
         },
         {
-          name: "kualitas detail",
-        },
-        {
-          name: "type box detail",
-        },
-        {
-          name: "kualitas type box",
-        },
-        {
-          name: "rekening",
-        },
-        {
-          name: "user",
-        },
-        {
-          name: "mobil",
-        },
-        {
-          name: "sopir",
+          name: "Sudah Dibuat Surat Jalan",
         },
       ],
     },
     {
-      title: "index",
+      title: "surat jalan",
       links: [
         {
-          name: "index",
-        },
-      ],
-    },
-    {
-      title: "customer",
-      links: [
-        {
-          name: "customers",
-        },
-      ],
-    },
-    {
-      title: "order",
-      links: [
-        {
-          name: "order baru",
-        },
-        {
-          name: "list",
-        },
-      ],
-    },
-    {
-      title: "order detail",
-      links: [
-        {
-          name: "detail",
-        },
-      ],
-    },
-    {
-      title: "job",
-      links: [
-        {
-          name: "job",
-        },
-      ],
-    },
-    {
-      title: "cancel job",
-      links: [
-        {
-          name: "cancel job",
+          name: "surat jalan",
         },
       ],
     },
@@ -191,4 +130,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarEkspedisi;

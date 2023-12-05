@@ -7,3 +7,4 @@ export { default as UserProfile } from "./UserProfile";
 export { default as Header } from "./Header";
 export { default as LoadingScreen } from "./LoadingScreen";
 export { default as PageLoading } from "./PageLoading";
+export { default as SidebarEkspedisi } from "./SidebarEkspedisi";
