@@ -13,6 +13,9 @@ import {
   TypeboxDetail,
   TambahTypeboxDetail,
   UpdateTypeboxDetail,
+  IndexHarga,
+  TambahIndex,
+  UpdateIndex,  
 } from "../pages";
 
 import {
@@ -97,14 +100,34 @@ const Main = () => {
               <Route path="/master/type-box" element={<Typebox />} />
 
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
-              <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
+              <Route
+                path="/TypeBox/UpdateTypebox"
+                element={<UpdateTypebox />}
+              />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
-              <Route path="/master/type-box%20detail" element={<TypeboxDetail />} />
-              <Route path="/TypeboxDetail/Update" element={<UpdateTypeboxDetail />} />
-              <Route path="/TypeboxDetail/Buat" element={<TambahTypeboxDetail />} />  
-
+              <Route
+                path="/master/type-box%20detail"
+                element={<TypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Update"
+                element={<UpdateTypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Buat"
+                element={<TambahTypeboxDetail />}
+              />
+              <Route path="/index/index" element={<IndexHarga />} />
+              <Route
+                path="/TambahIndex/TambahIndex"
+                element={<TambahIndex />}
+              />
+              <Route
+                path="/UpdateIndex/UpdateIndex"
+                element={<UpdateIndex />}
+              />
             </Routes>
           </div>
           <Footer />

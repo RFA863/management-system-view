@@ -11,3 +11,7 @@ export { default as UpdateTypeboxDetail } from "./TypeboxDetail/UpdateTypeboxDet
 export { default as Customer } from "./customer/Customer";
 export { default as TambahCustomer } from "./customer/TambahCustomer";
 export { default as UpdateCustomer } from "./customer/UpdateCustomer";
+export { default as IndexHarga } from "./IndexHarga/IndexHarga";
+export { default as TambahIndex } from "./IndexHarga/TambahIndex";
+export { default as UpdateIndex } from "./IndexHarga/UpdateIndex";
+
