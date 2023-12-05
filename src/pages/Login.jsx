@@ -107,9 +107,14 @@ const Login = () => {
                 .then((response) => {
                   if (response.status === 200) {
                     const admin_auth = response.data.data.token;
+                    const posisi = response.data.data.posisi;
 
 
                     setCookie("admin_auth", admin_auth, {
+                      expires: new Date(new Date().getTime() + 10800000),
+                    });
+
+                    setCookie("posisi", posisi, {
                       expires: new Date(new Date().getTime() + 10800000),
                     });
 

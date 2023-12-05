@@ -2,6 +2,7 @@ import { FiSettings } from "react-icons/fi";
 import { Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { getCookie } from "cookies-next";
 
 import {
   Typebox,
@@ -43,6 +44,7 @@ import {
   Sidebar,
   ThemeSettings,
   LoadingScreen,
+  SidebarEkspedisi,
 } from "../components";
 
 import "../App.css";
@@ -74,6 +76,13 @@ const Main = () => {
     setIsLoading(false);
   }, []);
 
+  let sidebarComponent = <Sidebar />; // Default Sidebar component
+
+  // Memeriksa nilai dari cookie "posisi"
+  if (getCookie("posisi") === "ekspedisi" && activeMenu) {
+    sidebarComponent = <SidebarEkspedisi />;
+  }
+
   return isLoading ? (
     <LoadingScreen />
   ) : (
@@ -91,15 +100,19 @@ const Main = () => {
             </button>
           </TooltipComponent>
         </div>
+
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
-          </div>
-        ) : (
-          <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
-          </div>
-        )}
+            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+              {sidebarComponent}
+            </div>
+          ) : (
+            <div className="w-0 dark:bg-secondary-dark-bg">
+               {sidebarComponent}
+            </div>
+          )}
+
+        
+
         <div
           className={
             activeMenu
