@@ -24,20 +24,9 @@ const UpdateTypeboxDetail = () => {
   const [rumusPanjang, setRumusPanjang] = useState(data.rumus_panjang);
   const [rumusLebar, setRumusLebar] = useState(data.rumus_lebar);
   const [rumusOversize, setRumusOversize] = useState(data.rumus_oversize);
-  const [KonstantaPanjang, setKonstantaPanjang] = useState("");
-  const [KonstantaLebar, setKonstantaLebar] = useState("");
 
   const Validator = () => {
-    if (
-      !(
-        Id_tipebox &&
-        rumusPanjang &&
-        rumusLebar &&
-        rumusOversize &&
-        KonstantaPanjang &&
-        KonstantaLebar
-      )
-    ) {
+    if (!(Id_tipebox && rumusPanjang && rumusLebar && rumusOversize)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -217,70 +206,6 @@ const UpdateTypeboxDetail = () => {
                     }}
                     required
                   />
-                </td>
-              </tr>
-              <tr>
-                <td>Konstanta Panjang</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="true"
-                      checked={KonstantaPanjang === "true"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="false"
-                      checked={KonstantaPanjang === "false"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Konstanta Lebar</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="true"
-                      checked={KonstantaLebar === "true"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="false"
-                      checked={KonstantaLebar === "false"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
                 </td>
               </tr>
             </table>
