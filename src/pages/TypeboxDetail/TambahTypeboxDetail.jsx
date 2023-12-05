@@ -13,38 +13,14 @@ import "react-toastify/dist/ReactToastify.css";
 const TambahTypeboxDetail = () => {
   const navigate = useNavigate();
 
-  const [nama, setNama] = useState("");
-
-  const Validator = () => {
-    const isNumeric = (input) => {
-      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
-      const numericRegex = /^[0-9]+$/;
-      return numericRegex.test(input);
-    };
-
-    if
-      (
-       ! nama
-       ) {
   const [Id_tipebox, setId_tipebox] = useState("");
   const [nama, setNama] = useState("");
   const [rumusPanjang, setRumusPanjang] = useState("");
   const [rumusLebar, setRumusLebar] = useState("");
   const [rumusOversize, setRumusOversize] = useState("");
-  const [KonstantaPanjang, setKonstantaPanjang] = useState("");
-  const [KonstantaLebar, setKonstantaLebar] = useState("");
 
   const Validator = () => {
-    if (
-      !(
-        Id_tipebox &&
-        rumusPanjang &&
-        rumusLebar &&
-        rumusOversize &&
-        KonstantaPanjang &&
-        KonstantaLebar
-      )
-    ) {
+    if (!(Id_tipebox && rumusPanjang && rumusLebar && rumusOversize)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -57,9 +33,6 @@ const TambahTypeboxDetail = () => {
       });
 
       return false;
-
-    } 
-
     }
 
     return true;
@@ -73,11 +46,6 @@ const TambahTypeboxDetail = () => {
     }
     await axios
       .post(
-
-        HOST + "/marketing/supir/input",
-        
-          nama, 
-
         HOST + "/marketing/tipebox_detail/input",
         {
           id_tipebox: Number(Id_tipebox),
@@ -85,8 +53,6 @@ const TambahTypeboxDetail = () => {
           rumusPanjang,
           rumusLebar,
           rumusOversize,
-          konstantaPanjang: JSON.parse(KonstantaPanjang),
-          konstantaLebar: JSON.parse(KonstantaLebar),
         },
         {
           headers: {
@@ -151,9 +117,6 @@ const TambahTypeboxDetail = () => {
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-
-              navigate("/dashboard/master/sopir/");
-
               navigate("/dashboard/master/type-box%20detail");
             }}
           />
@@ -161,9 +124,6 @@ const TambahTypeboxDetail = () => {
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-
-              
-
               <tr>
                 <td>ID Typebox</td>
                 <td>:</td>
@@ -194,7 +154,6 @@ const TambahTypeboxDetail = () => {
                   />
                 </td>
               </tr>
-
               <tr>
                 <td>Rumus Panjang</td>
                 <td>:</td>
@@ -240,70 +199,6 @@ const TambahTypeboxDetail = () => {
                   />
                 </td>
               </tr>
-              <tr>
-                <td>Konstanta Panjang</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="true"
-                      checked={KonstantaPanjang === "true"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="false"
-                      checked={KonstantaPanjang === "false"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Konstanta Lebar</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="true"
-                      checked={KonstantaLebar === "true"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="false"
-                      checked={KonstantaLebar === "false"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
-                </td>
-              </tr>
             </table>
             <div>
               <button
@@ -331,5 +226,4 @@ const TambahTypeboxDetail = () => {
     </div>
   );
 };
-}
 export default TambahTypeboxDetail;

@@ -29,7 +29,7 @@ const TypeboxDetail = () => {
 
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
-  const [customer, setCustomer] = useState([]);Z
+  const [customer, setCustomer] = useState([]);
   const gridRef = useRef(null);
 
   const fetchData = async () => {
@@ -42,18 +42,17 @@ const TypeboxDetail = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        
 
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
             Nama: item.nama,
-            id_tipebox : item.id_tipebox,
-            rumus_panjang : item.rumus_panjang,
-            rumus_lebar : item.rumus_lebar,
-            rumus_oversize : item.rumus_oversize,
-            tipebox : item.tipeBox,
+            id_tipebox: item.id_tipebox,
+            rumus_panjang: item.rumus_panjang,
+            rumus_lebar: item.rumus_lebar,
+            rumus_oversize: item.rumus_oversize,
+            tipebox: item.tipeBox,
           }))
         );
       })
@@ -111,7 +110,7 @@ const TypeboxDetail = () => {
   };
 
   const rowSelected = () => {
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex)
+    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 8) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
@@ -227,7 +226,6 @@ const TypeboxDetail = () => {
                   headerText="Rumus Oversize"
                   textAlign="Center"
                 />
-               
 
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
