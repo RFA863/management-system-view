@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
@@ -12,24 +11,18 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const UpdateCustomer = () => {
+const UpdateRekening = () => {
   const navigate = useNavigate();
-  const { data, setData } = useStateContext();
+  const { data } = useStateContext();
 
   if (data.length === 0) {
-    navigate("/dashboard/customer/customers");
+    navigate("/dashboard/master/user");
   }
+  const [bank, setbank] = useState(data.bank);
+  const [noRekening, setnoRekening] = useState(data.noRekening);
+  const [atasNama, setatasNama] = useState(data.atasNama);
+  const [CT, setCT] = useState(data.CT);
 
-  const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
-  const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -40,14 +33,11 @@ const UpdateCustomer = () => {
 
     if (
       !(
-        Nomor &&
-        Npwp &&
-        nama &&
-        kode &&
-        email &&
-        alamat &&
-        alamatInvoice &&
-        noTelp
+       
+        bank &&
+        noRekening &&
+        atasNama &&
+        CT
       )
     ) {
       toast.error("Data must be entered", {
@@ -62,19 +52,7 @@ const UpdateCustomer = () => {
       });
 
       return false;
-    } else if (isNumeric(Nomor) === false) {
-      toast.error("Number must be numeric", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return false;
-    }
+    } 
 
     return true;
   };
@@ -87,18 +65,12 @@ const UpdateCustomer = () => {
     }
     await axios
       .put(
-        HOST + "/marketing/customer/update/" + data.id,
+        HOST + "/marketing/rekening/update/" + data.id,
         {
-          nomor: Number(Nomor),
-          nama,
-          kode,
-          email,
-          npwp: JSON.parse(Npwp),
-          noNpwp,
-          noTelp,
-          noFax,
-          alamat,
-          alamatInvoice,
+          bank,
+          noRekening,
+          atasNama,
+          ct:JSON.parse(CT)
         },
         {
           headers: {
@@ -119,8 +91,8 @@ const UpdateCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
-          setData([]);
-          navigate("/dashboard/customer/customers");
+
+          navigate("/dashboard/master/rekening/");
         }
       })
       .catch((error) => {
@@ -161,89 +133,75 @@ const UpdateCustomer = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Update Customer" />
+          <p>{data.Nama}</p>
+          <Header title="Update Rekening" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/customer/customers");
+              navigate("/dashboard/master/rekening/");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
-              <tr>
-                <td>Nomor</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
-                    value={Nomor}
-                    onChange={(e) => {
-                      setNomor(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Nama</td>
+              
+            <tr>
+                <td>Bank</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={nama}
+                    value={bank}
                     onChange={(e) => {
-                      setNama(e.target.value);
+                      setbank(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Kode</td>
+                <td>No.Rekening</td>
                 <td>:</td>
                 <td>
                   <input
                     type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={kode}
+                    value={noRekening}
                     onChange={(e) => {
-                      setKode(e.target.value);
+                      setnoRekening(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Email</td>
+                <td>Atas Nama</td>
                 <td>:</td>
                 <td>
                   <input
-                    type="email"
+                    type="text"
                     className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={email}
+                    value={atasNama}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setatasNama(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Npwp</td>
+                <td>CT</td>
                 <td>:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
                       value="true"
-                      checked={Npwp === "true"}
+                      checked={CT === "true"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setCT(e.target.value);
                       }}
                       required
                     />
@@ -252,11 +210,10 @@ const UpdateCustomer = () => {
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
                       value="false"
-                      checked={Npwp === "false"}
+                      checked={CT === "false"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setCT(e.target.value);
                       }}
                       required
                     />
@@ -264,79 +221,7 @@ const UpdateCustomer = () => {
                   </label>
                 </td>
               </tr>
-              <tr>
-                <td>No. Npwp</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noNpwp}
-                    onChange={(e) => {
-                      setNoNpwp(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>No. Telpn</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noTelp}
-                    onChange={(e) => {
-                      setNoTelp(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>No. Fax</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noFax}
-                    onChange={(e) => {
-                      setNoFax(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={alamat}
-                    onChange={(e) => {
-                      setAlamat(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat Invoice</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={alamatInvoice}
-                    onChange={(e) => {
-                      setAlamatInvoice(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
+
             </table>
             <div>
               <button
@@ -364,4 +249,4 @@ const UpdateCustomer = () => {
     </div>
   );
 };
-export default UpdateCustomer;
+export default UpdateRekening;

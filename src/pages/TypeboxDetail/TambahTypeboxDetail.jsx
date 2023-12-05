@@ -13,6 +13,19 @@ import "react-toastify/dist/ReactToastify.css";
 const TambahTypeboxDetail = () => {
   const navigate = useNavigate();
 
+  const [nama, setNama] = useState("");
+
+  const Validator = () => {
+    const isNumeric = (input) => {
+      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+      const numericRegex = /^[0-9]+$/;
+      return numericRegex.test(input);
+    };
+
+    if
+      (
+       ! nama
+       ) {
   const [Id_tipebox, setId_tipebox] = useState("");
   const [nama, setNama] = useState("");
   const [rumusPanjang, setRumusPanjang] = useState("");
@@ -44,6 +57,9 @@ const TambahTypeboxDetail = () => {
       });
 
       return false;
+
+    } 
+
     }
 
     return true;
@@ -57,6 +73,11 @@ const TambahTypeboxDetail = () => {
     }
     await axios
       .post(
+
+        HOST + "/marketing/supir/input",
+        
+          nama, 
+
         HOST + "/marketing/tipebox_detail/input",
         {
           id_tipebox: Number(Id_tipebox),
@@ -130,6 +151,9 @@ const TambahTypeboxDetail = () => {
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
+
+              navigate("/dashboard/master/sopir/");
+
               navigate("/dashboard/master/type-box%20detail");
             }}
           />
@@ -137,6 +161,9 @@ const TambahTypeboxDetail = () => {
         <form>
           <div className="flex items-end justify-evenly">
             <table className="font-semibold">
+
+              
+
               <tr>
                 <td>ID Typebox</td>
                 <td>:</td>
@@ -167,6 +194,7 @@ const TambahTypeboxDetail = () => {
                   />
                 </td>
               </tr>
+
               <tr>
                 <td>Rumus Panjang</td>
                 <td>:</td>
@@ -303,4 +331,5 @@ const TambahTypeboxDetail = () => {
     </div>
   );
 };
+}
 export default TambahTypeboxDetail;

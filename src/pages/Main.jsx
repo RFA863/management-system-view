@@ -6,9 +6,17 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import {
   Typebox,
   BuatTypebox,
+  UpdateTypebox,
+  Rekening,
+  TambahRekening,
+  UpdateRekening,
+  User,
+  TambahUser,
+  UpdateUser,
   Customer,
   TambahCustomer,
   UpdateCustomer,
+
   UpdateTypebox,
   TypeboxDetail,
   TambahTypeboxDetail,
@@ -16,6 +24,21 @@ import {
   IndexHarga,
   TambahIndex,
   UpdateIndex,  
+
+  Sopir,
+  TambahSopir,
+  UpdateSopir,
+  Mobil,
+  TambahMobil,
+  UpdateMobil,
+  Kualitas,
+  UpdateKualitas,
+  TambahKualitas,
+  Order,
+  OrderBaru,
+  Detail,
+  JobBaru,
+
 } from "../pages";
 
 import {
@@ -95,7 +118,6 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-
               {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
 
@@ -107,6 +129,7 @@ const Main = () => {
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
+
               <Route
                 path="/master/type-box%20detail"
                 element={<TypeboxDetail />}
@@ -128,6 +151,43 @@ const Main = () => {
                 path="/UpdateIndex/UpdateIndex"
                 element={<UpdateIndex />}
               />
+
+
+              <Route path="/master/sopir" element={<Sopir />} />
+              <Route path="/master/sopir/tambah" element={<TambahSopir />} />
+              <Route path="/master/sopir/update" element={<UpdateSopir />} />
+
+              <Route path="/master/mobil" element={<Mobil />} />
+              <Route path="/master/mobil/tambah" element={<TambahMobil />} />
+              <Route path="/master/mobil/update" element={<UpdateMobil />} />
+
+              <Route path="/master/rekening" element={<Rekening />} />
+              <Route
+                path="/master/rekening/tambah"
+                element={<TambahRekening />}
+              />
+              <Route
+                path="/master/rekening/update"
+                element={<UpdateRekening />}
+              />
+
+              <Route path="/master/user" element={<User />} />
+              <Route path="/master/user/tambah" element={<TambahUser />} />
+              <Route path="/master/user/update" element={<UpdateUser />} />
+
+              <Route path="/master/Kualitas" element={<Kualitas />} />
+              {/* <Route path="/master/Kualitas/update" element={<UpdateKualitas />} /> */}
+              <Route
+                path="/master/Kualitas/tambah"
+                element={<TambahKualitas />}
+              />
+
+              <Route path="/order/list" element={<Order />} />
+              <Route path="/order/order-baru" element={<OrderBaru />} />
+              <Route path="/order/detail" element={<Detail />} />
+
+              <Route path="/job/job-baru" element={<JobBaru />} />
+
             </Routes>
           </div>
           <Footer />

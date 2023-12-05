@@ -108,8 +108,6 @@ const Login = () => {
                   if (response.status === 200) {
                     const admin_auth = response.data.data.token;
 
-                    
-                    
 
                     setCookie("admin_auth", admin_auth, {
                       expires: new Date(new Date().getTime() + 10800000),
