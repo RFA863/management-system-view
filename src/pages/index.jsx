@@ -3,7 +3,7 @@ export { default as Main } from "./Main";
 
 export { default as Data } from "./pelamar/Data";
 export { default as Typebox } from "./TypeBox/Typebox";
-export { default as UpdateTypebox} from "./TypeBox/UpdateTypebox";
+export { default as UpdateTypebox } from "./TypeBox/UpdateTypebox";
 export { default as BuatTypebox } from "./TypeBox/BuatTypebox";
 
 export { default as Customer } from "./customer/Customer";
@@ -17,7 +17,6 @@ export { default as UpdateSopir } from "./sopir/UpdateSopir";
 export { default as Mobil } from "./mobil/Mobil";
 export { default as TambahMobil } from "./mobil/TambahMobil";
 export { default as UpdateMobil } from "./mobil/UpdateMobil";
-
 
 export { default as Kualitas } from "./Kualitas/Kualitas";
 // export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
@@ -35,4 +34,8 @@ export { default as TypeboxDetail } from "./TypeboxDetail/TypeboxDetail";
 export { default as TambahTypeboxDetail } from "./TypeboxDetail/TambahTypeboxDetail";
 export { default as UpdateTypeboxDetail } from "./TypeboxDetail/UpdateTypeboxDetail";
 
+export { default as Order } from "./order/Order";
+export { default as OrderBaru } from "./order/OrderBaru";
+export { default as Detail } from "./order/Detail";
 
+export { default as JobBaru } from "./job/JobBaru";

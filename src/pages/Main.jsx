@@ -25,7 +25,10 @@ import {
   Kualitas,
   UpdateKualitas,
   TambahKualitas,
-
+  Order,
+  OrderBaru,
+  Detail,
+  JobBaru,
 } from "../pages";
 
 import {
@@ -105,36 +108,52 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-
               {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
 
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
-              <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
+              <Route
+                path="/TypeBox/UpdateTypebox"
+                element={<UpdateTypebox />}
+              />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
-              
+
               <Route path="/master/sopir" element={<Sopir />} />
               <Route path="/master/sopir/tambah" element={<TambahSopir />} />
               <Route path="/master/sopir/update" element={<UpdateSopir />} />
-              
+
               <Route path="/master/mobil" element={<Mobil />} />
               <Route path="/master/mobil/tambah" element={<TambahMobil />} />
               <Route path="/master/mobil/update" element={<UpdateMobil />} />
-              
+
               <Route path="/master/rekening" element={<Rekening />} />
-              <Route path="/master/rekening/tambah" element={<TambahRekening />} />
-              <Route path="/master/rekening/update" element={<UpdateRekening />} />
-              
+              <Route
+                path="/master/rekening/tambah"
+                element={<TambahRekening />}
+              />
+              <Route
+                path="/master/rekening/update"
+                element={<UpdateRekening />}
+              />
+
               <Route path="/master/user" element={<User />} />
               <Route path="/master/user/tambah" element={<TambahUser />} />
               <Route path="/master/user/update" element={<UpdateUser />} />
 
-
               <Route path="/master/Kualitas" element={<Kualitas />} />
               {/* <Route path="/master/Kualitas/update" element={<UpdateKualitas />} /> */}
-              <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
+              <Route
+                path="/master/Kualitas/tambah"
+                element={<TambahKualitas />}
+              />
+
+              <Route path="/order/list" element={<Order />} />
+              <Route path="/order/order-baru" element={<OrderBaru />} />
+              <Route path="/order/detail" element={<Detail />} />
+
+              <Route path="/job/job-baru" element={<JobBaru />} />
             </Routes>
           </div>
           <Footer />
