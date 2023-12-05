@@ -16,6 +16,15 @@ import {
   Customer,
   TambahCustomer,
   UpdateCustomer,
+
+  UpdateTypebox,
+  TypeboxDetail,
+  TambahTypeboxDetail,
+  UpdateTypeboxDetail,
+  IndexHarga,
+  TambahIndex,
+  UpdateIndex,  
+
   Sopir,
   TambahSopir,
   UpdateSopir,
@@ -29,6 +38,7 @@ import {
   OrderBaru,
   Detail,
   JobBaru,
+
 } from "../pages";
 
 import {
@@ -120,6 +130,29 @@ const Main = () => {
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
 
+              <Route
+                path="/master/type-box%20detail"
+                element={<TypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Update"
+                element={<UpdateTypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Buat"
+                element={<TambahTypeboxDetail />}
+              />
+              <Route path="/index/index" element={<IndexHarga />} />
+              <Route
+                path="/TambahIndex/TambahIndex"
+                element={<TambahIndex />}
+              />
+              <Route
+                path="/UpdateIndex/UpdateIndex"
+                element={<UpdateIndex />}
+              />
+
+
               <Route path="/master/sopir" element={<Sopir />} />
               <Route path="/master/sopir/tambah" element={<TambahSopir />} />
               <Route path="/master/sopir/update" element={<UpdateSopir />} />
@@ -154,6 +187,7 @@ const Main = () => {
               <Route path="/order/detail" element={<Detail />} />
 
               <Route path="/job/job-baru" element={<JobBaru />} />
+
             </Routes>
           </div>
           <Footer />

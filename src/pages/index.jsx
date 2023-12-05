@@ -10,6 +10,12 @@ export { default as Customer } from "./customer/Customer";
 export { default as TambahCustomer } from "./customer/TambahCustomer";
 export { default as UpdateCustomer } from "./customer/UpdateCustomer";
 
+export { default as IndexHarga } from "./IndexHarga/IndexHarga";
+export { default as TambahIndex } from "./IndexHarga/TambahIndex";
+export { default as UpdateIndex } from "./IndexHarga/UpdateIndex";
+
+
+
 export { default as Sopir } from "./sopir/Sopir";
 export { default as TambahSopir } from "./sopir/TambahSopir";
 export { default as UpdateSopir } from "./sopir/UpdateSopir";
@@ -39,3 +45,4 @@ export { default as OrderBaru } from "./order/OrderBaru";
 export { default as Detail } from "./order/Detail";
 
 export { default as JobBaru } from "./job/JobBaru";
+
