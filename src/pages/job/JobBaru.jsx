@@ -1,5 +1,5 @@
 import axios from "axios";
-import Select from "react-select";
+// import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
