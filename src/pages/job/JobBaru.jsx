@@ -1,5 +1,5 @@
 import axios from "axios";
-// import Select from "react-select";
+import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +13,12 @@ import { useStateContext } from "../../contexts/ContextProvider";
 const JobBaru = () => {
   //   const navigate = useNavigate();
 
-  //   const [Id_Customer, setIdCustomer] = useState();
-  //   const [noPo, setNoPo] = useState("");
+  const [Id_TipeBox, setIdTipeBox] = useState();
+  const [Id_KualitasDetail, setIdKualitasDetail] = useState();
   //   const [tanggalOrder, setTanggalOrder] = useState("");
   //   const [tanggalKirim, setTanggalKirim] = useState("");
-  //   const [customer, setCustomer] = useState([]);
+  const [tipeBox, setTipeBox] = useState([]);
+  const [kualitasDetail, setKualitasDetail] = useState([]);
 
   //   const { data, setData } = useStateContext();
 
@@ -40,30 +41,55 @@ const JobBaru = () => {
   //     return true;
   //   };
 
-  //   const getCustomer = async () => {
-  //     await axios
-  //       .get(HOST + "/marketing/customer/get", {
-  //         headers: {
-  //           "ngrok-skip-browser-warning": "true",
-  //           Authorization: getCookie("admin_auth"),
-  //         },
-  //       })
-  //       .then((response) => {
-  //         const listCustomer = response.data.data;
+  const getTipeBox = async () => {
+    await axios
+      .get(HOST + "/marketing/tipebox/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listTipeBox = response.data.data;
 
-  //         setCustomer(() =>
-  //           listCustomer.map((item, index) => ({
-  //             label: item.nama,
-  //             value: item.id,
-  //           }))
-  //         );
-  //       })
-  //       .catch((error) => {
-  //         if (error.response.status == 401) {
-  //           navigate("/dashboard/login");
-  //         }
-  //       });
-  //   };
+        setTipeBox(() =>
+          listTipeBox.map((item) => ({
+            label: item.nama,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const getKualitasDetail = async () => {
+    await axios
+      .get(HOST + "/marketing/kualitasdetail/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listKualitasDetail = response.data.data;
+
+        setKualitasDetail(() =>
+          listKualitasDetail.map((item) => ({
+            label: item.kualitas + "||" + item.nama + "||" + item.kode,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
 
   //   const postData = async (e) => {
   //     e.preventDefault();
@@ -136,10 +162,11 @@ const JobBaru = () => {
   //       });
   //   };
 
-  //   useEffect(() => {
-  //     getCustomer();
-  //     setData([]);
-  //   }, []);
+  useEffect(() => {
+    getTipeBox();
+    getKualitasDetail();
+    // setData([]);
+  }, []);
 
   //   useEffect(() => {
   //     if (data.length !== 0) {
@@ -151,7 +178,7 @@ const JobBaru = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Order Baru" />
+          <Header title="Job Baru" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -175,19 +202,33 @@ const JobBaru = () => {
               <td>Type Box</td>
               <td>:</td>
               <td>
-                <input
+                <Select
+                  options={tipeBox}
+                  isClearable={true}
+                  value={Id_TipeBox}
+                  onChange={(e) => {
+                    setIdTipeBox(e);
+                  }}
+                  required
+                />
+                {/* <input
                   type="text"
                   className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                />
+                /> */}
               </td>
             </tr>
             <tr>
               <td>Kualitas</td>
               <td>:</td>
               <td>
-                <input
-                  type="text"
-                  className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                <Select
+                  options={kualitasDetail}
+                  isClearable={true}
+                  value={Id_KualitasDetail}
+                  onChange={(e) => {
+                    setIdKualitasDetail(e);
+                  }}
+                  required
                 />
               </td>
             </tr>
