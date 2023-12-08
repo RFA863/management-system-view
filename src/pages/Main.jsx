@@ -102,16 +102,14 @@ const Main = () => {
         </div>
 
         {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              {sidebarComponent}
-            </div>
-          ) : (
-            <div className="w-0 dark:bg-secondary-dark-bg">
-               {sidebarComponent}
-            </div>
-          )}
-
-        
+          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+            {sidebarComponent}
+          </div>
+        ) : (
+          <div className="w-0 dark:bg-secondary-dark-bg">
+            {sidebarComponent}
+          </div>
+        )}
 
         <div
           className={
@@ -195,9 +193,9 @@ const Main = () => {
 
               <Route path="/order/list" element={<Order />} />
               <Route path="/order/order-baru" element={<OrderBaru />} />
-              <Route path="/order/detail" element={<Detail />} />
+              <Route path="/order/detail/:id" element={<Detail />} />
 
-              <Route path="/job/job-baru" element={<JobBaru />} />
+              <Route path="/job/job-baru/:id" element={<JobBaru />} />
             </Routes>
           </div>
           <Footer />

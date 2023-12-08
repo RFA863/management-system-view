@@ -19,7 +19,7 @@ const OrderBaru = () => {
   const [tanggalKirim, setTanggalKirim] = useState("");
   const [customer, setCustomer] = useState([]);
 
-  const { data, setData } = useStateContext();
+  const [id, setId] = useState();
 
   const Validator = () => {
     if (!(Id_Customer && noPo && tanggalOrder && tanggalKirim)) {
@@ -90,7 +90,7 @@ const OrderBaru = () => {
       .then((response) => {
         if (response.status === 200) {
           const idOrder = response.data.data;
-          setData(idOrder);
+          setId(idOrder);
           toast.success("Data successfully inputted", {
             position: "top-center",
             autoClose: 5000,
@@ -138,14 +138,14 @@ const OrderBaru = () => {
 
   useEffect(() => {
     getCustomer();
-    setData([]);
+    setId();
   }, []);
 
   useEffect(() => {
-    if (data.length !== 0) {
-      navigate("/dashboard/order/detail");
+    if (id) {
+      navigate("/dashboard/order/detail/" + id);
     }
-  }, [data]);
+  }, [id]);
 
   return (
     <div>
