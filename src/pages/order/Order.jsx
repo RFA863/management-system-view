@@ -26,7 +26,8 @@ import "react-toastify/dist/ReactToastify.css";
 const Order = () => {
   const navigate = useNavigate();
 
-  const { data, setData } = useStateContext();
+  // const { data, setData } = useStateContext();
+  const [id, setId] = useState();
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
   const [order, setOrder] = useState([]);
@@ -91,7 +92,7 @@ const Order = () => {
   // };
 
   useEffect(() => {
-    setData([]);
+    setId();
     fetchData();
   }, []);
 
@@ -109,41 +110,47 @@ const Order = () => {
 
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
-      setData(gridRef.current.selectionModule.data);
+      setId(gridRef.current.selectionModule.data.id);
+      // navigate("/dashboard/order/detail/" + id);
     }
   };
 
   useEffect(() => {
-    if (getActionButton === "detail" && data.length !== 0) {
-      navigate("/dashboard/order/detail");
+    console.log(id);
+    if (id) {
+      navigate("/dashboard/order/detail/" + id);
     }
-    // } else if (getActionButton === "delete" && data.length !== 0) {
-    //   Swal.fire({
-    //     title: "Are you sure?",
-    //     text: "You won't be able to revert this!" + data.Nama,
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Yes, delete it!",
-    //   }).then((result) => {
-    //     console.log(result);
-    //     if (result.isConfirmed) {
-    //       deleteData();
-    //     } else if (result.isDismissed) {
-    //       setData([]);
-    //     }
-    //   });
-    // }
-  }, [data, getActionButton]);
+  }, [id]);
+
+  // useEffect(() => {
+  //   if (getActionButton === "detail" && id.length !== 0) {
+  //     navigate("/dashboard/order/detail");
+  //   }
+  //   // } else if (getActionButton === "delete" && data.length !== 0) {
+  //   //   Swal.fire({
+  //   //     title: "Are you sure?",
+  //   //     text: "You won't be able to revert this!" + data.Nama,
+  //   //     icon: "warning",
+  //   //     showCancelButton: true,
+  //   //     confirmButtonColor: "#3085d6",
+  //   //     cancelButtonColor: "#d33",
+  //   //     confirmButtonText: "Yes, delete it!",
+  //   //   }).then((result) => {
+  //   //     console.log(result);
+  //   //     if (result.isConfirmed) {
+  //   //       deleteData();
+  //   //     } else if (result.isDismissed) {
+  //   //       setData([]);
+  //   //     }
+  //   //   });
+  //   // }
+  // }, [id, getActionButton]);
 
   const actionButton = () => {
     return (
       <button
         className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
-        onClick={() => {
-          setActionButton("detail");
-        }}
+        onClick={() => rowSelected()}
       >
         Detail
       </button>

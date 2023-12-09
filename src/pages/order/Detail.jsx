@@ -2,7 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -23,6 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Detail = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const { data, setData } = useStateContext();
   const [getActionButton, setActionButton] = useState("");
@@ -31,13 +32,9 @@ const Detail = () => {
   const [jobOrder, setJobOrder] = useState([]);
   const gridRef = useRef(null);
 
-  if (data.length === 0) {
-    navigate("/dashboard/order/list");
-  }
-
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/order/getDetail/" + data.id, {
+      .get(HOST + "/marketing/order/getDetail/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -46,17 +43,6 @@ const Detail = () => {
       .then((response) => {
         const listOrder = response.data.data;
         setOrder([listOrder]);
-        // setOrder(() =>
-        //   listOrder.map((item, index) => ({
-        //     id: item.id,
-        //     No: index + 1,
-        //     id_customer: item.id_customer,
-        //     no_po: item.no_po,
-        //     tanggal_order: item.tanggal_order,
-        //     tanggal_kirim: item.tanggal_kirim,
-        //     Customer: item.Customer,
-        //   }))
-        // );
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -67,7 +53,7 @@ const Detail = () => {
 
   const fetchJobOrder = async () => {
     await axios
-      .get(HOST + "/marketing/job/getJobOrder/" + data.id, {
+      .get(HOST + "/marketing/job/getJobOrder/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -75,7 +61,7 @@ const Detail = () => {
       })
       .then((response) => {
         const listOrder = response.data.data;
-        // setOrder([listOrder]);
+
         setJobOrder(() =>
           listOrder.map((item, index) => ({
             id: item.id,
@@ -106,7 +92,6 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    // setData([]);
     fetchData();
     fetchJobOrder();
   }, []);
@@ -240,9 +225,9 @@ const Detail = () => {
           <div className="my-10">
             <button
               className="bg-blue-700 rounded-xl text-white px-4 py-2"
-              // onClick={() => {
-              //   navigate("/dashboard/order/order-baru");
-              // }}
+              onClick={() => {
+                navigate("/dashboard/job/job-baru/" + id);
+              }}
             >
               Job Baru
             </button>
