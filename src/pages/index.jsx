@@ -14,8 +14,6 @@ export { default as IndexHarga } from "./IndexHarga/IndexHarga";
 export { default as TambahIndex } from "./IndexHarga/TambahIndex";
 export { default as UpdateIndex } from "./IndexHarga/UpdateIndex";
 
-
-
 export { default as Sopir } from "./sopir/Sopir";
 export { default as TambahSopir } from "./sopir/TambahSopir";
 export { default as UpdateSopir } from "./sopir/UpdateSopir";
@@ -41,8 +39,9 @@ export { default as TambahTypeboxDetail } from "./TypeboxDetail/TambahTypeboxDet
 export { default as UpdateTypeboxDetail } from "./TypeboxDetail/UpdateTypeboxDetail";
 
 export { default as Order } from "./order/Order";
-export { default as OrderBaru } from "./order/OrderBaru";
 export { default as Detail } from "./order/Detail";
+export { default as OrderBaru } from "./order/OrderBaru";
+export { default as UpdateOrder } from "./order/UpdateOrder";
 
 export { default as JobBaru } from "./job/JobBaru";
-
+export { default as UpdateJob } from "./job/UpdateJob";

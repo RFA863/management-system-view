@@ -9,38 +9,91 @@ import { ToastContainer, toast } from "react-toastify";
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const JobBaru = () => {
+const UpdateJob = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [Id_TipeBox, setIdTipeBox] = useState();
-  const [Id_KualitasDetail, setIdKualitasDetail] = useState();
-  const [Panjang, setPanjang] = useState("0");
-  const [Lebar, setLebar] = useState("0");
-  const [Tinggi, setTinggi] = useState("0");
-  const [ukuranKirim, setUkuranKirim] = useState("");
   const [warna, setWarna] = useState("");
-  const [perekat, setPerekat] = useState("");
-  const [keterangan, setKeterangan] = useState("");
+  const [Lebar, setLebar] = useState("0");
   const [Jumlah, setJumlah] = useState("");
-  const [panjangKirim, setPanjangKirim] = useState("0");
-  const [lebarKirim, setLebarKirim] = useState("0");
-  const [tinggiKirim, setTinggiKirim] = useState("0");
+  const [Tinggi, setTinggi] = useState("0");
+  const [perekat, setPerekat] = useState("");
   const [Index, setIndex] = useState("false");
-  const [indexPanjang, setIndexPanjang] = useState("0");
+  const [Panjang, setPanjang] = useState("0");
+  const [Id_TipeBox, setIdTipeBox] = useState();
+  const [keterangan, setKeterangan] = useState("");
+  const [lebarKirim, setLebarKirim] = useState("0");
   const [indexLebar, setIndexLebar] = useState("0");
+  const [ukuranKirim, setUkuranKirim] = useState("");
+  const [tinggiKirim, setTinggiKirim] = useState("0");
+  const [panjangKirim, setPanjangKirim] = useState("0");
+  const [indexPanjang, setIndexPanjang] = useState("0");
   const [penambahanHarga, setPenambahanHarga] = useState("0");
+  const [Id_KualitasDetail, setIdKualitasDetail] = useState();
   const [penguranganHarga, setPenguranganHarga] = useState("0");
 
-  const [ukuranPanjang, setUkuranPanjang] = useState();
-  const [ukuranLebar, setUkuranLebar] = useState();
-  const [totalHarga, setTotalHarga] = useState();
+  const [idOrder, setIdOrder] = useState();
   const [subTotal, setSubTotal] = useState();
-  const [indexHarga, setIndexHarga] = useState();
   const [tipeBox, setTipeBox] = useState([]);
+  const [totalHarga, setTotalHarga] = useState();
+  const [indexHarga, setIndexHarga] = useState();
+  const [ukuranLebar, setUkuranLebar] = useState();
+  const [ukuranPanjang, setUkuranPanjang] = useState();
   const [kualitasDetail, setKualitasDetail] = useState([]);
 
   const isDisabled = Index === "false";
+
+  const getJob = async () => {
+    await axios
+      .get(HOST + "/marketing/job/get/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listJob = response.data.data;
+        const [panjangPengiriman, lebarPengiriman, tinggiPengiriman] =
+          listJob.ukuran_pengiriman.split("x").map((value) => value.trim());
+
+        setWarna(listJob.warna);
+        setLebar(listJob.lebar);
+        setJumlah(listJob.jumlah);
+        setTinggi(listJob.tinggi);
+        setPerekat(listJob.perekat);
+        setPanjang(listJob.panjang);
+        setLebarKirim(lebarPengiriman);
+        setSubTotal(listJob.sub_total);
+        setTinggiKirim(tinggiPengiriman);
+        setKeterangan(listJob.keterangan);
+        setIndexLebar(listJob.index_lebar);
+        setTotalHarga(listJob.total_harga);
+        setPanjangKirim(panjangPengiriman);
+        setIndex(String(listJob.use_index));
+        setIndexPanjang(listJob.index_panjang);
+        setUkuranKirim(String(listJob.ukuran_kirim));
+        setPenambahanHarga(listJob.penambahan_harga);
+        setPenguranganHarga(listJob.pengurangan_harga);
+
+        setIdOrder(listJob.id_order);
+
+        setIdTipeBox({ label: listJob.tipebox, value: listJob.id_tipebox });
+        setIdKualitasDetail({
+          label:
+            listJob.kualitas +
+            " | " +
+            listJob.kualitas_detail +
+            " | " +
+            listJob.kode_kualitas_detail,
+          value: listJob.id_kualitas_detail,
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
 
   const Validator = () => {
     if (
@@ -130,7 +183,7 @@ const JobBaru = () => {
 
     await axios
       .post(
-        HOST + "/marketing/job/cek_index/" + id,
+        HOST + "/marketing/job/cek_index/" + idOrder,
         {
           id_kualitas_detail: Id_KualitasDetail.value,
         },
@@ -190,7 +243,7 @@ const JobBaru = () => {
 
     await axios
       .post(
-        HOST + "/marketing/job/cek_harga/" + id,
+        HOST + "/marketing/job/cek_harga/" + idOrder,
         {
           id_kualitas_detail: Id_KualitasDetail.value,
           panjang: Number(Panjang),
@@ -331,8 +384,8 @@ const JobBaru = () => {
       return;
     }
     await axios
-      .post(
-        HOST + "/marketing/job/input/" + id,
+      .put(
+        HOST + "/marketing/job/update/" + id,
         {
           id_tipebox: Id_TipeBox.value,
           id_kualitas_detail: Id_KualitasDetail.value,
@@ -372,7 +425,7 @@ const JobBaru = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/order/detail/" + id);
+          navigate("/dashboard/order/detail/" + idOrder);
         }
       })
       .catch((error) => {
@@ -409,6 +462,7 @@ const JobBaru = () => {
   };
 
   useEffect(() => {
+    getJob();
     getTipeBox();
     getKualitasDetail();
   }, []);
@@ -446,11 +500,11 @@ const JobBaru = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Job Baru" />
+          <Header title="Update Job" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/order/detail/" + id);
+              navigate("/dashboard/order/detail/" + idOrder);
             }}
           />
         </div>
@@ -852,4 +906,5 @@ const JobBaru = () => {
     </div>
   );
 };
-export default JobBaru;
+
+export default UpdateJob;

@@ -36,6 +36,8 @@ import {
   OrderBaru,
   Detail,
   JobBaru,
+  UpdateJob,
+  UpdateOrder,
 } from "../pages";
 
 import {
@@ -192,10 +194,12 @@ const Main = () => {
               />
 
               <Route path="/order/list" element={<Order />} />
-              <Route path="/order/order-baru" element={<OrderBaru />} />
               <Route path="/order/detail/:id" element={<Detail />} />
+              <Route path="/order/order-baru" element={<OrderBaru />} />
+              <Route path="/order/update/:id" element={<UpdateOrder />} />
 
               <Route path="/job/job-baru/:id" element={<JobBaru />} />
+              <Route path="/job/update/:id" element={<UpdateJob />} />
             </Routes>
           </div>
           <Footer />

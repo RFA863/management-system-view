@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +16,6 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,8 +23,6 @@ const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data, setData } = useStateContext();
-  const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
   const [order, setOrder] = useState([]);
   const [jobOrder, setJobOrder] = useState([]);
@@ -42,7 +38,16 @@ const Detail = () => {
       })
       .then((response) => {
         const listOrder = response.data.data;
-        setOrder([listOrder]);
+        setOrder(() =>
+          listOrder.map((item) => ({
+            id: item.id,
+            id_customer: item.id_customer,
+            no_po: item.no_po,
+            tanggal_order: item.tanggal_order,
+            tanggal_kirim: item.tanggal_kirim,
+            Customer: item.Customer,
+          }))
+        );
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -109,41 +114,53 @@ const Detail = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
-      setData(gridRef.current.selectionModule.data);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 16) {
+      const idJob = gridRef.current.selectionModule.data.id;
+      navigate("/dashboard/job/update/" + idJob);
     }
   };
 
-  useEffect(() => {
-    if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/customer/update");
-    } else if (getActionButton === "delete" && data.length !== 0) {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        console.log(result);
-        if (result.isConfirmed) {
-          deleteData();
-        } else if (result.isDismissed) {
-          setData([]);
-        }
-      });
-    }
-  }, [data, getActionButton]);
+  // useEffect(() => {
+  //   if (getActionButton === "update" && data.length !== 0) {
+  //     navigate("/dashboard/customer/update");
+  //   } else if (getActionButton === "delete" && data.length !== 0) {
+  //     Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You won't be able to revert this!" + data.Nama,
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, delete it!",
+  //     }).then((result) => {
+  //       console.log(result);
+  //       if (result.isConfirmed) {
+  //         deleteData();
+  //       } else if (result.isDismissed) {
+  //         setData([]);
+  //       }
+  //     });
+  //   }
+  // }, [data, getActionButton]);
 
-  const actionButton = () => {
+  const updateOrder = () => {
     return (
       <button
         className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-        // onClick={() => {
-        //   setActionButton("update");
-        // }}
+        onClick={() => {
+          navigate("/dashboard/order/update/" + id);
+        }}
+      >
+        Update
+      </button>
+    );
+  };
+
+  const updateJob = () => {
+    return (
+      <button
+        className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => rowSelected}
       >
         Update
       </button>
@@ -215,7 +232,7 @@ const Detail = () => {
 
                 <ColumnDirective
                   headerText="Action"
-                  template={actionButton}
+                  template={updateOrder}
                   textAlign="Center"
                 />
               </ColumnsDirective>
@@ -343,7 +360,7 @@ const Detail = () => {
 
                 <ColumnDirective
                   headerText="Action"
-                  template={actionButton}
+                  template={updateJob}
                   textAlign="Center"
                 />
               </ColumnsDirective>
