@@ -38,6 +38,9 @@ import {
   JobBaru,
   UpdateJob,
   UpdateOrder,
+  OrderDetail,
+  JobList,
+  CancelJob,
 } from "../pages";
 
 import {
@@ -200,6 +203,10 @@ const Main = () => {
 
               <Route path="/job/job-baru/:id" element={<JobBaru />} />
               <Route path="/job/update/:id" element={<UpdateJob />} />
+              <Route path="/job/job" element={<JobList />} />
+              <Route path="/cancel-job/cancel-job" element={<CancelJob />} />
+
+              <Route path="/order-detail/detail" element={<OrderDetail />} />
             </Routes>
           </div>
           <Footer />

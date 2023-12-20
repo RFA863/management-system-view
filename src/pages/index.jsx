@@ -45,3 +45,7 @@ export { default as UpdateOrder } from "./order/UpdateOrder";
 
 export { default as JobBaru } from "./job/JobBaru";
 export { default as UpdateJob } from "./job/UpdateJob";
+export { default as JobList } from "./job/JobList";
+export { default as CancelJob } from "./job/CancelJob";
+
+export { default as OrderDetail } from "./order_detail/OrderDetail";

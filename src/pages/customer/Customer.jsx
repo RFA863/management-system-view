@@ -25,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Customer = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);

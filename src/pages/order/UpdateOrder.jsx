@@ -175,7 +175,7 @@ const UpdateOrder = () => {
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/order/list");
+              navigate("/dashboard/order/detail/" + id);
             }}
           />
         </div>
