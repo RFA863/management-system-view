@@ -131,23 +131,24 @@ const Customer = () => {
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
       navigate("/dashboard/customer/update");
-    } else if (getActionButton === "delete" && data.length !== 0) {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        console.log(result);
-        if (result.isConfirmed) {
-          deleteData();
-        } else if (result.isDismissed) {
-          setData([]);
-        }
-      });
+    } else if (getActionButton === "order" && data.length !== 0) {
+      navigate("/dashboard/customer/order/" + data.id);
+      // Swal.fire({
+      //   title: "Are you sure?",
+      //   text: "You won't be able to revert this!" + data.Nama,
+      //   icon: "warning",
+      //   showCancelButton: true,
+      //   confirmButtonColor: "#3085d6",
+      //   cancelButtonColor: "#d33",
+      //   confirmButtonText: "Yes, delete it!",
+      // }).then((result) => {
+      //   console.log(result);
+      //   if (result.isConfirmed) {
+      //     deleteData();
+      //   } else if (result.isDismissed) {
+      //     setData([]);
+      //   }
+      // });
     }
   }, [data, getActionButton]);
 
@@ -155,20 +156,20 @@ const Customer = () => {
     return (
       <div className="flex gap-2">
         <button
+          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("order");
+          }}
+        >
+          Order
+        </button>
+        <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
             setActionButton("update");
           }}
         >
           Update
-        </button>
-        <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("delete");
-          }}
-        >
-          Delete
         </button>
       </div>
     );

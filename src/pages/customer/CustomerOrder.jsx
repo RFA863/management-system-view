@@ -1,10 +1,9 @@
 import axios from "axios";
-
 import { getCookie } from "cookies-next";
-import { useNavigate } from "react-router-dom";
+import { CgClose } from "react-icons/cg";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
-
 import {
   GridComponent,
   Inject,
@@ -18,42 +17,38 @@ import {
 } from "@syncfusion/ej2-react-grids";
 
 import { HOST } from "../../config";
-import { Header, PageLoading } from "../../components";
+import { Header } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const JobList = () => {
+const CustomerOrder = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
+  const [idOrder, setIdOrder] = useState();
+  const [order, setOrder] = useState([]);
   const gridRef = useRef(null);
-  const [jobList, setJobList] = useState([]);
-  const [pageLoading, setPageLoading] = useState(true);
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/job/getAll", {
+      .get(HOST + "/marketing/order/get_customer/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
         },
       })
       .then((response) => {
-        const listJob = response.data.data;
+        const listOrder = response.data.data;
 
-        setJobList(() =>
-          listJob.map((item, index) => ({
+        setOrder(() =>
+          listOrder.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            id_order: item.id_order,
             id_customer: item.id_customer,
-            id_kualitas_detail: item.id_kualitas_detail,
-            id_kualitas: item.id_kualitas,
-            no_job: item.no_job,
-            kualitas: item.kualitas,
-            ukuran: item.ukuran,
-            ukuran_pengiriman: item.ukuran_pengiriman,
-            total_harga: item.total_harga,
-            keterangan: item.keterangan,
+            no_po: item.no_po,
+            tanggal_order: item.tanggal_order,
+            tanggal_kirim: item.tanggal_kirim,
+            Customer: item.Customer[0],
           }))
         );
       })
@@ -65,14 +60,15 @@ const JobList = () => {
   };
 
   useEffect(() => {
+    setIdOrder();
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (jobList.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [jobList]);
+  //   useEffect(() => {
+  //     if (order.length !== 0) {
+  //       setPageLoading(false);
+  //     }
+  //   }, [order]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -81,47 +77,56 @@ const JobList = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule) {
-      const id = gridRef.current.selectionModule.data.id;
-      console.log(id);
-      navigate("/dashboard/job/detail/" + id);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
+      setIdOrder(gridRef.current.selectionModule.data.id);
+      // navigate("/dashboard/order/detail/" + id);
     }
   };
 
+  useEffect(() => {
+    if (idOrder) {
+      navigate("/dashboard/order/detail/" + idOrder);
+    }
+  }, [idOrder]);
+
   const actionButton = () => {
     return (
-      <div>
-        <button
-          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => rowSelected()}
-        >
-          Detail
-        </button>
-      </div>
+      <button
+        className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => rowSelected()}
+      >
+        Detail
+      </button>
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Job List" />
-        {/* <div className="mb-4 -mt-4">
+        <div className="flex justify-between">
+          <Header title="Customer Order" />
+          <CgClose
+            className="text-4xl cursor-pointer"
+            onClick={() => {
+              navigate("/dashboard/customer/customers");
+            }}
+          />
+        </div>
+        <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/customer/tambah");
+              navigate("/dashboard/order/order-baru");
             }}
           >
-            Tambah Customer
+            Order Baru
           </button>
-        </div> */}
+        </div>
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={jobList}
+              dataSource={order}
               width="auto"
               allowPaging
               allowSorting
@@ -144,71 +149,41 @@ const JobList = () => {
                   isPrimaryKey={true}
                   visible={false}
                 />
-
-                <ColumnDirective
-                  field="id_order"
-                  headerText="Id Order"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_customer"
-                  headerText="Id Customer"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_kualitas_detail"
-                  headerText="Id Kualitas Detail"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_kualitas"
-                  headerText="Id Kualitas Detail"
-                  visible={false}
-                />
-
                 <ColumnDirective
                   field="No"
                   headerText="No"
                   textAlign="Center"
                 />
+                <ColumnDirective
+                  field="id_customer"
+                  headerText="id_customer"
+                  visible={false}
+                />
+                <ColumnDirective
+                  field="no_po"
+                  headerText="No. PO"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="Customer"
+                  headerText="Customer"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="tanggal_order"
+                  headerText="Tanggal Order"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="tanggal_kirim"
+                  headerText="Tanggal Kirim"
+                  textAlign="Center"
+                />
 
-                <ColumnDirective
-                  field="no_job"
-                  headerText="No. Job"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="ukuran_pengiriman"
-                  headerText="Ukuran Pengiriman"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="ukuran"
-                  headerText="Ukuran Produksi"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="kualitas"
-                  headerText="Kualitas"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="total_harga"
-                  headerText="Harga"
-                  textAlign="center"
-                />
-                <ColumnDirective
-                  field="keterangan"
-                  headerText="Keterangan"
-                  textAlign="center"
-                />
                 <ColumnDirective
                   headerText="Action"
                   template={actionButton}
-                  textAlign="center"
+                  textAlign="Center"
                 />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
@@ -219,4 +194,5 @@ const JobList = () => {
     </div>
   );
 };
-export default JobList;
+
+export default CustomerOrder;
