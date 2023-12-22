@@ -2,15 +2,16 @@ import axios from "axios";
 import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const OrderBaru = () => {
+const UpdateOrder = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [Id_Customer, setIdCustomer] = useState();
   const [noPo, setNoPo] = useState("");
@@ -18,7 +19,34 @@ const OrderBaru = () => {
   const [tanggalKirim, setTanggalKirim] = useState("");
   const [customer, setCustomer] = useState([]);
 
-  const [id, setId] = useState();
+  const getOrder = async () => {
+    await axios
+      .get(HOST + "/marketing/order/getDetail/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listOrder = response.data.data;
+
+        console.log(listOrder[0].tanggal_order);
+
+        setNoPo(listOrder[0].no_po);
+        setTanggalOrder(listOrder[0].tanggal_order);
+        setTanggalKirim(listOrder[0].tanggal_kirim);
+
+        setIdCustomer({
+          label: listOrder[0].Customer,
+          value: listOrder[0].id_customer,
+        });
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
 
   const Validator = () => {
     if (!(Id_Customer && noPo && tanggalOrder && tanggalKirim)) {
@@ -51,7 +79,7 @@ const OrderBaru = () => {
         const listCustomer = response.data.data;
 
         setCustomer(() =>
-          listCustomer.map((item, index) => ({
+          listCustomer.map((item) => ({
             label: item.nama,
             value: item.id,
           }))
@@ -71,8 +99,8 @@ const OrderBaru = () => {
       return;
     }
     await axios
-      .post(
-        HOST + "/marketing/order/input",
+      .put(
+        HOST + "/marketing/order/update/" + id,
         {
           id_customer: Id_Customer.value,
           noPo,
@@ -88,8 +116,6 @@ const OrderBaru = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          const idOrder = response.data.data;
-          setId(idOrder);
           toast.success("Data successfully inputted", {
             position: "top-center",
             autoClose: 5000,
@@ -100,6 +126,7 @@ const OrderBaru = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/order/detail/" + id);
         }
       })
       .catch((error) => {
@@ -136,25 +163,19 @@ const OrderBaru = () => {
   };
 
   useEffect(() => {
+    getOrder();
     getCustomer();
-    setId();
   }, []);
-
-  useEffect(() => {
-    if (id) {
-      navigate("/dashboard/order/detail/" + id);
-    }
-  }, [id]);
 
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Order Baru" />
+          <Header title="Update Order" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/order/list");
+              navigate("/dashboard/order/detail/" + id);
             }}
           />
         </div>
@@ -231,4 +252,4 @@ const OrderBaru = () => {
     </div>
   );
 };
-export default OrderBaru;
+export default UpdateOrder;

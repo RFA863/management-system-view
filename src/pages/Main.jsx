@@ -36,6 +36,13 @@ import {
   OrderBaru,
   Detail,
   JobBaru,
+  UpdateJob,
+  UpdateOrder,
+  OrderDetail,
+  JobList,
+  CancelJob,
+  CustomerOrder,
+  JobDetail,
 } from "../pages";
 
 import {
@@ -136,6 +143,7 @@ const Main = () => {
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
+              <Route path="/customer/order/:id" element={<CustomerOrder />} />
 
               <Route
                 path="/master/type-box%20detail"
@@ -192,10 +200,17 @@ const Main = () => {
               />
 
               <Route path="/order/list" element={<Order />} />
-              <Route path="/order/order-baru" element={<OrderBaru />} />
               <Route path="/order/detail/:id" element={<Detail />} />
+              <Route path="/order/order-baru" element={<OrderBaru />} />
+              <Route path="/order/update/:id" element={<UpdateOrder />} />
 
               <Route path="/job/job-baru/:id" element={<JobBaru />} />
+              <Route path="/job/update/:id" element={<UpdateJob />} />
+              <Route path="/job/job" element={<JobList />} />
+              <Route path="/job/detail/:id" element={<JobDetail />} />
+              <Route path="/cancel-job/cancel-job" element={<CancelJob />} />
+
+              <Route path="/order-detail/detail" element={<OrderDetail />} />
             </Routes>
           </div>
           <Footer />
