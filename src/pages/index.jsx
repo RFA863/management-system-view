@@ -51,3 +51,7 @@ export { default as CancelJob } from "./job/CancelJob";
 export { default as JobDetail } from "./job/JobDetail";
 
 export { default as OrderDetail } from "./order_detail/OrderDetail";
+
+export { default as EkspedisiList }  from "./ekspedisi_job_order/EkspedisiList";
+export { default as EkspedisiSuratJalan }  from "./ekspedisi_job_order/EkspedisiSuratJalan";
+export { default as EkspedisiBelumSuratJalan }  from "./ekspedisi_job_order/EkspedisiBelumSuratJalan";
