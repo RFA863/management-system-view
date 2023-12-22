@@ -83,7 +83,7 @@ const TambahIndex = () => {
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
+        
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -129,15 +129,15 @@ const TambahIndex = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
+          <table className="border-separate border-spacing-y-2">
               
               <tr>
                 <td>ID Customer</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Id_customer}
                     onChange={(e) => {
                       setIdCustomer(e.target.value);
@@ -148,11 +148,11 @@ const TambahIndex = () => {
               </tr>
               <tr>
                 <td>ID Kualitas Detail</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Id_kualitasDetail}
                     onChange={(e) => {
                       setKualitasDetail(e.target.value);
@@ -163,11 +163,11 @@ const TambahIndex = () => {
               </tr>
               <tr>
                 <td>Index Value</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={IndexValue}
                     onChange={(e) => {
                       setIndexValue(e.target.value);
