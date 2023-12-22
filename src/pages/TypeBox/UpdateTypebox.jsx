@@ -20,37 +20,25 @@ const UpdateTypebox = () => {
   }
 
   const [nama, setNama] = useState(data.Nama);
-  const [Nomor, setNomor] = useState(data.Nomor);
-  const [email, setEmail] = useState(data.Email);
-  const [Npwp, setNpwp] = useState(String(data.NPWP));
-  const [noNpwp, setNoNpwp] = useState(data.NoNpwp);
+
   const [kode, setKode] = useState(data.Kode);
-  const [noTelp, setNoTelp] = useState(data.NoTelp);
-  const [noFax, setNoFax] = useState(data.NoFax);
-  const [alamat, setAlamat] = useState(data.Alamat);
-  const [alamatInvoice, setAlamatInvoice] = useState(data.AlamatInvoice);
 
   const Validator = () => {
-    
-    if (
-      !nama
-    ) {
+    if (!nama) {
+      if (!(nama && kode)) {
+        toast.error("Data must be entered", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
 
-    if (!(nama && kode)) {
-      toast.error("Data must be entered", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-
-      return false;
-    } 
-
+        return false;
+      }
     }
 
     return true;
@@ -65,10 +53,8 @@ const UpdateTypebox = () => {
     await axios
       .put(
         HOST + "/marketing/kualitas/update/" + data.id,
-        
-          
-          nama,
-          
+
+        nama,
 
         HOST + "/marketing/tipebox/update/" + data.id,
         {
@@ -137,8 +123,7 @@ const UpdateTypebox = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <Header title="Update Typebox" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -148,15 +133,15 @@ const UpdateTypebox = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              <tr></tr>
+            <table className="border-separate border-spacing-y-2">
+          
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -167,11 +152,11 @@ const UpdateTypebox = () => {
               </tr>
               <tr>
                 <td>Kode</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={kode}
                     onChange={(e) => {
                       setKode(e.target.value);
@@ -180,13 +165,6 @@ const UpdateTypebox = () => {
                   />
                 </td>
               </tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
             </table>
             <div>
               <button
