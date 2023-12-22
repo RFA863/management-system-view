@@ -9,12 +9,11 @@ export { default as BuatTypebox } from "./TypeBox/BuatTypebox";
 export { default as Customer } from "./customer/Customer";
 export { default as TambahCustomer } from "./customer/TambahCustomer";
 export { default as UpdateCustomer } from "./customer/UpdateCustomer";
+export { default as CustomerOrder } from "./customer/CustomerOrder";
 
 export { default as IndexHarga } from "./IndexHarga/IndexHarga";
 export { default as TambahIndex } from "./IndexHarga/TambahIndex";
 export { default as UpdateIndex } from "./IndexHarga/UpdateIndex";
-
-
 
 export { default as Sopir } from "./sopir/Sopir";
 export { default as TambahSopir } from "./sopir/TambahSopir";
@@ -41,8 +40,14 @@ export { default as TambahTypeboxDetail } from "./TypeboxDetail/TambahTypeboxDet
 export { default as UpdateTypeboxDetail } from "./TypeboxDetail/UpdateTypeboxDetail";
 
 export { default as Order } from "./order/Order";
-export { default as OrderBaru } from "./order/OrderBaru";
 export { default as Detail } from "./order/Detail";
+export { default as OrderBaru } from "./order/OrderBaru";
+export { default as UpdateOrder } from "./order/UpdateOrder";
 
 export { default as JobBaru } from "./job/JobBaru";
+export { default as UpdateJob } from "./job/UpdateJob";
+export { default as JobList } from "./job/JobList";
+export { default as CancelJob } from "./job/CancelJob";
+export { default as JobDetail } from "./job/JobDetail";
 
+export { default as OrderDetail } from "./order_detail/OrderDetail";

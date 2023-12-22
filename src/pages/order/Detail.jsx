@@ -17,7 +17,6 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,12 +24,12 @@ const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data, setData } = useStateContext();
-  const [getActionButton, setActionButton] = useState("");
-  const [pageLoading, setPageLoading] = useState(true);
+  const gridRef = useRef(null);
+  const [idJob, setIdJob] = useState(0);
   const [order, setOrder] = useState([]);
   const [jobOrder, setJobOrder] = useState([]);
-  const gridRef = useRef(null);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [getActionButton, setActionButton] = useState("");
 
   const fetchData = async () => {
     await axios
@@ -42,7 +41,16 @@ const Detail = () => {
       })
       .then((response) => {
         const listOrder = response.data.data;
-        setOrder([listOrder]);
+        setOrder(() =>
+          listOrder.map((item) => ({
+            id: item.id,
+            id_customer: item.id_customer,
+            no_po: item.no_po,
+            tanggal_order: item.tanggal_order,
+            tanggal_kirim: item.tanggal_kirim,
+            Customer: item.Customer,
+          }))
+        );
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -91,9 +99,66 @@ const Detail = () => {
       });
   };
 
+  const cancelJob = async () => {
+    await axios
+      .put(
+        HOST + "/marketing/job/cancel/" + idJob,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": true,
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setIdJob(0);
+          Swal.fire({
+            title: "Canceled!",
+            text: "Your file has been canceled.",
+            icon: "success",
+          });
+          fetchJobOrder();
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (
+            error.response.data.type === "token" &&
+            error.response.data.data.code === -2
+          ) {
+            navigate("/dashboard/login");
+          }
+          toast.error(error.response.data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        } else {
+          toast.error("Internal Server Error, Try again later !", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
+  };
+
   useEffect(() => {
     fetchData();
     fetchJobOrder();
+    setIdJob(0);
   }, []);
 
   useEffect(() => {
@@ -109,18 +174,33 @@ const Detail = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
-      setData(gridRef.current.selectionModule.data);
+    // console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 16) {
+      console.log(gridRef.current.selectionModule.data.id);
+      setIdJob(gridRef.current.selectionModule.data.id);
     }
   };
 
+  const updateOrder = () => {
+    return (
+      <button
+        className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => {
+          navigate("/dashboard/order/update/" + id);
+        }}
+      >
+        Update
+      </button>
+    );
+  };
+
   useEffect(() => {
-    if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/customer/update");
-    } else if (getActionButton === "delete" && data.length !== 0) {
+    if (getActionButton === "update" && idJob !== 0) {
+      navigate("/dashboard/job/update/" + idJob);
+    } else if (getActionButton === "cancel" && idJob !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
+        text: "You won't be able to revert this!" + idJob,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -129,24 +209,33 @@ const Detail = () => {
       }).then((result) => {
         console.log(result);
         if (result.isConfirmed) {
-          deleteData();
+          cancelJob();
         } else if (result.isDismissed) {
-          setData([]);
+          setIdJob(0);
         }
       });
     }
-  }, [data, getActionButton]);
+  }, [idJob, getActionButton]);
 
+  console.log(getActionButton);
+  // console.log(idJob);
   const actionButton = () => {
     return (
-      <button
-        className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-        // onClick={() => {
-        //   setActionButton("update");
-        // }}
-      >
-        Update
-      </button>
+      <div className="flex gap-2">
+        <button
+          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => setActionButton("update")}
+        >
+          Update
+        </button>
+
+        <button
+          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => setActionButton("cancel")}
+        >
+          Cancel
+        </button>
+      </div>
     );
   };
 
@@ -215,7 +304,7 @@ const Detail = () => {
 
                 <ColumnDirective
                   headerText="Action"
-                  template={actionButton}
+                  template={updateOrder}
                   textAlign="Center"
                 />
               </ColumnsDirective>
