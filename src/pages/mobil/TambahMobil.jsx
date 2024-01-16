@@ -11,7 +11,6 @@ import { Header } from "../../components";
 const TambahMobil = () => {
   const navigate = useNavigate();
   const [noPlat, setnoPlat] = useState("");
-  
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -20,9 +19,7 @@ const TambahMobil = () => {
       return numericRegex.test(input);
     };
 
-    if (!noPlat )
-        
-     {
+    if (!noPlat) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -35,7 +32,7 @@ const TambahMobil = () => {
       });
 
       return false;
-    } 
+    }
 
     return true;
   };
@@ -50,9 +47,7 @@ const TambahMobil = () => {
       .post(
         HOST + "/marketing/mobil/input",
         {
-         
           noPlat,
-       
         },
         {
           headers: {
@@ -122,15 +117,14 @@ const TambahMobil = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>No.Plat</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noPlat}
                     onChange={(e) => {
                       setnoPlat(e.target.value);
@@ -142,7 +136,7 @@ const TambahMobil = () => {
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={postData}
               >
                 Submit

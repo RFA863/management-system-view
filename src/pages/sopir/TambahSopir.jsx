@@ -11,7 +11,6 @@ import { Header } from "../../components";
 const TambahSopir = () => {
   const navigate = useNavigate();
   const [nama, setNama] = useState("");
-  
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -20,9 +19,7 @@ const TambahSopir = () => {
       return numericRegex.test(input);
     };
 
-    if (!nama )
-        
-     {
+    if (!nama) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -35,7 +32,7 @@ const TambahSopir = () => {
       });
 
       return false;
-    } 
+    }
 
     return true;
   };
@@ -50,9 +47,7 @@ const TambahSopir = () => {
       .post(
         HOST + "/marketing/supir/input",
         {
-         
           nama,
-       
         },
         {
           headers: {
@@ -122,15 +117,14 @@ const TambahSopir = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -142,7 +136,7 @@ const TambahSopir = () => {
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={postData}
               >
                 Submit

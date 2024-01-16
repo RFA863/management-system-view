@@ -231,7 +231,7 @@ const Customer = () => {
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
-                  textAlign="Center"
+                  textAlign="Left"
                 />
                 <ColumnDirective
                   field="Kode"
@@ -241,7 +241,7 @@ const Customer = () => {
                 <ColumnDirective
                   field="Email"
                   headerText="Email"
-                  textAlign="Center"
+                  textAlign="Left"
                 />
                 <ColumnDirective
                   field="NPWP"
@@ -253,7 +253,7 @@ const Customer = () => {
                   headerText="No. NPWP"
                   textAlign="center"
                 />
-                <ColumnDirective
+                {/* <ColumnDirective
                   field="NoTelp"
                   headerText="No. Telpn"
                   textAlign="center"
@@ -274,7 +274,7 @@ const Customer = () => {
                   field="AlamatInvoice"
                   headerText="Alamat Invoice"
                   textAlign="center"
-                />
+                /> */}
 
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>

@@ -50,7 +50,7 @@ const User = () => {
             Email: item.email,
             Password: item.password,
             Posisi: item.posisi,
-            Akses: item.akses
+            Akses: item.akses,
           }))
         );
       })
@@ -123,7 +123,7 @@ const User = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -192,7 +192,7 @@ const User = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
                   field="Email"
                   headerText="Email"

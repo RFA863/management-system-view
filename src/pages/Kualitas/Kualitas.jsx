@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -48,8 +47,6 @@ const Kualitas = () => {
             id: item.id,
             No: index + 1,
             Nama: item.nama,
-            
-            
           }))
         );
       })
@@ -107,7 +104,6 @@ const Kualitas = () => {
   };
 
   const rowSelected = () => {
-    
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
       setData(gridRef.current.selectionModule.data);
       if (getActionButton === "update") {
@@ -123,7 +119,7 @@ const Kualitas = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -192,17 +188,18 @@ const Kualitas = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-            
-            
+
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
                   textAlign="Center"
                 />
 
-               
-
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  // textAlign="Center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

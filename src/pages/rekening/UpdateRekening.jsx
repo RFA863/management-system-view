@@ -23,7 +23,6 @@ const UpdateRekening = () => {
   const [atasNama, setatasNama] = useState(data.atasNama);
   const [CT, setCT] = useState(data.CT);
 
-
   const Validator = () => {
     const isNumeric = (input) => {
       // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
@@ -31,15 +30,7 @@ const UpdateRekening = () => {
       return numericRegex.test(input);
     };
 
-    if (
-      !(
-       
-        bank &&
-        noRekening &&
-        atasNama &&
-        CT
-      )
-    ) {
+    if (!(bank && noRekening && atasNama && CT)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -52,7 +43,7 @@ const UpdateRekening = () => {
       });
 
       return false;
-    } 
+    }
 
     return true;
   };
@@ -70,7 +61,7 @@ const UpdateRekening = () => {
           bank,
           noRekening,
           atasNama,
-          ct:JSON.parse(CT)
+          ct: JSON.parse(CT),
         },
         {
           headers: {
@@ -144,15 +135,14 @@ const UpdateRekening = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              
-            <tr>
+            <table className="border-separate border-spacing-y-2">
+              <tr>
                 <td>Bank</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={bank}
                     onChange={(e) => {
                       setbank(e.target.value);
@@ -163,11 +153,11 @@ const UpdateRekening = () => {
               </tr>
               <tr>
                 <td>No.Rekening</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noRekening}
                     onChange={(e) => {
                       setnoRekening(e.target.value);
@@ -178,11 +168,11 @@ const UpdateRekening = () => {
               </tr>
               <tr>
                 <td>Atas Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={atasNama}
                     onChange={(e) => {
                       setatasNama(e.target.value);
@@ -193,7 +183,7 @@ const UpdateRekening = () => {
               </tr>
               <tr>
                 <td>CT</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
@@ -221,11 +211,10 @@ const UpdateRekening = () => {
                   </label>
                 </td>
               </tr>
-
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={updateData}
               >
                 Submit

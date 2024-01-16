@@ -48,7 +48,6 @@ const Mobil = () => {
             id: item.id,
             No: index + 1,
             Noplat: item.noplat,
-           
           }))
         );
       })
@@ -121,7 +120,7 @@ const Mobil = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -190,7 +189,7 @@ const Mobil = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
                   field="Noplat"
                   headerText="No.Plat"
