@@ -86,7 +86,7 @@ const UpdateTypeboxDetail = () => {
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
+      
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -132,14 +132,14 @@ const UpdateTypeboxDetail = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
+          <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>ID Typebox</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Id_tipebox}
                     onChange={(e) => {
                       setId_tipebox(e.target.value);
@@ -150,11 +150,11 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -165,11 +165,10 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Panjang</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusPanjang}
                     onChange={(e) => {
                       setRumusPanjang(e.target.value);
@@ -180,11 +179,10 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Lebar</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="email"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="email"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusLebar}
                     onChange={(e) => {
                       setRumusLebar(e.target.value);
@@ -195,11 +193,10 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Oversize</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusOversize}
                     onChange={(e) => {
                       setRumusOversize(e.target.value);

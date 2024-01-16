@@ -43,6 +43,9 @@ import {
   CancelJob,
   CustomerOrder,
   JobDetail,
+  EkspedisiList,
+  EkspedisiSuratJalan,
+  EkspedisiBelumSuratJalan,
 } from "../pages";
 
 import {
@@ -211,6 +214,10 @@ const Main = () => {
               <Route path="/cancel-job/cancel-job" element={<CancelJob />} />
 
               <Route path="/order-detail/detail" element={<OrderDetail />} />
+
+              <Route path="/job-order/list" element={<EkspedisiList/>}/>
+              <Route path="/job-order/sudah-dibuat%20surat%20jalan" element={<EkspedisiSuratJalan/>}/>
+              <Route path="/job-order/belum-dibuat%20surat%20jalan" element={<EkspedisiBelumSuratJalan/>}/>
             </Routes>
           </div>
           <Footer />
