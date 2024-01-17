@@ -1,7 +1,5 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,10 +21,10 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const Customer = () => {
+const KualitasDetail = () => {
   const navigate = useNavigate();
-
   const { data, setData } = useStateContext();
+
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
@@ -34,7 +32,7 @@ const Customer = () => {
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/customer/get", {
+      .get(HOST + "/marketing/kualitasdetail/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -47,16 +45,10 @@ const Customer = () => {
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Nomor: item.nomor,
+            id_kualitas: item.id_kualitas,
             Nama: item.nama,
-            Kode: item.kode,
-            Email: item.email,
-            NPWP: item.npwp,
-            NoNpwp: item.nonpwp,
-            NoTelp: item.notelp,
-            NoFax: item.nofax,
-            Alamat: item.alamat,
-            AlamatInvoice: item.alamatinvoice,
+            kode: item.kode,
+            kualitas: item.kualitas,
           }))
         );
       })
@@ -67,46 +59,37 @@ const Customer = () => {
       });
   };
 
-  // const deleteData = async () => {
-  //   // console.log(data);
-  //   await axios
-  //     .delete(HOST + "/marketing/customer/delete/" + data.id, {
-  //       headers: {
-  //         "ngrok-skip-browser-warning": "true",
-  //         Authorization: getCookie("admin_auth"),
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         Swal.fire({
-  //           title: "Deleted!",
-  //           text: "Your file has been deleted.",
-  //           icon: "success",
-  //         });
-  //         // toast.success("Data successfully deleted", {
-  //         //   position: "top-center",
-  //         //   autoClose: 5000,
-  //         //   hideProgressBar: false,
-  //         //   closeOnClick: true,
-  //         //   pauseOnHover: true,
-  //         //   draggable: true,
-  //         //   progress: undefined,
-  //         //   theme: "colored",
-  //         // });
-  //       }
-
-  //       setData([]);
-  //       fetchData();
-  //     })
-  //     .catch((error) => {
-  //       if (error.response.status == 401) {
-  //         navigate("/dashboard/login");
-  //       }
-  //     });
-  // };
+  //   const deleteData = async (id) => {
+  //     await axios
+  //       .delete(HOST + "/marketing/kualitas/delete/" + id, {
+  //         headers: {
+  //           "ngrok-skip-browser-warning": "true",
+  //           Authorization: getCookie("admin_auth"),
+  //         },
+  //       })
+  //       .then((response) => {
+  //         if (response.status === 200) {
+  //           toast.success("Data successfully deleted", {
+  //             position: "top-center",
+  //             autoClose: 5000,
+  //             hideProgressBar: false,
+  //             closeOnClick: true,
+  //             pauseOnHover: true,
+  //             draggable: true,
+  //             progress: undefined,
+  //             theme: "colored",
+  //           });
+  //         }
+  //         fetchData();
+  //       })
+  //       .catch((error) => {
+  //         if (error.response.status == 401) {
+  //           navigate("/dashboard/login");
+  //         }
+  //       });
+  //   };
 
   useEffect(() => {
-    setData([]);
     fetchData();
   }, []);
 
@@ -123,40 +106,21 @@ const Customer = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 8) {
+    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 80) {
       setData(gridRef.current.selectionModule.data);
     }
   };
 
-  // const rowSelected = () => {
-  //   if (gridRef) {
-  //     /** Get the selected row indexes */
-  //     const selectedrowindex = gridRef.getSelectedRowIndexes();
-  //     /** Get the selected records. */
-  //     const selectedrecords = gridRef.getSelectedRecords();
-  //     alert(selectedrowindex + " : " + JSON.stringify(selectedrecords));
-  //   }
-  // };
-
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/customer/update");
-    } else if (getActionButton === "order" && data.length !== 0) {
-      navigate("/dashboard/customer/order/" + data.id);
+      navigate("/dashboard/kualitas-detail/update");
     }
   }, [data, getActionButton]);
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
-        <button
-          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("order");
-          }}
-        >
-          Order
-        </button>
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -164,6 +128,14 @@ const Customer = () => {
           }}
         >
           Update
+        </button>
+        <button
+          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("delete");
+          }}
+        >
+          Delete
         </button>
       </div>
     );
@@ -175,22 +147,22 @@ const Customer = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Customer" />
+        <Header title="Data Kualitas Detail" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/customer/tambah");
+              navigate("/dashboard/kualitas-detail/input");
             }}
           >
-            Tambah Customer
+            Tambah Kualitas Detail
           </button>
         </div>
         <div className="overflow-x-auto">
-          <div className="w-fit cursor-pointer">
+          <div className=" cursor-pointer">
             <GridComponent
               dataSource={customer}
-              width="auto"
+              width="fit-content"
               allowPaging
               allowSorting
               allowTextWrap={true}
@@ -212,65 +184,42 @@ const Customer = () => {
                   isPrimaryKey={true}
                   visible={false}
                 />
+
+                <ColumnDirective
+                  field="id_kualitas"
+                  headerText="Id_kualitas"
+                  visible={false}
+                />
+
                 <ColumnDirective
                   field="No"
                   headerText="No"
                   textAlign="Center"
                 />
+
                 <ColumnDirective
-                  field="Nomor"
-                  headerText="Nomor"
+                  field="kualitas"
+                  headerText="Kualitas"
                   textAlign="Center"
                 />
+
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
-                  textAlign="Left"
+                  textAlign="Center"
                 />
+
                 <ColumnDirective
-                  field="Kode"
+                  field="kode"
                   headerText="Kode"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="Email"
-                  headerText="Email"
                   textAlign="Left"
                 />
-                <ColumnDirective
-                  field="NPWP"
-                  headerText="NPWP"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="NoNpwp"
-                  headerText="No. NPWP"
-                  textAlign="center"
-                />
-                {/* <ColumnDirective
-                  field="NoTelp"
-                  headerText="No. Telpn"
-                  textAlign="center"
-                />
-                <ColumnDirective
-                  field="NoFax"
-                  headerText="No. fax"
-                  textAlign="center"
-                />
 
                 <ColumnDirective
-                  field="Alamat"
-                  headerText="Alamat"
-                  textAlign="center"
+                  headerText="Action"
+                  template={actionButton}
+                  // textAlign="Center"
                 />
-
-                <ColumnDirective
-                  field="AlamatInvoice"
-                  headerText="Alamat Invoice"
-                  textAlign="center"
-                /> */}
-
-                <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
@@ -280,4 +229,4 @@ const Customer = () => {
     </div>
   );
 };
-export default Customer;
+export default KualitasDetail;

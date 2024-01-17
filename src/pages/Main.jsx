@@ -46,6 +46,8 @@ import {
   EkspedisiList,
   EkspedisiSuratJalan,
   EkspedisiBelumSuratJalan,
+  KualitasDetail,
+  TambahKualitasDetail,
 } from "../pages";
 
 import {
@@ -202,6 +204,15 @@ const Main = () => {
                 element={<TambahKualitas />}
               />
 
+              <Route
+                path="/master/kualitas-detail"
+                element={<KualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/input"
+                element={<TambahKualitasDetail />}
+              />
+
               <Route path="/order/list" element={<Order />} />
               <Route path="/order/detail/:id" element={<Detail />} />
               <Route path="/order/order-baru" element={<OrderBaru />} />
@@ -215,9 +226,15 @@ const Main = () => {
 
               <Route path="/order-detail/detail" element={<OrderDetail />} />
 
-              <Route path="/job-order/list" element={<EkspedisiList/>}/>
-              <Route path="/job-order/sudah-dibuat%20surat%20jalan" element={<EkspedisiSuratJalan/>}/>
-              <Route path="/job-order/belum-dibuat%20surat%20jalan" element={<EkspedisiBelumSuratJalan/>}/>
+              <Route path="/job-order/list" element={<EkspedisiList />} />
+              <Route
+                path="/job-order/sudah-dibuat%20surat%20jalan"
+                element={<EkspedisiSuratJalan />}
+              />
+              <Route
+                path="/job-order/belum-dibuat%20surat%20jalan"
+                element={<EkspedisiBelumSuratJalan />}
+              />
             </Routes>
           </div>
           <Footer />
