@@ -10,3 +10,4 @@ export { default as PageLoading } from "./PageLoading";
 export { default as SidebarEkspedisi } from "./SidebarEkspedisi";
 
 export { default as CustomerJob } from "./CustomerJob";
+export { default as SidebarFinance } from "./SidebarFinance";
