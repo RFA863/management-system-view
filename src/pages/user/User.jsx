@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 // import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -61,9 +62,9 @@ const User = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/user/delete/" + id, {
+      .delete(HOST + "/marketing/user/delete/" + data.id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -71,17 +72,14 @@ const User = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
           });
+          
         }
+        setData([]);
         fetchData();
       })
       .catch((error) => {
@@ -92,6 +90,7 @@ const User = () => {
   };
 
   useEffect(() => {
+    setData([]);
     fetchData();
   }, []);
 
@@ -110,16 +109,31 @@ const User = () => {
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/master/user/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
     }
   };
+
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/master/user/update");
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!" + data.Email,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
+    }
+  }, [data, getActionButton]);
 
   const actionButton = () => {
     return (

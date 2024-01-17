@@ -67,6 +67,7 @@ const Customer = () => {
       });
   };
 
+
   // const deleteData = async () => {
   //   // console.log(data);
   //   await axios
@@ -94,6 +95,7 @@ const Customer = () => {
   //         //   theme: "colored",
   //         // });
   //       }
+
 
   //       setData([]);
   //       fetchData();
