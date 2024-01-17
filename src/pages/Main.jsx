@@ -58,6 +58,8 @@ import {
   ThemeSettings,
   LoadingScreen,
   SidebarEkspedisi,
+  SidebarFinance,
+
 } from "../components";
 
 import "../App.css";
@@ -95,6 +97,9 @@ const Main = () => {
   if (getCookie("posisi") === "ekspedisi" && activeMenu) {
     sidebarComponent = <SidebarEkspedisi />;
   }
+else if (getCookie("posisi") === "finance" && activeMenu){
+  sidebarComponent = <SidebarFinance />;
+}
 
   return isLoading ? (
     <LoadingScreen />
