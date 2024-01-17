@@ -25,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Customer = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
@@ -67,34 +67,45 @@ const Customer = () => {
       });
   };
 
-  const deleteData = async () => {
-    // console.log(data);
-    await axios
-      .delete(HOST + "/marketing/customer/delete/" + data.id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-          
-        }
 
-        setData([]);
-        fetchData();
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
+  // const deleteData = async () => {
+  //   // console.log(data);
+  //   await axios
+  //     .delete(HOST + "/marketing/customer/delete/" + data.id, {
+  //       headers: {
+  //         "ngrok-skip-browser-warning": "true",
+  //         Authorization: getCookie("admin_auth"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         Swal.fire({
+  //           title: "Deleted!",
+  //           text: "Your file has been deleted.",
+  //           icon: "success",
+  //         });
+  //         // toast.success("Data successfully deleted", {
+  //         //   position: "top-center",
+  //         //   autoClose: 5000,
+  //         //   hideProgressBar: false,
+  //         //   closeOnClick: true,
+  //         //   pauseOnHover: true,
+  //         //   draggable: true,
+  //         //   progress: undefined,
+  //         //   theme: "colored",
+  //         // });
+  //       }
+
+
+  //       setData([]);
+  //       fetchData();
+  //     })
+  //     .catch((error) => {
+  //       if (error.response.status == 401) {
+  //         navigate("/dashboard/login");
+  //       }
+  //     });
+  // };
 
   useEffect(() => {
     setData([]);
@@ -114,31 +125,26 @@ const Customer = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 8) {
       setData(gridRef.current.selectionModule.data);
     }
   };
 
+  // const rowSelected = () => {
+  //   if (gridRef) {
+  //     /** Get the selected row indexes */
+  //     const selectedrowindex = gridRef.getSelectedRowIndexes();
+  //     /** Get the selected records. */
+  //     const selectedrecords = gridRef.getSelectedRecords();
+  //     alert(selectedrowindex + " : " + JSON.stringify(selectedrecords));
+  //   }
+  // };
+
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
       navigate("/dashboard/customer/update");
-    } else if (getActionButton === "delete" && data.length !== 0) {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        console.log(result);
-        if (result.isConfirmed) {
-          deleteData();
-        } else if (result.isDismissed) {
-          setData([]);
-        }
-      });
+    } else if (getActionButton === "order" && data.length !== 0) {
+      navigate("/dashboard/customer/order/" + data.id);
     }
   }, [data, getActionButton]);
 
@@ -146,20 +152,20 @@ const Customer = () => {
     return (
       <div className="flex gap-2">
         <button
+          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("order");
+          }}
+        >
+          Order
+        </button>
+        <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
             setActionButton("update");
           }}
         >
           Update
-        </button>
-        <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("delete");
-          }}
-        >
-          Delete
         </button>
       </div>
     );
@@ -221,7 +227,7 @@ const Customer = () => {
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
-                  textAlign="Center"
+                  textAlign="Left"
                 />
                 <ColumnDirective
                   field="Kode"
@@ -231,7 +237,7 @@ const Customer = () => {
                 <ColumnDirective
                   field="Email"
                   headerText="Email"
-                  textAlign="Center"
+                  textAlign="Left"
                 />
                 <ColumnDirective
                   field="NPWP"
@@ -243,7 +249,7 @@ const Customer = () => {
                   headerText="No. NPWP"
                   textAlign="center"
                 />
-                <ColumnDirective
+                {/* <ColumnDirective
                   field="NoTelp"
                   headerText="No. Telpn"
                   textAlign="center"
@@ -264,7 +270,7 @@ const Customer = () => {
                   field="AlamatInvoice"
                   headerText="Alamat Invoice"
                   textAlign="center"
-                />
+                /> */}
 
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>

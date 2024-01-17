@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
-import { useNavigate } from "react-router-dom";
+import { CgClose } from "react-icons/cg";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -16,37 +17,38 @@ import {
 } from "@syncfusion/ej2-react-grids";
 
 import { HOST } from "../../config";
-import { Header, PageLoading } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { Header } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const Kualitas = () => {
+const CustomerOrder = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
-  const { data, setData } = useStateContext();
+  const { id } = useParams();
 
-  const [getActionButton, setActionButton] = useState("");
-  const [pageLoading, setPageLoading] = useState(true);
-  const [customer, setCustomer] = useState([]);
+  const [idOrder, setIdOrder] = useState();
+  const [order, setOrder] = useState([]);
   const gridRef = useRef(null);
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/kualitas/get", {
+      .get(HOST + "/marketing/order/get_customer/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
         },
       })
       .then((response) => {
-        const listCustomer = response.data.data;
+        const listOrder = response.data.data;
 
-        setCustomer(() =>
-          listCustomer.map((item, index) => ({
+        setOrder(() =>
+          listOrder.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Nama: item.nama,
+            id_customer: item.id_customer,
+            no_po: item.no_po,
+            tanggal_order: item.tanggal_order,
+            tanggal_kirim: item.tanggal_kirim,
+            Customer: item.Customer[0],
           }))
         );
       })
@@ -57,45 +59,16 @@ const Kualitas = () => {
       });
   };
 
-  const deleteData = async (id) => {
-    await axios
-      .delete(HOST + "/marketing/kualitas/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-        fetchData();
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
   useEffect(() => {
+    setIdOrder();
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (customer.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [customer]);
+  //   useEffect(() => {
+  //     if (order.length !== 0) {
+  //       setPageLoading(false);
+  //     }
+  //   }, [order]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -104,64 +77,57 @@ const Kualitas = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
-      setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/master/Kualitas/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
+      setIdOrder(gridRef.current.selectionModule.data.id);
+      // navigate("/dashboard/order/detail/" + id);
     }
   };
 
+  useEffect(() => {
+    if (idOrder) {
+      navigate("/dashboard/order/detail/" + idOrder);
+    }
+  }, [idOrder]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2 justify-center">
-        <button
-          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("update");
-          }}
-        >
-          Update
-        </button>
-        <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("delete");
-          }}
-        >
-          Delete
-        </button>
-      </div>
+      <button
+        className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => rowSelected()}
+      >
+        Detail
+      </button>
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Kualitas" />
+        <div className="flex justify-between">
+          <Header title="Customer Order" />
+          <CgClose
+            className="text-4xl cursor-pointer"
+            onClick={() => {
+              navigate("/dashboard/customer/customers");
+            }}
+          />
+        </div>
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/master/Kualitas/tambah");
+              navigate("/dashboard/order/order-baru");
             }}
           >
-            Tambah Kualitas
+            Order Baru
           </button>
         </div>
         <div className="overflow-x-auto">
-          <div className=" cursor-pointer">
+          <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={customer}
-              width="fit-content"
+              dataSource={order}
+              width="auto"
               allowPaging
               allowSorting
               allowTextWrap={true}
@@ -188,17 +154,36 @@ const Kualitas = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-
                 <ColumnDirective
-                  field="Nama"
-                  headerText="Nama"
+                  field="id_customer"
+                  headerText="id_customer"
+                  visible={false}
+                />
+                <ColumnDirective
+                  field="no_po"
+                  headerText="No. PO"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="Customer"
+                  headerText="Customer"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="tanggal_order"
+                  headerText="Tanggal Order"
+                  textAlign="Center"
+                />
+                <ColumnDirective
+                  field="tanggal_kirim"
+                  headerText="Tanggal Kirim"
                   textAlign="Center"
                 />
 
                 <ColumnDirective
                   headerText="Action"
                   template={actionButton}
-                  // textAlign="Center"
+                  textAlign="Center"
                 />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
@@ -209,4 +194,5 @@ const Kualitas = () => {
     </div>
   );
 };
-export default Kualitas;
+
+export default CustomerOrder;

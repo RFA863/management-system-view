@@ -11,24 +11,22 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const UpdateSopir = () => {
+const UpdateIndex = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
 
   if (data.length === 0) {
-    navigate("/dashboard/master/sopir");
+    navigate("/dashboard/index/index");
   }
 
-  const [nama, setNama] = useState(data.nama);
+  const [Id_customer, setIdCustomer] = useState(data.id_customer);
+  const [Id_kualitasDetail, setKualitasDetail] = useState(
+    data.id_kualitasdetail
+  );
+  const [IndexValue, setIndexValue] = useState(data.indexvalue);
 
   const Validator = () => {
-    const isNumeric = (input) => {
-      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
-      const numericRegex = /^[0-9]+$/;
-      return numericRegex.test(input);
-    };
-
-    if (!nama) {
+    if (!(Id_customer && Id_kualitasDetail && IndexValue)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -42,7 +40,6 @@ const UpdateSopir = () => {
 
       return false;
     }
-
     return true;
   };
 
@@ -54,9 +51,11 @@ const UpdateSopir = () => {
     }
     await axios
       .put(
-        HOST + "/marketing/supir/update/" + data.id,
+        HOST + "/marketing/index/update/" + data.id,
         {
-          nama,
+          id_customer: Number(Id_customer),
+          id_kualitasDetail: Number(Id_kualitasDetail),
+          indexValue: Number(IndexValue),
         },
         {
           headers: {
@@ -78,7 +77,7 @@ const UpdateSopir = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/master/sopir");
+          navigate("/dashboard/index/index");
         }
       })
       .catch((error) => {
@@ -120,36 +119,68 @@ const UpdateSopir = () => {
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
           <p>{data.Nama}</p>
-          <Header title="Update Sopir" />
+          <Header title="Update Index" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/master/sopir");
+              navigate("/dashboard/index/index");
             }}
           />
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="border-separate border-spacing-y-2">
+          <table className="border-separate border-spacing-y-2">
+              
               <tr>
-                <td>Nama</td>
+                <td>ID Customer</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={nama}
+                    value={Id_customer}
                     onChange={(e) => {
-                      setNama(e.target.value);
+                      setIdCustomer(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
+              <tr>
+                <td>ID Kualitas Detail</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={Id_kualitasDetail}
+                    onChange={(e) => {
+                      setKualitasDetail(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Index Value</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={IndexValue}
+                    onChange={(e) => {
+                      setIndexValue(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              
             </table>
             <div>
               <button
-                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
+                className="bg-blue-700 rounded-xl text-white px-4 py-2"
                 onClick={updateData}
               >
                 Submit
@@ -173,4 +204,4 @@ const UpdateSopir = () => {
     </div>
   );
 };
-export default UpdateSopir;
+export default UpdateIndex;

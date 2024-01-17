@@ -24,20 +24,9 @@ const UpdateTypeboxDetail = () => {
   const [rumusPanjang, setRumusPanjang] = useState(data.rumus_panjang);
   const [rumusLebar, setRumusLebar] = useState(data.rumus_lebar);
   const [rumusOversize, setRumusOversize] = useState(data.rumus_oversize);
-  const [KonstantaPanjang, setKonstantaPanjang] = useState("");
-  const [KonstantaLebar, setKonstantaLebar] = useState("");
 
   const Validator = () => {
-    if (
-      !(
-        Id_tipebox &&
-        rumusPanjang &&
-        rumusLebar &&
-        rumusOversize &&
-        KonstantaPanjang &&
-        KonstantaLebar
-      )
-    ) {
+    if (!(Id_tipebox && rumusPanjang && rumusLebar && rumusOversize)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -97,7 +86,7 @@ const UpdateTypeboxDetail = () => {
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
+      
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -143,14 +132,14 @@ const UpdateTypeboxDetail = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
+          <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>ID Typebox</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Id_tipebox}
                     onChange={(e) => {
                       setId_tipebox(e.target.value);
@@ -161,11 +150,11 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -176,11 +165,10 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Panjang</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusPanjang}
                     onChange={(e) => {
                       setRumusPanjang(e.target.value);
@@ -191,11 +179,10 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Lebar</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="email"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="email"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusLebar}
                     onChange={(e) => {
                       setRumusLebar(e.target.value);
@@ -206,81 +193,16 @@ const UpdateTypeboxDetail = () => {
               </tr>
               <tr>
                 <td>Rumus Oversize</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusOversize}
                     onChange={(e) => {
                       setRumusOversize(e.target.value);
                     }}
                     required
                   />
-                </td>
-              </tr>
-              <tr>
-                <td>Konstanta Panjang</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="true"
-                      checked={KonstantaPanjang === "true"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaPanjang"
-                      value="false"
-                      checked={KonstantaPanjang === "false"}
-                      onChange={(e) => {
-                        setKonstantaPanjang(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Konstanta Lebar</td>
-                <td>:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="true"
-                      checked={KonstantaLebar === "true"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="KonstantaLebar"
-                      value="false"
-                      checked={KonstantaLebar === "false"}
-                      onChange={(e) => {
-                        setKonstantaLebar(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
                 </td>
               </tr>
             </table>

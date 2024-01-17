@@ -1,7 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Rekening = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -43,7 +42,7 @@ const Rekening = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        console.log (listCustomer)
+        console.log(listCustomer);
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
@@ -51,7 +50,7 @@ const Rekening = () => {
             Bank: item.bank,
             Norek: item.norekening,
             AN: item.atasnama,
-            CT: item.ct
+            CT: item.ct,
           }))
         );
       })
@@ -138,7 +137,7 @@ const Rekening = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -207,7 +206,7 @@ const Rekening = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
                   field="Bank"
                   headerText="Bank"

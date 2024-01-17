@@ -35,7 +35,7 @@ const Sopir = () => {
 
   const fetchData = async () => {
     await axios
-      .get( HOST + "/marketing/supir/get", {
+      .get(HOST + "/marketing/supir/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -48,9 +48,7 @@ const Sopir = () => {
           listCustomer.map((item, index) => ({
             id: item.id,
             no: index + 1,
-            nama : item.nama
-
-           
+            nama: item.nama,
           }))
         );
       })
@@ -136,7 +134,7 @@ const Sopir = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -205,7 +203,7 @@ const Sopir = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
                   field="nama"
                   headerText="Nama"

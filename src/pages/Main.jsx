@@ -2,6 +2,7 @@ import { FiSettings } from "react-icons/fi";
 import { Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { getCookie } from "cookies-next";
 
 import {
   Typebox,
@@ -16,6 +17,12 @@ import {
   Customer,
   TambahCustomer,
   UpdateCustomer,
+  TypeboxDetail,
+  TambahTypeboxDetail,
+  UpdateTypeboxDetail,
+  IndexHarga,
+  TambahIndex,
+  UpdateIndex,
   Sopir,
   TambahSopir,
   UpdateSopir,
@@ -25,7 +32,22 @@ import {
   Kualitas,
   UpdateKualitas,
   TambahKualitas,
-
+  Order,
+  OrderBaru,
+  Detail,
+  JobBaru,
+  UpdateJob,
+  UpdateOrder,
+  OrderDetail,
+  JobList,
+  CancelJob,
+  CustomerOrder,
+  JobDetail,
+  EkspedisiList,
+  EkspedisiSuratJalan,
+  EkspedisiBelumSuratJalan,
+  KualitasDetail,
+  TambahKualitasDetail,
 } from "../pages";
 
 import {
@@ -34,6 +56,7 @@ import {
   Sidebar,
   ThemeSettings,
   LoadingScreen,
+  SidebarEkspedisi,
 } from "../components";
 
 import "../App.css";
@@ -65,6 +88,13 @@ const Main = () => {
     setIsLoading(false);
   }, []);
 
+  let sidebarComponent = <Sidebar />; // Default Sidebar component
+
+  // Memeriksa nilai dari cookie "posisi"
+  if (getCookie("posisi") === "ekspedisi" && activeMenu) {
+    sidebarComponent = <SidebarEkspedisi />;
+  }
+
   return isLoading ? (
     <LoadingScreen />
   ) : (
@@ -82,15 +112,17 @@ const Main = () => {
             </button>
           </TooltipComponent>
         </div>
+
         {activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
+            {sidebarComponent}
           </div>
         ) : (
           <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
+            {sidebarComponent}
           </div>
         )}
+
         <div
           className={
             activeMenu
@@ -105,36 +137,104 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-
               {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
 
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
-              <Route path="/TypeBox/UpdateTypebox" element={<UpdateTypebox />} />
+              <Route
+                path="/TypeBox/UpdateTypebox"
+                element={<UpdateTypebox />}
+              />
               <Route path="/customer/customers" element={<Customer />} />
               <Route path="/customer/tambah" element={<TambahCustomer />} />
               <Route path="/customer/update" element={<UpdateCustomer />} />
-              
+              <Route path="/customer/order/:id" element={<CustomerOrder />} />
+
+              <Route
+                path="/master/type-box%20detail"
+                element={<TypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Update"
+                element={<UpdateTypeboxDetail />}
+              />
+              <Route
+                path="/TypeboxDetail/Buat"
+                element={<TambahTypeboxDetail />}
+              />
+              <Route path="/index/index" element={<IndexHarga />} />
+              <Route
+                path="/TambahIndex/TambahIndex"
+                element={<TambahIndex />}
+              />
+              <Route
+                path="/UpdateIndex/UpdateIndex"
+                element={<UpdateIndex />}
+              />
+
               <Route path="/master/sopir" element={<Sopir />} />
               <Route path="/master/sopir/tambah" element={<TambahSopir />} />
               <Route path="/master/sopir/update" element={<UpdateSopir />} />
-              
+
               <Route path="/master/mobil" element={<Mobil />} />
               <Route path="/master/mobil/tambah" element={<TambahMobil />} />
               <Route path="/master/mobil/update" element={<UpdateMobil />} />
-              
+
               <Route path="/master/rekening" element={<Rekening />} />
-              <Route path="/master/rekening/tambah" element={<TambahRekening />} />
-              <Route path="/master/rekening/update" element={<UpdateRekening />} />
-              
+              <Route
+                path="/master/rekening/tambah"
+                element={<TambahRekening />}
+              />
+              <Route
+                path="/master/rekening/update"
+                element={<UpdateRekening />}
+              />
+
               <Route path="/master/user" element={<User />} />
               <Route path="/master/user/tambah" element={<TambahUser />} />
               <Route path="/master/user/update" element={<UpdateUser />} />
 
-
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              {/* <Route path="/master/Kualitas/update" element={<UpdateKualitas />} /> */}
-              <Route path="/master/Kualitas/tambah" element={<TambahKualitas />} />
+              {/* <Route
+                path="/master/Kualitas/update"
+                element={<UpdateKualitas />}
+              /> */}
+              <Route
+                path="/master/Kualitas/tambah"
+                element={<TambahKualitas />}
+              />
+
+              <Route
+                path="/master/kualitas-detail"
+                element={<KualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/input"
+                element={<TambahKualitasDetail />}
+              />
+
+              <Route path="/order/list" element={<Order />} />
+              <Route path="/order/detail/:id" element={<Detail />} />
+              <Route path="/order/order-baru" element={<OrderBaru />} />
+              <Route path="/order/update/:id" element={<UpdateOrder />} />
+
+              <Route path="/job/job-baru/:id" element={<JobBaru />} />
+              <Route path="/job/update/:id" element={<UpdateJob />} />
+              <Route path="/job/job" element={<JobList />} />
+              <Route path="/job/detail/:id" element={<JobDetail />} />
+              <Route path="/cancel-job/cancel-job" element={<CancelJob />} />
+
+              <Route path="/order-detail/detail" element={<OrderDetail />} />
+
+              <Route path="/job-order/list" element={<EkspedisiList />} />
+              <Route
+                path="/job-order/sudah-dibuat%20surat%20jalan"
+                element={<EkspedisiSuratJalan />}
+              />
+              <Route
+                path="/job-order/belum-dibuat%20surat%20jalan"
+                element={<EkspedisiBelumSuratJalan />}
+              />
             </Routes>
           </div>
           <Footer />

@@ -19,12 +19,10 @@ const UpdateUser = () => {
     navigate("/dashboard/master/user");
   }
 
-  
   const [email, setEmail] = useState(data.Email);
   const [password, setPassword] = useState(data.Password);
   const [posisi, setPosisi] = useState(data.Posisi);
-  const [Akses, setAkses] = useState(String(data.Akses))
-
+  const [Akses, setAkses] = useState(String(data.Akses));
 
   const Validator = () => {
     const isNumeric = (input) => {
@@ -33,15 +31,7 @@ const UpdateUser = () => {
       return numericRegex.test(input);
     };
 
-    if (
-      !(
-       
-        email &&
-        password &&
-        posisi &&
-        Akses
-      )
-    ) {
+    if (!(email && password && posisi && Akses)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -54,7 +44,7 @@ const UpdateUser = () => {
       });
 
       return false;
-    } 
+    }
 
     return true;
   };
@@ -72,7 +62,7 @@ const UpdateUser = () => {
           email,
           password,
           posisi,
-          akses:JSON.parse(Akses)
+          akses: JSON.parse(Akses),
         },
         {
           headers: {
@@ -146,15 +136,14 @@ const UpdateUser = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              
-            <tr>
+            <table className="border-separate border-spacing-y-2">
+              <tr>
                 <td>Email</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -165,12 +154,12 @@ const UpdateUser = () => {
               </tr>
 
               <tr>
-                <td>Password</td> 
-                <td>:</td>
+                <td>Password</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -182,11 +171,11 @@ const UpdateUser = () => {
 
               <tr>
                 <td>Posisi</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={posisi}
                     onChange={(e) => {
                       setPosisi(e.target.value);
@@ -198,7 +187,7 @@ const UpdateUser = () => {
 
               <tr>
                 <td>Akses</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
@@ -228,11 +217,10 @@ const UpdateUser = () => {
                   </label>
                 </td>
               </tr>
-
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={updateData}
               >
                 Submit
