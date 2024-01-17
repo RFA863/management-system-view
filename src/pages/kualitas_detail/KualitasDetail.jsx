@@ -91,6 +91,7 @@ const KualitasDetail = () => {
 
   useEffect(() => {
     fetchData();
+    setData([]);
   }, []);
 
   useEffect(() => {
@@ -107,14 +108,16 @@ const KualitasDetail = () => {
 
   const rowSelected = () => {
     console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 80) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
+      console.log(data);
     }
   };
 
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
       navigate("/dashboard/kualitas-detail/update");
+      console.log(data);
     }
   }, [data, getActionButton]);
 

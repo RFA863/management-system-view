@@ -29,6 +29,7 @@ export { default as TambahKualitas } from "./Kualitas/TambahKualitas";
 
 export { default as KualitasDetail } from "./kualitas_detail/KualitasDetail";
 export { default as TambahKualitasDetail } from "./kualitas_detail/TambahKualitasDetail";
+export { default as UpdateKualitasDetail } from "./kualitas_detail/UpdateKualitasDetail";
 
 export { default as Rekening } from "./rekening/Rekening";
 export { default as TambahRekening } from "./rekening/TambahRekening";

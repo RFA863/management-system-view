@@ -48,6 +48,7 @@ import {
   EkspedisiBelumSuratJalan,
   KualitasDetail,
   TambahKualitasDetail,
+  UpdateKualitasDetail,
 } from "../pages";
 
 import {
@@ -211,6 +212,10 @@ const Main = () => {
               <Route
                 path="/kualitas-detail/input"
                 element={<TambahKualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/update"
+                element={<UpdateKualitasDetail />}
               />
 
               <Route path="/order/list" element={<Order />} />
