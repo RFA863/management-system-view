@@ -59,7 +59,6 @@ import {
   LoadingScreen,
   SidebarEkspedisi,
   SidebarFinance,
-
 } from "../components";
 
 import "../App.css";
@@ -96,10 +95,9 @@ const Main = () => {
   // Memeriksa nilai dari cookie "posisi"
   if (getCookie("posisi") === "ekspedisi" && activeMenu) {
     sidebarComponent = <SidebarEkspedisi />;
+  } else if (getCookie("posisi") === "finance" && activeMenu) {
+    sidebarComponent = <SidebarFinance />;
   }
-else if (getCookie("posisi") === "finance" && activeMenu){
-  sidebarComponent = <SidebarFinance />;
-}
 
   return isLoading ? (
     <LoadingScreen />
@@ -201,14 +199,8 @@ else if (getCookie("posisi") === "finance" && activeMenu){
               <Route path="/master/user/update" element={<UpdateUser />} />
 
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              {/* <Route
-                path="/master/Kualitas/update"
-                element={<UpdateKualitas />}
-              /> */}
-              <Route
-                path="/master/Kualitas/tambah"
-                element={<TambahKualitas />}
-              />
+              <Route path="/kualitas/update" element={<UpdateKualitas />} />
+              <Route path="/kualitas/tambah" element={<TambahKualitas />} />
 
               <Route
                 path="/master/kualitas-detail"

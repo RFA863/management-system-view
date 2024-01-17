@@ -180,59 +180,71 @@ const UpdateOrder = () => {
           />
         </div>
         <form>
-          <div className=" mx-10 font-semibold">
-            <div>
-              <div className="my-2">
-                <p>Customer</p>
-                <Select
-                  options={customer}
-                  isClearable={true}
-                  value={Id_Customer}
-                  onChange={(e) => {
-                    setIdCustomer(e);
-                  }}
-                  required
-                />
-              </div>
-              <div className="my-2">
-                <p>No. PO</p>
-                <input
-                  type="text"
-                  className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                  value={noPo}
-                  onChange={(e) => setNoPo(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="my-2">
-                <p>Tanggal Order</p>
-                <input
-                  type="date"
-                  className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                  value={tanggalOrder}
-                  onChange={(e) => setTanggalOrder(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="my-2">
-                <p>Tanggal Kirim</p>
-                <input
-                  type="date"
-                  className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                  value={tanggalKirim}
-                  onChange={(e) => setTanggalKirim(e.target.value)}
-                  required
-                />
-              </div>
+          <div className="flex items-end justify-evenly">
+            <table className="border-separate border-spacing-y-2">
+              <tr>
+                <td>Customer</td>
+                <td className="px-4">:</td>
+                <td>
+                  <Select
+                    options={customer}
+                    isClearable={true}
+                    value={Id_Customer}
+                    onChange={(e) => {
+                      setIdCustomer(e);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>No. PO</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={noPo}
+                    onChange={(e) => setNoPo(e.target.value)}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Tanggal Order</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="date"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={tanggalOrder}
+                    onChange={(e) => setTanggalOrder(e.target.value)}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Tanggal Kirim</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="date"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={tanggalKirim}
+                    onChange={(e) => setTanggalKirim(e.target.value)}
+                    required
+                  />
+                </td>
+              </tr>
+            </table>
 
-              <div className="flex justify-center">
-                <button
-                  className="bg-blue-700 rounded-xl text-white px-4 py-2"
-                  onClick={postData}
-                >
-                  Submit
-                </button>
-              </div>
+            <div className="flex justify-center">
+              <button
+                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                onClick={postData}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </form>

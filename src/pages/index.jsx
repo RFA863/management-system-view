@@ -24,7 +24,7 @@ export { default as TambahMobil } from "./mobil/TambahMobil";
 export { default as UpdateMobil } from "./mobil/UpdateMobil";
 
 export { default as Kualitas } from "./Kualitas/Kualitas";
-// export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
+export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
 export { default as TambahKualitas } from "./Kualitas/TambahKualitas";
 
 export { default as KualitasDetail } from "./kualitas_detail/KualitasDetail";

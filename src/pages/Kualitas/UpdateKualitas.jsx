@@ -7,13 +7,19 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const TambahKualitas = () => {
+const UpdateKualitas = () => {
   const navigate = useNavigate();
 
-  const [nama, setNama] = useState("");
+  const { data } = useStateContext();
+
+  if (data.length === 0) {
+    navigate("/dashboard/master/Kualitas");
+  }
+  const [nama, setNama] = useState(data.Nama);
 
   const Validator = () => {
     if (!nama) {
@@ -41,8 +47,8 @@ const TambahKualitas = () => {
       return;
     }
     await axios
-      .post(
-        HOST + "/marketing/kualitas/input",
+      .put(
+        HOST + "/marketing/kualitas/update/" + data.id,
         {
           nama,
         },
@@ -105,7 +111,7 @@ const TambahKualitas = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah Kualitas" />
+          <Header title="Update Kualitas" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -158,4 +164,4 @@ const TambahKualitas = () => {
     </div>
   );
 };
-export default TambahKualitas;
+export default UpdateKualitas;
