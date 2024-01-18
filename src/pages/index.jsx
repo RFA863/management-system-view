@@ -64,3 +64,5 @@ export { default as InputSuratJalan } from "./ekspedisi_surat_jalan/InputSuratJa
 
 export { default as ListSuratJalan} from "./finance_surat_jalan/ListSuratJalan";
 export { default as BelumInvoice} from "./finance_surat_jalan/BelumInvoice";
+export { default as Input_invoice} from "./finance_invoice/Input_invoice";
+export { default as Invoice} from "./finance_invoice/Invoice";
