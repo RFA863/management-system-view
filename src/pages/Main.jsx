@@ -49,6 +49,7 @@ import {
   KualitasDetail,
   TambahKualitasDetail,
   UpdateKualitasDetail,
+  InputSuratJalan,
 } from "../pages";
 
 import {
@@ -236,6 +237,11 @@ const Main = () => {
               <Route
                 path="/job-order/belum-dibuat%20surat%20jalan"
                 element={<EkspedisiBelumSuratJalan />}
+              />
+
+              <Route
+                path="/ekspedisi/surat-jalan/input/:id"
+                element={<InputSuratJalan />}
               />
             </Routes>
           </div>
