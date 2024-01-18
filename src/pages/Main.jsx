@@ -50,6 +50,8 @@ import {
   TambahKualitasDetail,
   UpdateKualitasDetail,
   InputSuratJalan,
+  ListSuratJalan,
+  BelumInvoice,
 } from "../pages";
 
 import {
@@ -243,6 +245,18 @@ const Main = () => {
                 path="/ekspedisi/surat-jalan/input/:id"
                 element={<InputSuratJalan />}
               />
+
+              <Route
+                path="/surat-jalan/list"
+                element={<ListSuratJalan />}
+              />
+
+              <Route
+                path="/surat-jalan/belum-invoice"
+                element={<BelumInvoice />}
+              />
+
+
             </Routes>
           </div>
           <Footer />
