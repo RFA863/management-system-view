@@ -24,11 +24,12 @@ export { default as TambahMobil } from "./mobil/TambahMobil";
 export { default as UpdateMobil } from "./mobil/UpdateMobil";
 
 export { default as Kualitas } from "./Kualitas/Kualitas";
-// export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
+export { default as UpdateKualitas } from "./Kualitas/UpdateKualitas";
 export { default as TambahKualitas } from "./Kualitas/TambahKualitas";
 
 export { default as KualitasDetail } from "./kualitas_detail/KualitasDetail";
 export { default as TambahKualitasDetail } from "./kualitas_detail/TambahKualitasDetail";
+export { default as UpdateKualitasDetail } from "./kualitas_detail/UpdateKualitasDetail";
 
 export { default as Rekening } from "./rekening/Rekening";
 export { default as TambahRekening } from "./rekening/TambahRekening";
@@ -58,3 +59,5 @@ export { default as OrderDetail } from "./order_detail/OrderDetail";
 export { default as EkspedisiList } from "./ekspedisi_job_order/EkspedisiList";
 export { default as EkspedisiSuratJalan } from "./ekspedisi_job_order/EkspedisiSuratJalan";
 export { default as EkspedisiBelumSuratJalan } from "./ekspedisi_job_order/EkspedisiBelumSuratJalan";
+
+export { default as InputSuratJalan } from "./ekspedisi_surat_jalan/InputSuratJalan";

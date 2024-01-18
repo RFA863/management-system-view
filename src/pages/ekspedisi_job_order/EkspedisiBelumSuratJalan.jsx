@@ -22,8 +22,10 @@ import { Header, PageLoading } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const EkspedisiBelumSuratJalan= () => {
+const EkspedisiBelumSuratJalan = () => {
   const navigate = useNavigate();
+
+  const [id, setId] = useState();
 
   const gridRef = useRef(null);
   const [detailOrder, setDetailOrder] = useState([]);
@@ -69,6 +71,7 @@ const EkspedisiBelumSuratJalan= () => {
 
   useEffect(() => {
     fetchData();
+    setId();
   }, []);
 
   // useEffect(() => {
@@ -84,10 +87,16 @@ const EkspedisiBelumSuratJalan= () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
-      // setData(gridRef.current.selectionModule.data);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 15) {
+      setId(gridRef.current.selectionModule.data.id);
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      navigate("/dashboard/ekspedisi/surat-jalan/input/" + id);
+    }
+  }, [id]);
 
   const actionButton = () => {
     return (
@@ -102,10 +111,10 @@ const EkspedisiBelumSuratJalan= () => {
     );
   };
 
-  return(
-  //  pageLoading ? (
-  //   <PageLoading />
-  // ) : (
+  return (
+    //  pageLoading ? (
+    //   <PageLoading />
+    // ) : (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
@@ -232,6 +241,6 @@ const EkspedisiBelumSuratJalan= () => {
       </div>
     </div>
   );
-}
+};
 
 export default EkspedisiBelumSuratJalan;

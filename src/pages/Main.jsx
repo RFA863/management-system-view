@@ -48,6 +48,8 @@ import {
   EkspedisiBelumSuratJalan,
   KualitasDetail,
   TambahKualitasDetail,
+  UpdateKualitasDetail,
+  InputSuratJalan,
 } from "../pages";
 
 import {
@@ -58,7 +60,6 @@ import {
   LoadingScreen,
   SidebarEkspedisi,
   SidebarFinance,
-
 } from "../components";
 
 import "../App.css";
@@ -95,10 +96,9 @@ const Main = () => {
   // Memeriksa nilai dari cookie "posisi"
   if (getCookie("posisi") === "ekspedisi" && activeMenu) {
     sidebarComponent = <SidebarEkspedisi />;
+  } else if (getCookie("posisi") === "finance" && activeMenu) {
+    sidebarComponent = <SidebarFinance />;
   }
-else if (getCookie("posisi") === "finance" && activeMenu){
-  sidebarComponent = <SidebarFinance />;
-}
 
   return isLoading ? (
     <LoadingScreen />
@@ -200,14 +200,8 @@ else if (getCookie("posisi") === "finance" && activeMenu){
               <Route path="/master/user/update" element={<UpdateUser />} />
 
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              {/* <Route
-                path="/master/Kualitas/update"
-                element={<UpdateKualitas />}
-              /> */}
-              <Route
-                path="/master/Kualitas/tambah"
-                element={<TambahKualitas />}
-              />
+              <Route path="/kualitas/update" element={<UpdateKualitas />} />
+              <Route path="/kualitas/tambah" element={<TambahKualitas />} />
 
               <Route
                 path="/master/kualitas-detail"
@@ -216,6 +210,10 @@ else if (getCookie("posisi") === "finance" && activeMenu){
               <Route
                 path="/kualitas-detail/input"
                 element={<TambahKualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/update"
+                element={<UpdateKualitasDetail />}
               />
 
               <Route path="/order/list" element={<Order />} />
@@ -239,6 +237,11 @@ else if (getCookie("posisi") === "finance" && activeMenu){
               <Route
                 path="/job-order/belum-dibuat%20surat%20jalan"
                 element={<EkspedisiBelumSuratJalan />}
+              />
+
+              <Route
+                path="/ekspedisi/surat-jalan/input/:id"
+                element={<InputSuratJalan />}
               />
             </Routes>
           </div>

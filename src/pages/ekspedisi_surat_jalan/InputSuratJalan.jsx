@@ -1,44 +1,44 @@
 import axios from "axios";
+import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const TambahCustomer = () => {
+const InputSuratJalan = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const [Nomor, setNomor] = useState("");
-  const [nama, setNama] = useState("");
-  const [kode, setKode] = useState("");
-  const [email, setEmail] = useState("");
-  const [Npwp, setNpwp] = useState("");
-  const [noNpwp, setNoNpwp] = useState("");
-  const [noTelp, setNoTelp] = useState("");
-  const [noFax, setNoFax] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [alamatInvoice, setAlamatInvoice] = useState("");
+  const [idSupir, setIdSupir] = useState();
+  const [idMobil, setIdMobil] = useState();
+  const [Selesai, setSelesai] = useState("");
+  const [CloseOrder, setCloseOrder] = useState("");
+  const [tanggalKirim, setTanggalKirim] = useState("");
+  const [noSuratJalan, setNoSuratJalan] = useState("");
+
+  const [job, setJob] = useState();
+  const [supir, setSupir] = useState([]);
+  const [mobil, setMobil] = useState([]);
 
   const Validator = () => {
-    const isNumeric = (input) => {
-      // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
-      const numericRegex = /^[0-9]+$/;
-      return numericRegex.test(input);
-    };
+    // const isNumeric = (input) => {
+    //   // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
+    //   const numericRegex = /^[0-9]+$/;
+    //   return numericRegex.test(input);
+    // };
 
     if (
       !(
-        Nomor &&
-        Npwp &&
-        nama &&
-        kode &&
-        email &&
-        alamat &&
-        alamatInvoice &&
-        noTelp
+        idSupir &&
+        idMobil &&
+        tanggalKirim &&
+        CloseOrder &&
+        Selesai &&
+        noSuratJalan
       )
     ) {
       toast.error("Data must be entered", {
@@ -53,21 +53,80 @@ const TambahCustomer = () => {
       });
 
       return false;
-    } else if (isNumeric(Nomor) === false) {
-      toast.error("Number must be numeric", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      return false;
     }
 
     return true;
+  };
+
+  const getSupir = async () => {
+    await axios
+      .get(HOST + "/marketing/supir/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listSupir = response.data.data;
+
+        setSupir(() =>
+          listSupir.map((item) => ({
+            label: item.nama,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const getMobil = async () => {
+    await axios
+      .get(HOST + "/marketing/mobil/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listMobil = response.data.data;
+
+        setMobil(() =>
+          listMobil.map((item) => ({
+            label: item.noplat,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const getJob = async () => {
+    await axios
+      .get(HOST + "/marketing/Job/get/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listJob = response.data.data;
+
+        setJob(listJob);
+        setSelesai(listJob.jumlah);
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
   };
 
   const postData = async (e) => {
@@ -78,18 +137,14 @@ const TambahCustomer = () => {
     }
     await axios
       .post(
-        HOST + "/marketing/customer/input",
+        HOST + "/ekspedisi/suratjalan/input/" + id,
         {
-          nomor: Number(Nomor),
-          nama,
-          kode,
-          email,
-          npwp: JSON.parse(Npwp),
-          noNpwp,
-          noTelp,
-          noFax,
-          alamat,
-          alamatInvoice,
+          tanggalKirim,
+          noSuratJalan,
+          id_supir: idSupir.value,
+          id_mobil: idMobil.value,
+          selesai: Number(Selesai),
+          closeOrder: JSON.parse(CloseOrder),
         },
         {
           headers: {
@@ -145,15 +200,21 @@ const TambahCustomer = () => {
       });
   };
 
+  useEffect(() => {
+    getSupir();
+    getMobil();
+    getJob();
+  }, []);
+
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah Customer" />
+          <Header title="Input Surat Jalan" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/customer/customers");
+              navigate("/dashboard/job-order/belum-dibuat%20surat%20jalan");
             }}
           />
         </div>
@@ -161,77 +222,77 @@ const TambahCustomer = () => {
           <div className="flex items-end justify-evenly">
             <table className="border-separate border-spacing-y-2">
               <tr>
-                <td>Nomor</td>
+                <td>No. Surat Jalan</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={Nomor}
+                    value={noSuratJalan}
                     onChange={(e) => {
-                      setNomor(e.target.value);
+                      setNoSuratJalan(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Nama</td>
+                <td>Supir</td>
+                <td className="px-4">:</td>
+                <td>
+                  <Select
+                    options={supir}
+                    isClearable={true}
+                    value={idSupir}
+                    onChange={(e) => {
+                      setIdSupir(e);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Mobil</td>
+                <td className="px-4">:</td>
+                <td>
+                  <Select
+                    options={mobil}
+                    isClearable={true}
+                    value={idMobil}
+                    onChange={(e) => {
+                      setIdMobil(e);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Tanggal Kirim</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"
+                    type="date"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={nama}
+                    value={tanggalKirim}
                     onChange={(e) => {
-                      setNama(e.target.value);
+                      setTanggalKirim(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Kode</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={kode}
-                    onChange={(e) => {
-                      setKode(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="email"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Npwp</td>
+                <td>Close Order</td>
                 <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
+                      name="CloseOrder"
                       value="true"
-                      checked={Npwp === "true"}
+                      checked={CloseOrder === "true"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setCloseOrder(e.target.value);
                       }}
                       required
                     />
@@ -240,11 +301,11 @@ const TambahCustomer = () => {
                   <label>
                     <input
                       type="radio"
-                      name="npwp"
+                      name="CloseOrder"
                       value="false"
-                      checked={Npwp === "false"}
+                      checked={CloseOrder === "false"}
                       onChange={(e) => {
-                        setNpwp(e.target.value);
+                        setCloseOrder(e.target.value);
                       }}
                       required
                     />
@@ -252,82 +313,22 @@ const TambahCustomer = () => {
                   </label>
                 </td>
               </tr>
-              {Npwp === "true" && (
+              {CloseOrder === "true" && (
                 <tr>
-                  <td>No. Npwp</td>
+                  <td>Pesanan Selesai</td>
                   <td className="px-4">:</td>
                   <td>
                     <input
                       type="text"
                       className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                      value={noNpwp}
+                      value={Selesai}
                       onChange={(e) => {
-                        setNoNpwp(e.target.value);
+                        setSelesai(e.target.value);
                       }}
                     />
                   </td>
                 </tr>
               )}
-
-              <tr>
-                <td>No. Telpn</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={noTelp}
-                    onChange={(e) => {
-                      setNoTelp(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>No. Fax</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={noFax}
-                    onChange={(e) => {
-                      setNoFax(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={alamat}
-                    onChange={(e) => {
-                      setAlamat(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Alamat Invoice</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={alamatInvoice}
-                    onChange={(e) => {
-                      setAlamatInvoice(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
             </table>
             <div>
               <button
@@ -355,4 +356,5 @@ const TambahCustomer = () => {
     </div>
   );
 };
-export default TambahCustomer;
+
+export default InputSuratJalan;

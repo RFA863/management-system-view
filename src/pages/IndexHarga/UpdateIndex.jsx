@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import Select from "react-select";
+import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
@@ -19,11 +20,18 @@ const UpdateIndex = () => {
     navigate("/dashboard/index/index");
   }
 
-  const [Id_customer, setIdCustomer] = useState(data.id_customer);
-  const [Id_kualitasDetail, setKualitasDetail] = useState(
-    data.id_kualitasdetail
-  );
+  const [Id_customer, setIdCustomer] = useState({
+    value: data.id_customer,
+    label: data.Customer,
+  });
+  const [Id_kualitasDetail, setIdKualitasDetail] = useState({
+    value: data.id_kualitasdetail,
+    label: data.Kualitas_Detail,
+  });
   const [IndexValue, setIndexValue] = useState(data.indexvalue);
+
+  const [customer, setCustomer] = useState([]);
+  const [kualitasDetail, setKualitasDetail] = useState([]);
 
   const Validator = () => {
     if (!(Id_customer && Id_kualitasDetail && IndexValue)) {
@@ -43,6 +51,56 @@ const UpdateIndex = () => {
     return true;
   };
 
+  const getCustomer = async () => {
+    await axios
+      .get(HOST + "/marketing/customer/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listCustomer = response.data.data;
+
+        setCustomer(() =>
+          listCustomer.map((item, index) => ({
+            label: item.nama,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const getKualitasDetail = async () => {
+    await axios
+      .get(HOST + "/marketing/kualitasdetail/get", {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listKualitasDetail = response.data.data;
+
+        setKualitasDetail(() =>
+          listKualitasDetail.map((item, index) => ({
+            label: item.kualitas + " | " + item.nama,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
   const updateData = async (e) => {
     e.preventDefault();
 
@@ -53,8 +111,8 @@ const UpdateIndex = () => {
       .put(
         HOST + "/marketing/index/update/" + data.id,
         {
-          id_customer: Number(Id_customer),
-          id_kualitasDetail: Number(Id_kualitasDetail),
+          id_customer: Id_customer.value,
+          id_kualitasDetail: Id_kualitasDetail.value,
           indexValue: Number(IndexValue),
         },
         {
@@ -77,7 +135,7 @@ const UpdateIndex = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/index/index");
+          // navigate("/dashboard/index/index");
         }
       })
       .catch((error) => {
@@ -114,6 +172,11 @@ const UpdateIndex = () => {
       });
   };
 
+  useEffect(() => {
+    getCustomer();
+    getKualitasDetail();
+  }, []);
+
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
@@ -129,38 +192,39 @@ const UpdateIndex = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-          <table className="border-separate border-spacing-y-2">
-              
+            <table className="border-separate border-spacing-y-2">
               <tr>
-                <td>ID Customer</td>
+                <td>Customer</td>
                 <td className="px-4">:</td>
                 <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                  <Select
+                    options={customer}
+                    isClearable={true}
                     value={Id_customer}
                     onChange={(e) => {
-                      setIdCustomer(e.target.value);
+                      setIdCustomer(e);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>ID Kualitas Detail</td>
+                <td>Kualitas Detail</td>
                 <td className="px-4">:</td>
+
                 <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                  <Select
+                    options={kualitasDetail}
+                    isClearable={true}
                     value={Id_kualitasDetail}
                     onChange={(e) => {
-                      setKualitasDetail(e.target.value);
+                      setIdKualitasDetail(e);
                     }}
                     required
                   />
                 </td>
               </tr>
+
               <tr>
                 <td>Index Value</td>
                 <td className="px-4">:</td>
@@ -176,7 +240,6 @@ const UpdateIndex = () => {
                   />
                 </td>
               </tr>
-              
             </table>
             <div>
               <button

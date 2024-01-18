@@ -8,12 +8,24 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 const UpdateKualitasDetail = () => {
   const navigate = useNavigate();
-  const [nama, setNama] = useState("");
-  const [idKualitas, setIdKualitas] = useState();
-  const [kode, setKode] = useState("");
+
+  const { data } = useStateContext();
+  console.log(data);
+
+  if (data.length === 0) {
+    navigate("/dashboard/master/kualitas-detail");
+  }
+
+  const [nama, setNama] = useState(data.Nama);
+  const [idKualitas, setIdKualitas] = useState({
+    label: data.kualitas,
+    value: data.id_kualitas,
+  });
+  const [kode, setKode] = useState(data.kode);
   const [kualitas, setKualitas] = useState([]);
 
   const Validator = () => {
