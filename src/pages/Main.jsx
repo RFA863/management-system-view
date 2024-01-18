@@ -46,6 +46,12 @@ import {
   EkspedisiList,
   EkspedisiSuratJalan,
   EkspedisiBelumSuratJalan,
+  KualitasDetail,
+  TambahKualitasDetail,
+  UpdateKualitasDetail,
+  InputSuratJalan,
+  ListSuratJalan,
+  BelumInvoice,
 } from "../pages";
 
 import {
@@ -55,6 +61,7 @@ import {
   ThemeSettings,
   LoadingScreen,
   SidebarEkspedisi,
+  SidebarFinance,
 } from "../components";
 
 import "../App.css";
@@ -91,6 +98,8 @@ const Main = () => {
   // Memeriksa nilai dari cookie "posisi"
   if (getCookie("posisi") === "ekspedisi" && activeMenu) {
     sidebarComponent = <SidebarEkspedisi />;
+  } else if (getCookie("posisi") === "finance" && activeMenu) {
+    sidebarComponent = <SidebarFinance />;
   }
 
   return isLoading ? (
@@ -193,13 +202,20 @@ const Main = () => {
               <Route path="/master/user/update" element={<UpdateUser />} />
 
               <Route path="/master/Kualitas" element={<Kualitas />} />
-              {/* <Route
-                path="/master/Kualitas/update"
-                element={<UpdateKualitas />}
-              /> */}
+              <Route path="/kualitas/update" element={<UpdateKualitas />} />
+              <Route path="/kualitas/tambah" element={<TambahKualitas />} />
+
               <Route
-                path="/master/Kualitas/tambah"
-                element={<TambahKualitas />}
+                path="/master/kualitas-detail"
+                element={<KualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/input"
+                element={<TambahKualitasDetail />}
+              />
+              <Route
+                path="/kualitas-detail/update"
+                element={<UpdateKualitasDetail />}
               />
 
               <Route path="/order/list" element={<Order />} />
@@ -215,9 +231,32 @@ const Main = () => {
 
               <Route path="/order-detail/detail" element={<OrderDetail />} />
 
-              <Route path="/job-order/list" element={<EkspedisiList/>}/>
-              <Route path="/job-order/sudah-dibuat%20surat%20jalan" element={<EkspedisiSuratJalan/>}/>
-              <Route path="/job-order/belum-dibuat%20surat%20jalan" element={<EkspedisiBelumSuratJalan/>}/>
+              <Route path="/job-order/list" element={<EkspedisiList />} />
+              <Route
+                path="/job-order/sudah-dibuat%20surat%20jalan"
+                element={<EkspedisiSuratJalan />}
+              />
+              <Route
+                path="/job-order/belum-dibuat%20surat%20jalan"
+                element={<EkspedisiBelumSuratJalan />}
+              />
+
+              <Route
+                path="/ekspedisi/surat-jalan/input/:id"
+                element={<InputSuratJalan />}
+              />
+
+              <Route
+                path="/surat-jalan/list"
+                element={<ListSuratJalan />}
+              />
+
+              <Route
+                path="/surat-jalan/belum-invoice"
+                element={<BelumInvoice />}
+              />
+
+
             </Routes>
           </div>
           <Footer />

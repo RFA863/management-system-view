@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -48,8 +47,6 @@ const Kualitas = () => {
             id: item.id,
             No: index + 1,
             Nama: item.nama,
-            
-            
           }))
         );
       })
@@ -60,38 +57,39 @@ const Kualitas = () => {
       });
   };
 
-  const deleteData = async (id) => {
-    await axios
-      .delete(HOST + "/marketing/kualitas/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-        fetchData();
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
+  // const deleteData = async (id) => {
+  //   await axios
+  //     .delete(HOST + "/marketing/kualitas/delete/" + id, {
+  //       headers: {
+  //         "ngrok-skip-browser-warning": "true",
+  //         Authorization: getCookie("admin_auth"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         toast.success("Data successfully deleted", {
+  //           position: "top-center",
+  //           autoClose: 5000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "colored",
+  //         });
+  //       }
+  //       fetchData();
+  //     })
+  //     .catch((error) => {
+  //       if (error.response.status == 401) {
+  //         navigate("/dashboard/login");
+  //       }
+  //     });
+  // };
 
   useEffect(() => {
     fetchData();
+    setData([]);
   }, []);
 
   useEffect(() => {
@@ -107,23 +105,22 @@ const Kualitas = () => {
   };
 
   const rowSelected = () => {
-    
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 3) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/master/Kualitas/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
+      console.log(data);
     }
   };
 
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/kualitas/update");
+      console.log(data);
+    }
+  }, [data, getActionButton]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -155,7 +152,7 @@ const Kualitas = () => {
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/master/Kualitas/tambah");
+              navigate("/dashboard/kualitas/tambah");
             }}
           >
             Tambah Kualitas
@@ -192,17 +189,18 @@ const Kualitas = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-            
-            
+
                 <ColumnDirective
                   field="Nama"
                   headerText="Nama"
                   textAlign="Center"
                 />
 
-               
-
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  // textAlign="Center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

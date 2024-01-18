@@ -1,6 +1,6 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -24,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Rekening = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -42,7 +42,7 @@ const Rekening = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        console.log (listCustomer)
+        console.log(listCustomer);
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
@@ -50,7 +50,7 @@ const Rekening = () => {
             Bank: item.bank,
             Norek: item.norekening,
             AN: item.atasnama,
-            CT: item.ct
+            CT: item.ct,
           }))
         );
       })
@@ -61,9 +61,9 @@ const Rekening = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/rekening/delete/" + id, {
+      .delete(HOST + "/marketing/rekening/delete/" + data.id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -71,17 +71,15 @@ const Rekening = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
           });
+          
         }
+
+        setData([]);
         fetchData();
       })
       .catch((error) => {
@@ -92,6 +90,7 @@ const Rekening = () => {
   };
 
   useEffect(() => {
+    setData([]);
     fetchData();
   }, []);
 
@@ -110,20 +109,35 @@ const Rekening = () => {
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/master/rekening/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
     }
   };
 
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/master/rekening/update");
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!" + data.Bank,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
+    }
+  }, [data, getActionButton]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -192,7 +206,7 @@ const Rekening = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
                   field="Bank"
                   headerText="Bank"

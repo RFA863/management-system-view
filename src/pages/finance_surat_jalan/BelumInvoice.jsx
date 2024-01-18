@@ -22,10 +22,8 @@ import { Header, PageLoading } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const EkspedisiBelumSuratJalan = () => {
+const BelumInvoice= () => {
   const navigate = useNavigate();
-
-  const [id, setId] = useState();
 
   const gridRef = useRef(null);
   const [detailOrder, setDetailOrder] = useState([]);
@@ -33,7 +31,7 @@ const EkspedisiBelumSuratJalan = () => {
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/ekspedisi/order_detail/get_no_suratjalan", {
+      .get(HOST + "/finance/list_suratjalan/getNoPayment", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -46,19 +44,11 @@ const EkspedisiBelumSuratJalan = () => {
           listOrderDetail.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            id_order: item.id_order,
-            id_customer: item.id_customer,
-            id_kualitas_detail: item.id_kualitas_detail,
-            no_job: item.no_job,
-            jumlah: item.jumlah,
-            sisa: item.sisa,
-            selesai: item.selesai,
-            no_po: item.no_po,
-            tanggal_order: item.tanggal_order,
+            no_suratjalan: item.no_suratjalan,
             tanggal_kirim: item.tanggal_kirim,
-            customer: item.customer[0],
-            kualitas: item.kualitas,
-            ukuran: item.ukuran,
+            id_supir: item.id_supir,
+            id_mobil: item.id_mobil,
+            
           }))
         );
       })
@@ -71,14 +61,13 @@ const EkspedisiBelumSuratJalan = () => {
 
   useEffect(() => {
     fetchData();
-    setId();
   }, []);
 
-  // useEffect(() => {
-  //   if (detailOrder.length !== 0) {
-  //     setPageLoading(false);
-  //   }
-  // }, [detailOrder]);
+  useEffect(() => {
+    if (detailOrder.length !== 0) {
+      setPageLoading(false);
+    }
+  }, [detailOrder]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -87,38 +76,18 @@ const EkspedisiBelumSuratJalan = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 15) {
-      setId(gridRef.current.selectionModule.data.id);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
+      // setData(gridRef.current.selectionModule.data);
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      navigate("/dashboard/ekspedisi/surat-jalan/input/" + id);
-    }
-  }, [id]);
-
-  const actionButton = () => {
-    return (
-      <div>
-        <button
-          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => rowSelected()}
-        >
-          Create
-        </button>
-      </div>
-    );
-  };
-
-  return (
-    //  pageLoading ? (
-    //   <PageLoading />
-    // ) : (
+  return pageLoading ? (
+    <PageLoading />
+  ) : (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Belum Surat Jalan" />
+        <Header title="List Surat Jalan" />
         {/* <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
@@ -157,82 +126,34 @@ const EkspedisiBelumSuratJalan = () => {
                 />
 
                 <ColumnDirective
-                  field="id_order"
-                  headerText="Id Order"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_customer"
-                  headerText="Id Customer"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_kualitas_detail"
-                  headerText="Id Kualitas Detail"
-                  visible={false}
-                />
-
-                <ColumnDirective
                   field="No"
-                  headerText="No"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="no_po"
-                  headerText="No. PO"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="no_job"
-                  headerText="No. Job"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="customer"
-                  headerText="Customer"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="kualitas"
-                  headerText="Kualitas"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="ukuran"
-                  headerText="Ukuran"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="tanggal_order"
-                  headerText="Tanggal Order"
+                  headerText="No."
                   textAlign="center"
                 />
+                <ColumnDirective
+                  field="no_suratjalan"
+                  headerText="No. Surat Jalan"
+                  textAlign="center"
+                />
+
                 <ColumnDirective
                   field="tanggal_kirim"
                   headerText="Tanggal Kirim"
                   textAlign="center"
                 />
+
                 <ColumnDirective
-                  field="jumlah"
-                  headerText="Quantity"
+                  field="id_supir"
+                  headerText="Supir"
+                  textAlign="center"                />
+
+                <ColumnDirective
+                  field="id_mobil"
+                  headerText="No. Mobil"
                   textAlign="center"
                 />
 
-                <ColumnDirective
-                  field="sisa"
-                  headerText="Sisa"
-                  textAlign="center"
-                />
-
-                <ColumnDirective
-                  field="selesai"
-                  headerText="Keluar"
-                  textAlign="center"
-                />
-
-                <ColumnDirective headerText="Action" template={actionButton} />
+                {/* <ColumnDirective headerText="Action" template={actionButton} /> */}
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
@@ -241,6 +162,6 @@ const EkspedisiBelumSuratJalan = () => {
       </div>
     </div>
   );
-};
+}
 
-export default EkspedisiBelumSuratJalan;
+export default BelumInvoice;

@@ -42,18 +42,16 @@ const IndexHarga = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        
 
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
             id_customer: item.id_customer,
-            id_kualitasdetail  : item.id_kualitasdetail  ,
-            indexvalue : item.indexvalue,
-            Customer : item.Customer,
-            Kualitas_Detail : item.Kualitas_Detail,
-           
+            id_kualitasdetail: item.id_kualitasdetail,
+            indexvalue: item.indexvalue,
+            Customer: item.Customer,
+            Kualitas_Detail: item.Kualitas_Detail,
           }))
         );
       })
@@ -64,45 +62,46 @@ const IndexHarga = () => {
       });
   };
 
-  const deleteData = async (id) => {
-    await axios
-      .delete(HOST + "/marketing/tipebox_detail/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-        fetchData();
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
+  // const deleteData = async (id) => {
+  //   await axios
+  //     .delete(HOST + "/marketing/tipebox_detail/delete/" + id, {
+  //       headers: {
+  //         "ngrok-skip-browser-warning": "true",
+  //         Authorization: getCookie("admin_auth"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         toast.success("Data successfully deleted", {
+  //           position: "top-center",
+  //           autoClose: 5000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //           theme: "colored",
+  //         });
+  //       }
+  //       fetchData();
+  //     })
+  //     .catch((error) => {
+  //       if (error.response.status == 401) {
+  //         navigate("/dashboard/login");
+  //       }
+  //     });
+  // };
 
   useEffect(() => {
     fetchData();
+    setData([]);
   }, []);
 
-  useEffect(() => {
-    if (customer.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [customer]);
+  // useEffect(() => {
+  //   if (customer.length !== 0) {
+  //     setPageLoading(false);
+  //   }
+  // }, [customer]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -111,24 +110,22 @@ const IndexHarga = () => {
   };
 
   const rowSelected = () => {
-
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex)
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/Updateindex/UpdateIndex  ");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
     }
   };
 
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/UpdateIndex/UpdateIndex");
+    } else if (getActionButton === "order" && data.length !== 0) {
+      navigate("/dashboard/customer/order/" + data.id);
+    }
+  }, [data, getActionButton]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -149,9 +146,10 @@ const IndexHarga = () => {
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  // return pageLoading ? (
+  //   <PageLoading />
+  // ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
@@ -203,7 +201,7 @@ const IndexHarga = () => {
                   textAlign="Center"
                   visible={false}
                 />
-                 <ColumnDirective
+                <ColumnDirective
                   field="id_kualitasdetail"
                   headerText="id_kualitasdetail"
                   textAlign="Center"
@@ -224,8 +222,6 @@ const IndexHarga = () => {
                   headerText="Kualitas Detail"
                   textAlign="Center"
                 />
-              
-               
 
                 <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>

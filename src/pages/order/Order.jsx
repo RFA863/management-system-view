@@ -116,7 +116,6 @@ const Order = () => {
   };
 
   useEffect(() => {
-    console.log(id);
     if (id) {
       navigate("/dashboard/order/detail/" + id);
     }

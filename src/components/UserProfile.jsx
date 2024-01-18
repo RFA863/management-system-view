@@ -1,4 +1,5 @@
 import React from "react";
+import { getCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 
@@ -30,14 +31,20 @@ const UserProfile = () => {
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200"> Admin </p>
+          <p className="font-semibold text-xl dark:text-gray-200">
+            {getCookie("posisi")}
+          </p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
-            {" "}
-            Administrator{" "}
+            Administrator
           </p>
         </div>
       </div>
-      <div className="mt-5" onClick={() => {navigate("/dashboard/login")}}>
+      <div
+        className="mt-5"
+        onClick={() => {
+          navigate("/dashboard/login");
+        }}
+      >
         <Button
           color="white"
           bgColor={currentColor}

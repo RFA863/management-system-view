@@ -15,7 +15,6 @@ const TambahUser = () => {
   const [posisi, setPosisi] = useState("");
   const [Akses, setAkses] = useState("");
 
-
   const Validator = () => {
     const isNumeric = (input) => {
       // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
@@ -23,15 +22,7 @@ const TambahUser = () => {
       return numericRegex.test(input);
     };
 
-    if (!
-      email &&
-      password &&
-      posisi &&
-      Akses
-      
-      )
-        
-     {
+    if (!email && password && posisi && Akses) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -44,7 +35,7 @@ const TambahUser = () => {
       });
 
       return false;
-    } 
+    }
 
     return true;
   };
@@ -59,12 +50,10 @@ const TambahUser = () => {
       .post(
         HOST + "/marketing/user/input",
         {
-         
           email,
           password,
           posisi,
-          akses:JSON.parse(Akses)
-       
+          akses: JSON.parse(Akses),
         },
         {
           headers: {
@@ -134,15 +123,14 @@ const TambahUser = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
-              
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>Email</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -153,12 +141,12 @@ const TambahUser = () => {
               </tr>
 
               <tr>
-                <td>Password</td> 
-                <td>:</td>
+                <td>Password</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -170,11 +158,11 @@ const TambahUser = () => {
 
               <tr>
                 <td>Posisi</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={posisi}
                     onChange={(e) => {
                       setPosisi(e.target.value);
@@ -185,7 +173,7 @@ const TambahUser = () => {
               </tr>
               <tr>
                 <td>Akses</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
@@ -218,7 +206,7 @@ const TambahUser = () => {
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={postData}
               >
                 Submit
