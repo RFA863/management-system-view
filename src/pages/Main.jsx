@@ -52,6 +52,8 @@ import {
   InputSuratJalan,
   ListSuratJalan,
   BelumInvoice,
+  Input_invoice,
+  Invoice,
 } from "../pages";
 
 import {
@@ -246,17 +248,16 @@ const Main = () => {
                 element={<InputSuratJalan />}
               />
 
-              <Route
-                path="/surat-jalan/list"
-                element={<ListSuratJalan />}
-              />
+              <Route path="/surat-jalan/list" element={<ListSuratJalan />} />
 
               <Route
                 path="/surat-jalan/belum-invoice"
                 element={<BelumInvoice />}
               />
 
+              <Route path="/invoice/input/:id" element={<Input_invoice />} />
 
+              <Route path="/invoice/list/" element={<Invoice />} />
             </Routes>
           </div>
           <Footer />
