@@ -26,33 +26,32 @@ const SidebarFinance = () => {
           name: "list",
         },
         {
-          name: "sudah invoice",
-        },
-        {
           name: "belum invoice",
         },
-       
+        {
+          name: "sudah invoice",
+        },
       ],
     },
     {
       title: "invoice",
       links: [
         {
-          name: "list",
+          name: "belum bayar",
         },
         {
           name: "outstanding",
-          },
-      ],
-    },
-    {
-      title: "pembayaran",
-      links: [
-        {
-          name: "pembayaran",
         },
       ],
     },
+    // {
+    //   title: "pembayaran",
+    //   links: [
+    //     {
+    //       name: "pembayaran",
+    //     },
+    //   ],
+    // },
     {
       title: "lunas",
       links: [
@@ -60,7 +59,7 @@ const SidebarFinance = () => {
           name: "lunas",
         },
       ],
-    }
+    },
   ];
 
   const { currentColor, activeMenu, setActiveMenu, screenSize } =

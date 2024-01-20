@@ -22,18 +22,20 @@ import { Header, PageLoading } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const BelumInvoice = () => {
+const SuratJalan = () => {
   const navigate = useNavigate();
+
+  const gridRef = useRef(null);
 
   const [id, setId] = useState();
 
-  const gridRef = useRef(null);
   const [suratJalan, setSuratJalan] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
+  const [getActionButton, setActionButton] = useState("");
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/finance/list_suratjalan/getNoInvoice", {
+      .get(HOST + "/ekspedisi/suratjalan/getAll", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -49,10 +51,10 @@ const BelumInvoice = () => {
             id_job: item.id_job,
             id_supir: item.id_supir,
             id_mobil: item.id_mobil,
+            no_suratjalan: item.no_suratjalan,
+            tanggal_kirim: item.tanggal_kirim,
             supir: item.supir,
             no_plat: item.no_plat,
-            tanggal_kirim: item.tanggal_kirim_surat,
-            no_suratjalan: item.no_suratjalan,
           }))
         );
       })
@@ -67,11 +69,11 @@ const BelumInvoice = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   if (suratJalan.length !== 0) {
-  //     setPageLoading(false);
-  //   }
-  // }, [suratJalan]);
+  useEffect(() => {
+    if (suratJalan.length !== 0) {
+      setPageLoading(false);
+    }
+  }, [suratJalan]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -86,34 +88,41 @@ const BelumInvoice = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      navigate("/dashboard/invoice/input/" + id);
+    if (getActionButton === "update" && id) {
+      navigate("/dashboard/ekspedisi/surat-jalan/update/" + id);
     }
-  }, [id]);
+  }, [id, getActionButton]);
 
   const actionButton = () => {
     return (
-      <div className="text-center">
+      <div className="flex gap-2">
+        {/* <button
+          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("order");
+          }}
+        >
+          Order
+        </button> */}
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
-            rowSelected();
+            setActionButton("update");
           }}
         >
-          Buat Invoice
+          Update
         </button>
       </div>
     );
   };
 
-  // return pageLoading ? (
-  //   <PageLoading />
-  // ) : (
-  return (
+  return pageLoading ? (
+    <PageLoading />
+  ) : (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Surat Jalan Belum Invoice" />
+        <Header title="Surat Jalan" />
         {/* <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
@@ -152,12 +161,6 @@ const BelumInvoice = () => {
                 />
 
                 <ColumnDirective
-                  field="No"
-                  headerText="No."
-                  textAlign="center"
-                />
-
-                <ColumnDirective
                   field="id_job"
                   headerText="Id Job"
                   visible={false}
@@ -176,27 +179,29 @@ const BelumInvoice = () => {
                 />
 
                 <ColumnDirective
+                  field="No"
+                  headerText="No"
+                  textAlign="Center"
+                />
+                <ColumnDirective
                   field="no_suratjalan"
                   headerText="No. Surat Jalan"
-                  textAlign="center"
+                  textAlign="Center"
                 />
-
                 <ColumnDirective
                   field="tanggal_kirim"
                   headerText="Tanggal Kirim"
-                  textAlign="center"
+                  textAlign="Center"
                 />
-
                 <ColumnDirective
                   field="supir"
                   headerText="Supir"
-                  textAlign="center"
+                  textAlign="Center"
                 />
-
                 <ColumnDirective
                   field="no_plat"
-                  headerText="No. Mobil"
-                  textAlign="center"
+                  headerText="Mobil"
+                  textAlign="Center"
                 />
 
                 <ColumnDirective headerText="Action" template={actionButton} />
@@ -210,4 +215,4 @@ const BelumInvoice = () => {
   );
 };
 
-export default BelumInvoice;
+export default SuratJalan;
