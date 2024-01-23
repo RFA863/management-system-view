@@ -60,9 +60,13 @@ export { default as EkspedisiList } from "./ekspedisi_job_order/EkspedisiList";
 export { default as EkspedisiSuratJalan } from "./ekspedisi_job_order/EkspedisiSuratJalan";
 export { default as EkspedisiBelumSuratJalan } from "./ekspedisi_job_order/EkspedisiBelumSuratJalan";
 
+export { default as SuratJalan } from "./ekspedisi_surat_jalan/SuratJalan";
 export { default as InputSuratJalan } from "./ekspedisi_surat_jalan/InputSuratJalan";
+export { default as UpdateSuratJalan } from "./ekspedisi_surat_jalan/UpdateSuratJalan";
 
-export { default as ListSuratJalan} from "./finance_surat_jalan/ListSuratJalan";
-export { default as BelumInvoice} from "./finance_surat_jalan/BelumInvoice";
-export { default as Input_invoice} from "./finance_invoice/Input_invoice";
-export { default as Invoice} from "./finance_invoice/Invoice";
+export { default as ListSuratJalan } from "./finance_surat_jalan/ListSuratJalan";
+export { default as BelumInvoice } from "./finance_surat_jalan/BelumInvoice";
+export { default as SudahInvoice } from "./finance_surat_jalan/SudahInvoice";
+
+export { default as Input_invoice } from "./finance_invoice/Input_invoice";
+export { default as Invoice } from "./finance_invoice/Invoice";

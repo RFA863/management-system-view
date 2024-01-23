@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { Login, Main, } from "./pages";
-// import {Typebox} from "./pages/TypeBox/"
+import { Login, Main } from "./pages";
+
 
 import "./App.css";
 
@@ -13,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path="dashboard/login" element={<Login />} />
         <Route path="dashboard/*" element={<Main />} />
+
         <Route
           path="/"
           element={<Navigate to="/dashboard/login" />}
