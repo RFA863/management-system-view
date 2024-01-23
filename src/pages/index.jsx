@@ -70,3 +70,5 @@ export { default as SudahInvoice } from "./finance_surat_jalan/SudahInvoice";
 
 export { default as Input_invoice } from "./finance_invoice/Input_invoice";
 export { default as Invoice } from "./finance_invoice/Invoice";
+
+export { default as InvoiceLunas } from "./finance_lunas/InvoiceLunas";
