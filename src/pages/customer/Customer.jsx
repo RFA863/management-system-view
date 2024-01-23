@@ -67,7 +67,6 @@ const Customer = () => {
       });
   };
 
-
   // const deleteData = async () => {
   //   // console.log(data);
   //   await axios
@@ -95,7 +94,6 @@ const Customer = () => {
   //         //   theme: "colored",
   //         // });
   //       }
-
 
   //       setData([]);
   //       fetchData();
@@ -129,16 +127,6 @@ const Customer = () => {
       setData(gridRef.current.selectionModule.data);
     }
   };
-
-  // const rowSelected = () => {
-  //   if (gridRef) {
-  //     /** Get the selected row indexes */
-  //     const selectedrowindex = gridRef.getSelectedRowIndexes();
-  //     /** Get the selected records. */
-  //     const selectedrecords = gridRef.getSelectedRecords();
-  //     alert(selectedrowindex + " : " + JSON.stringify(selectedrecords));
-  //   }
-  // };
 
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
