@@ -1,7 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Mobil = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -61,20 +60,28 @@ const Mobil = () => {
 
   const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/mobil/delete/" + data.id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/mobil/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
+          toast.success("Data successfully deleted", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          
         }
 
         setData([]);
@@ -116,7 +123,7 @@ const Mobil = () => {
     } else if (getActionButton === "delete" && data.length !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.noplat,
+        text: "You won't be able to revert this!" + data.Noplat,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

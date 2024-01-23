@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -59,35 +60,40 @@ const KualitasDetail = () => {
       });
   };
 
-  //   const deleteData = async (id) => {
-  //     await axios
-  //       .delete(HOST + "/marketing/kualitas/delete/" + id, {
-  //         headers: {
-  //           "ngrok-skip-browser-warning": "true",
-  //           Authorization: getCookie("admin_auth"),
-  //         },
-  //       })
-  //       .then((response) => {
-  //         if (response.status === 200) {
-  //           toast.success("Data successfully deleted", {
-  //             position: "top-center",
-  //             autoClose: 5000,
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //             progress: undefined,
-  //             theme: "colored",
-  //           });
-  //         }
-  //         fetchData();
-  //       })
-  //       .catch((error) => {
-  //         if (error.response.status == 401) {
-  //           navigate("/dashboard/login");
-  //         }
-  //       });
-  //   };
+  const deleteData = async () => {
+    await axios
+      .put(
+        HOST + "/marketing/kualitasdetail/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Data successfully deleted", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+        fetchData();
+        setData([]);
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
 
   useEffect(() => {
     fetchData();
@@ -107,17 +113,30 @@ const KualitasDetail = () => {
   };
 
   const rowSelected = () => {
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
       setData(gridRef.current.selectionModule.data);
-      console.log(data);
     }
   };
 
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
       navigate("/dashboard/kualitas-detail/update");
-      console.log(data);
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!" + data.Nama,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
     }
   }, [data, getActionButton]);
 

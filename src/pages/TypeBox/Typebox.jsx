@@ -60,14 +60,18 @@ const Typebox = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/tipebox/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/tipebox/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data successfully deleted", {
@@ -117,8 +121,6 @@ const Typebox = () => {
     }
   };
 
-  
-
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 4) {
       setData(gridRef.current.selectionModule.data);
@@ -138,7 +140,6 @@ const Typebox = () => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           deleteData();
         } else if (result.isDismissed) {
@@ -232,11 +233,7 @@ const Typebox = () => {
                   headerText="Kode"
                   textAlign="center"
                 />
-                <ColumnDirective
-                  headerText="Action"
-                  template={actionButton}
-                
-                />
+                <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject
                 services={[Search, Toolbar, Page, Sort, Resize, ExcelExport]}
