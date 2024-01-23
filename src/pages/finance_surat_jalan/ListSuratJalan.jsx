@@ -22,11 +22,11 @@ import { Header, PageLoading } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const ListSuratJalan= () => {
+const ListSuratJalan = () => {
   const navigate = useNavigate();
 
   const gridRef = useRef(null);
-  const [detailOrder, setDetailOrder] = useState([]);
+  const [suratJalan, setSuratJalan] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
 
   const fetchData = async () => {
@@ -38,17 +38,19 @@ const ListSuratJalan= () => {
         },
       })
       .then((response) => {
-        const listOrderDetail = response.data.data;
+        const suratJalanList = response.data.data;
 
-        setDetailOrder(() =>
-          listOrderDetail.map((item, index) => ({
+        setSuratJalan(() =>
+          suratJalanList.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            no_suratjalan: item.no_suratjalan,
-            tanggal_kirim: item.tanggal_kirim,
+            id_job: item.id_job,
             id_supir: item.id_supir,
             id_mobil: item.id_mobil,
-            
+            supir: item.supir,
+            no_plat: item.no_plat,
+            tanggal_kirim: item.tanggal_kirim,
+            no_suratjalan: item.no_suratjalan,
           }))
         );
       })
@@ -64,10 +66,10 @@ const ListSuratJalan= () => {
   }, []);
 
   useEffect(() => {
-    if (detailOrder.length !== 0) {
+    if (suratJalan.length !== 0) {
       setPageLoading(false);
     }
-  }, [detailOrder]);
+  }, [suratJalan]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -101,7 +103,7 @@ const ListSuratJalan= () => {
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={detailOrder}
+              dataSource={suratJalan}
               width="auto"
               allowPaging
               allowSorting
@@ -130,6 +132,25 @@ const ListSuratJalan= () => {
                   headerText="No."
                   textAlign="center"
                 />
+
+                <ColumnDirective
+                  field="id_job"
+                  headerText="Id Job"
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="id_supir"
+                  headerText="Id Supir"
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="id_mobil"
+                  headerText="Id Mobil"
+                  visible={false}
+                />
+
                 <ColumnDirective
                   field="no_suratjalan"
                   headerText="No. Surat Jalan"
@@ -143,12 +164,13 @@ const ListSuratJalan= () => {
                 />
 
                 <ColumnDirective
-                  field="id_supir"
+                  field="supir"
                   headerText="Supir"
-                  textAlign="center"                />
+                  textAlign="center"
+                />
 
                 <ColumnDirective
-                  field="id_mobil"
+                  field="no_plat"
                   headerText="No. Mobil"
                   textAlign="center"
                 />
@@ -162,6 +184,6 @@ const ListSuratJalan= () => {
       </div>
     </div>
   );
-}
+};
 
 export default ListSuratJalan;
