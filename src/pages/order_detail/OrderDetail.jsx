@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// import { useReactToPrint } from "react-to-print";
 import { getCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -17,6 +17,7 @@ import {
   Resize,
 } from "@syncfusion/ej2-react-grids";
 
+import { CetakJobOrder } from "../cetak";
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
 
@@ -25,7 +26,11 @@ import "react-toastify/dist/ReactToastify.css";
 const OrderDetail = () => {
   const navigate = useNavigate();
 
+  const [id, setId] = useState(0);
+
+  // const componentRef = useRef();
   const gridRef = useRef(null);
+
   const [detailOrder, setDetailOrder] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
 
@@ -84,9 +89,39 @@ const OrderDetail = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
-      // setData(gridRef.current.selectionModule.data);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 15) {
+      setId(0);
+      setId(gridRef.current.selectionModule.data.id);
     }
+  };
+
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  //   // documentTitle: `job_order_${jobOrder.customer || "unknown"}_${
+  //   //   jobOrder.no_job || "unknown"
+  //   // }`,
+  // });
+
+  // const cetak = () => {
+  //   handlePrint();
+  //   return () => {
+  //     setId();
+  //   };
+  // };
+
+  useEffect(() => {
+    console.log(id);
+  }, [id]);
+
+  const actionButton = () => {
+    return (
+      <button
+        className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => rowSelected()}
+      >
+        Cetak
+      </button>
+    );
   };
 
   return pageLoading ? (
@@ -209,12 +244,19 @@ const OrderDetail = () => {
                   textAlign="center"
                 />
 
-                {/* <ColumnDirective headerText="Action" template={actionButton} /> */}
+                <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>
+      </div>
+      <div className="absolute">
+        {id !== 0 && (
+          <div className="relative -z-[2]">
+            <CetakJobOrder id={id} />
+          </div>
+        )}
       </div>
     </div>
   );
