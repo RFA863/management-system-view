@@ -1,7 +1,6 @@
 export { default as Login } from "./Login";
 export { default as Main } from "./Main";
 
-export { default as Data } from "./pelamar/Data";
 export { default as Typebox } from "./TypeBox/Typebox";
 export { default as UpdateTypebox } from "./TypeBox/UpdateTypebox";
 export { default as BuatTypebox } from "./TypeBox/BuatTypebox";
@@ -30,6 +29,9 @@ export { default as TambahKualitas } from "./Kualitas/TambahKualitas";
 export { default as KualitasDetail } from "./kualitas_detail/KualitasDetail";
 export { default as TambahKualitasDetail } from "./kualitas_detail/TambahKualitasDetail";
 export { default as UpdateKualitasDetail } from "./kualitas_detail/UpdateKualitasDetail";
+
+export { default as KualitasTipeBox } from "./kualitas_tipebox/KualitasTipeBox";
+export { default as TambahKualitasTipeBox } from "./kualitas_tipebox/TambahKualitasTipeBox";
 
 export { default as Rekening } from "./rekening/Rekening";
 export { default as TambahRekening } from "./rekening/TambahRekening";
