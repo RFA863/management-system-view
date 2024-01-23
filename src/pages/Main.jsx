@@ -57,6 +57,8 @@ import {
   SuratJalan,
   UpdateSuratJalan,
   SudahInvoice,
+  InvoiceLunas,
+  
 } from "../pages";
 
 import {
@@ -269,6 +271,10 @@ const Main = () => {
               <Route path="/invoice/input/:id" element={<Input_invoice />} />
 
               <Route path="/invoice/list/" element={<Invoice />} />
+
+              <Route path="/lunas/lunas/" element={<InvoiceLunas />} />
+              
+              
             </Routes>
           </div>
           <Footer />
