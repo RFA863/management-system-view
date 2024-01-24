@@ -64,26 +64,34 @@ const User = () => {
 
   const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/user/delete/" + data.id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/user/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
+          toast.success("Data successfully deleted", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          
         }
         setData([]);
         fetchData();
       })
       .catch((error) => {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           navigate("/dashboard/login");
         }
       });
@@ -125,7 +133,6 @@ const User = () => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           deleteData();
         } else if (result.isDismissed) {

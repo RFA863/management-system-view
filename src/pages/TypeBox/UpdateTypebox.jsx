@@ -52,10 +52,6 @@ const UpdateTypebox = () => {
     }
     await axios
       .put(
-        HOST + "/marketing/kualitas/update/" + data.id,
-
-        nama,
-
         HOST + "/marketing/tipebox/update/" + data.id,
         {
           nama,
@@ -134,7 +130,6 @@ const UpdateTypebox = () => {
         <form>
           <div className="flex items-end justify-evenly">
             <table className="border-separate border-spacing-y-2">
-          
               <tr>
                 <td>Nama</td>
                 <td className="px-4">:</td>

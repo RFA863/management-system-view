@@ -1,7 +1,6 @@
 export { default as Login } from "./Login";
 export { default as Main } from "./Main";
 
-export { default as Data } from "./pelamar/Data";
 export { default as Typebox } from "./TypeBox/Typebox";
 export { default as UpdateTypebox } from "./TypeBox/UpdateTypebox";
 export { default as BuatTypebox } from "./TypeBox/BuatTypebox";
@@ -70,3 +69,5 @@ export { default as SudahInvoice } from "./finance_surat_jalan/SudahInvoice";
 
 export { default as Input_invoice } from "./finance_invoice/Input_invoice";
 export { default as Invoice } from "./finance_invoice/Invoice";
+
+export { default as InvoiceLunas } from "./finance_lunas/InvoiceLunas";

@@ -18,12 +18,15 @@ import {
 } from "@syncfusion/ej2-react-grids";
 
 import { HOST } from "../../config";
+import { CetakSuratJalan } from "../cetak";
 import { Header, PageLoading } from "../../components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const EkspedisiSuratJalan= () => {
+const EkspedisiSuratJalan = () => {
   const navigate = useNavigate();
+
+  const [id, setId] = useState(0);
 
   const gridRef = useRef(null);
   const [detailOrder, setDetailOrder] = useState([]);
@@ -84,15 +87,27 @@ const EkspedisiSuratJalan= () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
-      // setData(gridRef.current.selectionModule.data);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 15) {
+      setId(0);
+      setId(gridRef.current.selectionModule.data.id);
     }
   };
 
-  return(
-  //  pageLoading ? (
-  //   <PageLoading />
-  // ) : (
+  const actionButton = () => {
+    return (
+      <button
+        className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+        onClick={() => rowSelected()}
+      >
+        Cetak
+      </button>
+    );
+  };
+
+  return (
+    //  pageLoading ? (
+    //   <PageLoading />
+    // ) : (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
@@ -210,15 +225,22 @@ const EkspedisiSuratJalan= () => {
                   textAlign="center"
                 />
 
-                {/* <ColumnDirective headerText="Action" template={actionButton} /> */}
+                <ColumnDirective headerText="Action" template={actionButton} />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>
       </div>
+      <div className="absolute">
+        {id !== 0 && (
+          <div className="relative -z-[2]">
+            <CetakSuratJalan id={id} />
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default EkspedisiSuratJalan;

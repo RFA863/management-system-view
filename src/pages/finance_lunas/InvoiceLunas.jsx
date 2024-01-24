@@ -19,43 +19,53 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
-import { CetakSuratJalan } from "../cetak";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const SuratJalan = () => {
+const InvoiceLunas = () => {
   const navigate = useNavigate();
 
   const gridRef = useRef(null);
-
-  const [id, setId] = useState(0);
-
   const [suratJalan, setSuratJalan] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
-  const [getActionButton, setActionButton] = useState("");
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/ekspedisi/suratjalan/getAll", {
+      .get(HOST + "/finance/pembayaran/getLunas", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
         },
       })
       .then((response) => {
-        const listSuratJalan = response.data.data;
+        const suratJalanList = response.data.data;
 
         setSuratJalan(() =>
-          listSuratJalan.map((item, index) => ({
+          suratJalanList.map((item, index) => ({
             id: item.id,
             No: index + 1,
+            id_invoice: item.id_invoice,
             id_job: item.id_job,
-            id_supir: item.id_supir,
-            id_mobil: item.id_mobil,
-            no_suratjalan: item.no_suratjalan,
-            tanggal_kirim: item.tanggal_kirim,
-            supir: item.supir,
-            no_plat: item.no_plat,
+            tgl_kontrabon:
+              item.tgl_kontrabon.split("-")[2] +
+              "-" +
+              item.tgl_kontrabon.split("-")[1] +
+              "-" +
+              item.tgl_kontrabon.split("-")[0],
+            tgl_bayar:
+              item.tgl_bayar.split("-")[2] +
+              "-" +
+              item.tgl_bayar.split("-")[1] +
+              "-" +
+              item.tgl_bayar.split("-")[0],
+            tgl_cair: item.tgl_cair,
+            metode_bayar: item.metode_bayar,
+            total_bayar: "Rp. " + item.total_bayar.toLocaleString(),
+            pembulatan: "Rp. " + item.pembulatan.toLocaleString(),
+            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString(),
+            dpp: "Rp. " + item.dpp.toLocaleString(),
+            ppn: "Rp. " + item.ppn.toLocaleString(),
+            total_harga: "Rp. " + item.total_harga.toLocaleString(),
           }))
         );
       })
@@ -68,7 +78,6 @@ const SuratJalan = () => {
 
   useEffect(() => {
     fetchData();
-    setId(0);
   }, []);
 
   useEffect(() => {
@@ -84,39 +93,9 @@ const SuratJalan = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 9) {
-      setId(0);
-      setId(gridRef.current.selectionModule.data.id);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 12) {
+      // setData(gridRef.current.selectionModule.data);
     }
-  };
-
-  useEffect(() => {
-    if (getActionButton === "update" && id) {
-      navigate("/dashboard/ekspedisi/surat-jalan/update/" + id);
-    }
-  }, [id, getActionButton]);
-
-  const actionButton = () => {
-    return (
-      <div className="flex gap-2 justify-center">
-        <button
-          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("update");
-          }}
-        >
-          Update
-        </button>
-        <button
-          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("cetak");
-          }}
-        >
-          Cetak
-        </button>
-      </div>
-    );
   };
 
   return pageLoading ? (
@@ -125,7 +104,7 @@ const SuratJalan = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Surat Jalan" />
+        <Header title="Invoice Lunas" />
         {/* <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
@@ -164,69 +143,91 @@ const SuratJalan = () => {
                 />
 
                 <ColumnDirective
+                  field="id_invoice"
+                  headerText="Id Invoice"
+                  visible={false}
+                />
+
+                <ColumnDirective
                   field="id_job"
                   headerText="Id Job"
                   visible={false}
                 />
 
                 <ColumnDirective
-                  field="id_supir"
-                  headerText="Id Supir"
-                  visible={false}
-                />
-
-                <ColumnDirective
-                  field="id_mobil"
-                  headerText="Id Mobil"
-                  visible={false}
-                />
-
-                <ColumnDirective
                   field="No"
-                  headerText="No"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="no_suratjalan"
-                  headerText="No. Surat Jalan"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="tanggal_kirim"
-                  headerText="Tanggal Kirim"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="supir"
-                  headerText="Supir"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="no_plat"
-                  headerText="Mobil"
-                  textAlign="Center"
+                  headerText="No."
+                  textAlign="center"
                 />
 
                 <ColumnDirective
-                  headerText="Action"
-                  template={actionButton}
-                  textAlign="Center"
+                  field="tgl_kontrabon"
+                  headerText="Tanggal Kontrabon"
+                  textAlign="center"
                 />
+
+                <ColumnDirective
+                  field="tgl_bayar"
+                  headerText="Tanggal Bayar"
+                  textAlign="center"
+                />
+
+                {/* <ColumnDirective
+                  field="tgl_cair"
+                  headerText="Tanggal Cair"
+                  textAlign="center"
+                /> */}
+                <ColumnDirective
+                  field="dpp"
+                  headerText="DPP"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="ppn"
+                  headerText="PPN"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_harga"
+                  headerText="Harga Total"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="metode_bayar"
+                  headerText="Metode Bayar"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_bayar"
+                  headerText="Total Bayar"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="pembulatan"
+                  headerText="Pembulatan"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="sisa_bayar"
+                  headerText="Sisa"
+                  textAlign="center"
+                />
+
+                {/* <ColumnDirective headerText="Action" template={actionButton} /> */}
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>
       </div>
-      <div>
-        {id !== 0 && getActionButton === "cetak" && (
-          <div className="relative -z-[2]">
-            <CetakSuratJalan id={id} />
-          </div>
-        )}
-      </div>
     </div>
   );
 };
 
-export default SuratJalan;
+export default InvoiceLunas;
