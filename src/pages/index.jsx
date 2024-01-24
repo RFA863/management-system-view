@@ -71,3 +71,5 @@ export { default as Input_invoice } from "./finance_invoice/Input_invoice";
 export { default as Invoice } from "./finance_invoice/Invoice";
 
 export { default as InvoiceLunas } from "./finance_lunas/InvoiceLunas";
+
+export { default as Pembayaran } from "./finance_pembayaran/Pembayaran";
