@@ -58,7 +58,6 @@ import {
   UpdateSuratJalan,
   SudahInvoice,
   InvoiceLunas,
-  
 } from "../pages";
 
 import {
@@ -151,7 +150,6 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-              {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
 
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
@@ -273,8 +271,6 @@ const Main = () => {
               <Route path="/invoice/list/" element={<Invoice />} />
 
               <Route path="/lunas/lunas/" element={<InvoiceLunas />} />
-              
-              
             </Routes>
           </div>
           <Footer />

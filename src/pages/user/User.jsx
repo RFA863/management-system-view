@@ -64,12 +64,16 @@ const User = () => {
 
   const deleteData = async () => {
     await axios
-      .put(HOST + "/marketing/user/delete/" + data.id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/user/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data successfully deleted", {
@@ -87,7 +91,7 @@ const User = () => {
         fetchData();
       })
       .catch((error) => {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           navigate("/dashboard/login");
         }
       });
@@ -129,7 +133,6 @@ const User = () => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           deleteData();
         } else if (result.isDismissed) {

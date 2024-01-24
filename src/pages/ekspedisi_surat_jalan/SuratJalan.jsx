@@ -19,6 +19,7 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
+import { CetakSuratJalan } from "../cetak";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,7 +28,7 @@ const SuratJalan = () => {
 
   const gridRef = useRef(null);
 
-  const [id, setId] = useState();
+  const [id, setId] = useState(0);
 
   const [suratJalan, setSuratJalan] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
@@ -67,6 +68,7 @@ const SuratJalan = () => {
 
   useEffect(() => {
     fetchData();
+    setId(0);
   }, []);
 
   useEffect(() => {
@@ -83,6 +85,7 @@ const SuratJalan = () => {
 
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 9) {
+      setId(0);
       setId(gridRef.current.selectionModule.data.id);
     }
   };
@@ -95,15 +98,7 @@ const SuratJalan = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
-        {/* <button
-          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("order");
-          }}
-        >
-          Order
-        </button> */}
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -111,6 +106,14 @@ const SuratJalan = () => {
           }}
         >
           Update
+        </button>
+        <button
+          className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("cetak");
+          }}
+        >
+          Cetak
         </button>
       </div>
     );
@@ -204,12 +207,23 @@ const SuratJalan = () => {
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="Center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>
+      </div>
+      <div>
+        {id !== 0 && getActionButton === "cetak" && (
+          <div className="relative -z-[2]">
+            <CetakSuratJalan id={id} />
+          </div>
+        )}
       </div>
     </div>
   );
