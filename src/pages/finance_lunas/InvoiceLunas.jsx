@@ -46,17 +46,26 @@ const InvoiceLunas = () => {
             No: index + 1,
             id_invoice: item.id_invoice,
             id_job: item.id_job,
-            tgl_kontrabon: item.tgl_kontrabon,
-            tgl_bayar: item.tgl_bayar,
+            tgl_kontrabon:
+              item.tgl_kontrabon.split("-")[2] +
+              "-" +
+              item.tgl_kontrabon.split("-")[1] +
+              "-" +
+              item.tgl_kontrabon.split("-")[0],
+            tgl_bayar:
+              item.tgl_bayar.split("-")[2] +
+              "-" +
+              item.tgl_bayar.split("-")[1] +
+              "-" +
+              item.tgl_bayar.split("-")[0],
             tgl_cair: item.tgl_cair,
             metode_bayar: item.metode_bayar,
-            total_bayar: item.total_bayar,
-            pembulatan: item.pembulatan,
-            sisa_bayar: item.sisa_bayar,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-            deleted_at: item.deleted_at,
-
+            total_bayar: "Rp. " + item.total_bayar.toLocaleString(),
+            pembulatan: "Rp. " + item.pembulatan.toLocaleString(),
+            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString(),
+            dpp: "Rp. " + item.dpp.toLocaleString(),
+            ppn: "Rp. " + item.ppn.toLocaleString(),
+            total_harga: "Rp. " + item.total_harga.toLocaleString(),
           }))
         );
       })
@@ -134,12 +143,6 @@ const InvoiceLunas = () => {
                 />
 
                 <ColumnDirective
-                  field="No"
-                  headerText="No."
-                  textAlign="center"
-                />
-
-                <ColumnDirective
                   field="id_invoice"
                   headerText="Id Invoice"
                   visible={false}
@@ -149,6 +152,12 @@ const InvoiceLunas = () => {
                   field="id_job"
                   headerText="Id Job"
                   visible={false}
+                />
+
+                <ColumnDirective
+                  field="No"
+                  headerText="No."
+                  textAlign="center"
                 />
 
                 <ColumnDirective
@@ -163,9 +172,26 @@ const InvoiceLunas = () => {
                   textAlign="center"
                 />
 
-                <ColumnDirective
+                {/* <ColumnDirective
                   field="tgl_cair"
                   headerText="Tanggal Cair"
+                  textAlign="center"
+                /> */}
+                <ColumnDirective
+                  field="dpp"
+                  headerText="DPP"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="ppn"
+                  headerText="PPN"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_harga"
+                  headerText="Harga Total"
                   textAlign="center"
                 />
 
@@ -190,12 +216,6 @@ const InvoiceLunas = () => {
                 <ColumnDirective
                   field="sisa_bayar"
                   headerText="Sisa"
-                  textAlign="center"
-                />
-
-                <ColumnDirective
-                  field="total_bayar"
-                  headerText="Total Bayar"
                   textAlign="center"
                 />
 

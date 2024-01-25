@@ -60,9 +60,7 @@ import {
   InvoiceLunas,
   KualitasTipeBox,
   TambahKualitasTipeBox,
-  
-
-
+  Pembayaran,
 } from "../pages";
 
 import {
@@ -155,7 +153,6 @@ const Main = () => {
             {themeSettings && <ThemeSettings />}
 
             <Routes>
-              {/* Pelamar  */}
               <Route path="/master/type-box" element={<Typebox />} />
 
               <Route path="/TypeBox/BuatTypebox" element={<BuatTypebox />} />
@@ -277,11 +274,11 @@ const Main = () => {
 
               <Route path="/invoice/input/:id" element={<Input_invoice />} />
 
-              <Route path="/invoice/list/" element={<Invoice />} />
-
+              <Route path="/invoice/belum-bayar/" element={<Invoice />} />
+ 
               <Route path="/lunas/lunas/" element={<InvoiceLunas />} />
-              
-              
+
+              <Route path="/pembayaran/input/:id" element={<Pembayaran />} />
             </Routes>
           </div>
           <Footer />
