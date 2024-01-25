@@ -58,6 +58,8 @@ import {
   UpdateSuratJalan,
   SudahInvoice,
   InvoiceLunas,
+  KualitasTipeBox,
+  TambahKualitasTipeBox,
   Pembayaran,
 } from "../pages";
 
@@ -223,6 +225,9 @@ const Main = () => {
                 path="/kualitas-detail/update"
                 element={<UpdateKualitasDetail />}
               />
+
+              <Route path="/master/kualitas-type%20box" element={<KualitasTipeBox />} />
+              <Route path="/master/kualitas_tipebox/input" element={<TambahKualitasTipeBox />} />
 
               <Route path="/order/list" element={<Order />} />
               <Route path="/order/detail/:id" element={<Detail />} />
