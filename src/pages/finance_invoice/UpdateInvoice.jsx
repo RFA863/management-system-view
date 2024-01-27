@@ -18,39 +18,61 @@ import {
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-const UpdateSuratJalan = () => {
+const UpdateInvoice = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const gridRef = useRef(null);
 
-  const [idSupir, setIdSupir] = useState();
-  const [idMobil, setIdMobil] = useState();
-  const [Selesai, setSelesai] = useState("");
-  const [CloseOrder, setCloseOrder] = useState("");
-  const [tanggalKirim, setTanggalKirim] = useState("");
-  const [noSuratJalan, setNoSuratJalan] = useState("");
+  const [noInvoice, setnoInvoice] = useState();
+  const [tanggal, setTanggal] = useState();
+  const [Berikat, setBerikat] = useState("");
+  const [Ppn, setPpn] = useState("");
+  const [UbahHarga, setUbahHarga] = useState("false");
+  const [Harga, setHarga] = useState("");
 
-  const [job, setJob] = useState([]);
-  const [supir, setSupir] = useState([]);
-  const [mobil, setMobil] = useState([]);
+  const [invoice, setInvoice] = useState([]);
+
+  const getInvoice = async () => {
+    await axios
+      .get(HOST + "/finance/invoice/get/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listInvoice = response.data.data;
+
+        setInvoice([
+          {
+            id: listInvoice.id,
+            no_suratjalan: listInvoice.no_suratjalan,
+            customer: listInvoice.customer,
+            nama_barang:
+              "BOX " +
+              listInvoice.kualitas +
+              " Uk. " +
+              listInvoice.ukuran_pengiriman,
+            jumlah: listInvoice.selesai,
+            harga_satuan: "Rp. " + listInvoice.harga_satuan.toLocaleString(),
+            total_harga: "Rp. " + listInvoice.total_harga.toLocaleString(),
+          },
+        ]);
+        setHarga(listInvoice.total_harga);
+        setnoInvoice(listInvoice.no_invoice);
+        setTanggal(listInvoice.tanggal);
+        setBerikat(String(listInvoice.berikat));
+        setPpn(listInvoice.ppn);
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
 
   const Validator = () => {
-    // const isNumeric = (input) => {
-    //   // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
-    //   const numericRegex = /^[0-9]+$/;
-    //   return numericRegex.test(input);
-    // };
-
-    if (
-      !(
-        idSupir &&
-        idMobil &&
-        tanggalKirim &&
-        CloseOrder &&
-        Selesai &&
-        noSuratJalan
-      )
-    ) {
+    if (!(noInvoice && tanggal && Berikat && Ppn)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -68,117 +90,6 @@ const UpdateSuratJalan = () => {
     return true;
   };
 
-  const getSupir = async () => {
-    await axios
-      .get(HOST + "/marketing/supir/get", {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        const listSupir = response.data.data;
-
-        setSupir(() =>
-          listSupir.map((item) => ({
-            label: item.nama,
-            value: item.id,
-          }))
-        );
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
-  const getMobil = async () => {
-    await axios
-      .get(HOST + "/marketing/mobil/get", {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        const listMobil = response.data.data;
-
-        setMobil(() =>
-          listMobil.map((item) => ({
-            label: item.noplat,
-            value: item.id,
-          }))
-        );
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
-  const getJob = async () => {
-    await axios
-      .get(HOST + "/marketing/Job/get/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        const listJob = response.data.data;
-
-        setJob([
-          {
-            id: listJob.id,
-            id_order: listJob.id_order,
-            no_nt: listJob.no_nt,
-            nama_barang:
-              "BOX " + listJob.kualitas + " Uk. " + listJob.ukuran_pengiriman,
-            jumlah: listJob.jumlah,
-            keterangan: listJob.keterangan,
-          },
-        ]);
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
-  const getSuratJalan = async () => {
-    await axios
-      .get(HOST + "/ekspedisi/suratjalan/get/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
-      .then((response) => {
-        const listSuratJalan = response.data.data;
-
-        setIdSupir({
-          value: listSuratJalan.id_supir,
-          label: listSuratJalan.supir,
-        });
-        setIdMobil({
-          value: listSuratJalan.id_mobil,
-          label: listSuratJalan.no_plat,
-        });
-        setTanggalKirim(listSuratJalan.tanggal_kirim);
-        setCloseOrder(String(listSuratJalan.close_order));
-        setSelesai(listSuratJalan.selesai);
-        setNoSuratJalan(listSuratJalan.no_suratjalan);
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
   const postData = async (e) => {
     e.preventDefault();
 
@@ -187,14 +98,14 @@ const UpdateSuratJalan = () => {
     }
     await axios
       .put(
-        HOST + "/ekspedisi/suratjalan/update/" + id,
+        HOST + "/finance/invoice/update/" + id,
         {
-          tanggalKirim,
-          noSuratJalan,
-          id_supir: idSupir.value,
-          id_mobil: idMobil.value,
-          selesai: Number(Selesai),
-          closeOrder: JSON.parse(CloseOrder),
+          noInvoice,
+          tanggal,
+          ppn: Number(Ppn),
+          berikat: JSON.parse(Berikat),
+          ubahHarga: JSON.parse(UbahHarga),
+          harga: Number(Harga),
         },
         {
           headers: {
@@ -257,100 +168,67 @@ const UpdateSuratJalan = () => {
   };
 
   useEffect(() => {
-    getSupir();
-    getMobil();
-    getJob();
-    getSuratJalan();
+    getInvoice();
   }, []);
 
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Update Surat Jalan" />
+          <Header title="Update Invoice" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/surat-jalan/surat-jalan");
+              navigate("/dashboard/job-order/belum-dibuat%20surat%20jalan");
             }}
           />
         </div>
-
         <form>
           <div className="flex items-end justify-evenly">
             <table className="border-separate border-spacing-y-2">
               <tr>
-                <td>No. Surat Jalan</td>
+                <td>No. Invoice</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={noSuratJalan}
+                    value={noInvoice}
                     onChange={(e) => {
-                      setNoSuratJalan(e.target.value);
+                      setnoInvoice(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
+
               <tr>
-                <td>Supir</td>
-                <td className="px-4">:</td>
-                <td>
-                  <Select
-                    options={supir}
-                    isClearable={true}
-                    value={idSupir}
-                    onChange={(e) => {
-                      setIdSupir(e);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Mobil</td>
-                <td className="px-4">:</td>
-                <td>
-                  <Select
-                    options={mobil}
-                    isClearable={true}
-                    value={idMobil}
-                    onChange={(e) => {
-                      setIdMobil(e);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Tanggal Kirim</td>
+                <td>Tanggal</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="date"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={tanggalKirim}
+                    value={tanggal}
                     onChange={(e) => {
-                      setTanggalKirim(e.target.value);
+                      setTanggal(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Close Order</td>
+                <td>Berikat</td>
                 <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
                       type="radio"
-                      name="CloseOrder"
+                      name="Berikat"
                       value="true"
-                      checked={CloseOrder === "true"}
+                      checked={Berikat === "true"}
                       onChange={(e) => {
-                        setCloseOrder(e.target.value);
+                        setBerikat(e.target.value);
                       }}
                       required
                     />
@@ -359,11 +237,11 @@ const UpdateSuratJalan = () => {
                   <label>
                     <input
                       type="radio"
-                      name="CloseOrder"
+                      name="Berikat"
                       value="false"
-                      checked={CloseOrder === "false"}
+                      checked={Berikat === "false"}
                       onChange={(e) => {
-                        setCloseOrder(e.target.value);
+                        setBerikat(e.target.value);
                       }}
                       required
                     />
@@ -371,17 +249,65 @@ const UpdateSuratJalan = () => {
                   </label>
                 </td>
               </tr>
-              {CloseOrder === "true" && (
+
+              <tr>
+                <td>PPN</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={Ppn}
+                    onChange={(e) => {
+                      setPpn(e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Ubah Harga</td>
+                <td className="px-4">:</td>
+                <td className="flex gap-4">
+                  <label>
+                    <input
+                      type="radio"
+                      name="UbahHarga"
+                      value="true"
+                      checked={UbahHarga === "true"}
+                      onChange={(e) => {
+                        setUbahHarga(e.target.value);
+                      }}
+                      required
+                    />
+                    Ya
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="UbahHarga"
+                      value="false"
+                      checked={UbahHarga === "false"}
+                      onChange={(e) => {
+                        setUbahHarga(e.target.value);
+                      }}
+                      required
+                    />
+                    Tidak
+                  </label>
+                </td>
+              </tr>
+              {UbahHarga === "true" && (
                 <tr>
-                  <td>Pesanan Selesai</td>
+                  <td>Harga</td>
                   <td className="px-4">:</td>
                   <td>
                     <input
                       type="text"
                       className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                      value={Selesai}
+                      value={Harga}
                       onChange={(e) => {
-                        setSelesai(e.target.value);
+                        setHarga(e.target.value);
                       }}
                     />
                   </td>
@@ -402,7 +328,7 @@ const UpdateSuratJalan = () => {
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={job}
+              dataSource={invoice}
               width="auto"
               allowSorting
               allowTextWrap={true}
@@ -420,14 +346,14 @@ const UpdateSuratJalan = () => {
                 />
 
                 <ColumnDirective
-                  field="id_order"
-                  headerText="id_customer"
-                  visible={false}
+                  field="no_suratjalan"
+                  headerText="No. Surat Jalan"
+                  textAlign="Center"
                 />
 
                 <ColumnDirective
-                  field="no_nt"
-                  headerText="No. NT"
+                  field="customer"
+                  headerText="Customer"
                   textAlign="Center"
                 />
 
@@ -444,9 +370,15 @@ const UpdateSuratJalan = () => {
                 />
 
                 <ColumnDirective
-                  field="keterangan"
-                  headerText="Keterangan"
-                  textAlign="left"
+                  field="harga_satuan"
+                  headerText="Harga Satuan"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_harga"
+                  headerText="Total Harga"
+                  textAlign="center"
                 />
 
                 {/* <ColumnDirective
@@ -476,4 +408,4 @@ const UpdateSuratJalan = () => {
   );
 };
 
-export default UpdateSuratJalan;
+export default UpdateInvoice;

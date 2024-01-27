@@ -1,7 +1,7 @@
 import axios from "axios";
-import Swal from "sweetalert2";
+
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
+
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,76 +19,50 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const User = () => {
+const InvoiceOutstanding = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
-  const { data, setData } = useStateContext();
-
+  const [id, setId] = useState(0);
   const [getActionButton, setActionButton] = useState("");
-  const [pageLoading, setPageLoading] = useState(true);
-  const [customer, setCustomer] = useState([]);
+
+  const [invoice, setInvoice] = useState([]);
   const gridRef = useRef(null);
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/user/get", {
+      .get(HOST + "/finance/pembayaran/getOutstanding", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
         },
       })
       .then((response) => {
-        const listCustomer = response.data.data;
+        const listInvoice = response.data.data;
 
-        setCustomer(() =>
-          listCustomer.map((item, index) => ({
+        setInvoice(() =>
+          listInvoice.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Email: item.email,
-            Password: item.password,
-            Posisi: item.posisi,
-            Akses: item.akses,
+            id_suratjalan: item.id_suratjalan,
+            id_job: item.id_job,
+            id_customer: item.id_customer,
+            no_invoice: item.no_invoice,
+            tanggal:
+              item.tanggal.split("-")[2] +
+              "-" +
+              item.tanggal.split("-")[1] +
+              "-" +
+              item.tanggal.split("-")[0],
+            nominal_ppn: "Rp. " + item.ppn.toLocaleString(),
+            harga_bayar: "Rp. " + item.total_harga.toLocaleString(),
+            total_bayar: "Rp. " + item.total_bayar.toLocaleString(),
+            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString(),
+            dpp: "Rp. " + item.dpp.toLocaleString(),
+            customer: item.customer,
           }))
         );
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          navigate("/dashboard/login");
-        }
-      });
-  };
-
-  const deleteData = async () => {
-    await axios
-      .put(
-        HOST + "/marketing/user/delete/" + data.id,
-        {},
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-            Authorization: getCookie("admin_auth"),
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Data successfully deleted", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-        setData([]);
-        fetchData();
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -98,15 +72,9 @@ const User = () => {
   };
 
   useEffect(() => {
-    setData([]);
+    setId(0);
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (customer.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [customer]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -115,36 +83,22 @@ const User = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
-      setData(gridRef.current.selectionModule.data);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 13) {
+      setId(gridRef.current.selectionModule.data.id);
     }
   };
 
   useEffect(() => {
-    if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/master/user/update");
-    } else if (getActionButton === "delete" && data.length !== 0) {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Email,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          deleteData();
-        } else if (result.isDismissed) {
-          setData([]);
-        }
-      });
+    if (getActionButton === "update" && id !== 0) {
+      navigate("/dashboard/invoice/update/" + id);
+    } else if (getActionButton === "bayar" && id !== 0) {
+      navigate("/dashboard/pembayaran/update/" + id);
     }
-  }, [data, getActionButton]);
+  }, [id, getActionButton]);
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2 justify-center">
+      <div className="flex gap-2">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -154,39 +108,31 @@ const User = () => {
           Update
         </button>
         <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
+          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
-            setActionButton("delete");
+            setActionButton("bayar");
           }}
         >
-          Delete
+          Bayar
         </button>
       </div>
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  // return pageLoading ? (
+  //   <PageLoading />
+  // ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data User" />
-        <div className="mb-4 -mt-4">
-          <button
-            className="bg-blue-700 rounded-xl text-white px-4 py-2"
-            onClick={() => {
-              navigate("/dashboard/master/user/tambah");
-            }}
-          >
-            Tambah User
-          </button>
-        </div>
+        <Header title="Invoice Outstanding" />
+
         <div className="overflow-x-auto">
-          <div className=" cursor-pointer">
+          <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={customer}
-              width="fit-content"
+              dataSource={invoice}
+              width="auto"
               allowPaging
               allowSorting
               allowTextWrap={true}
@@ -208,6 +154,25 @@ const User = () => {
                   isPrimaryKey={true}
                   visible={false}
                 />
+
+                <ColumnDirective
+                  field="id_customer"
+                  headerText="Id Customer"
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="id_job"
+                  headerText="Id Job"
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="id_suratjalan"
+                  headerText="Id Surat Jalan"
+                  visible={false}
+                />
+
                 <ColumnDirective
                   field="No"
                   headerText="No"
@@ -215,25 +180,50 @@ const User = () => {
                 />
 
                 <ColumnDirective
-                  field="Email"
-                  headerText="Email"
+                  field="no_invoice"
+                  headerText="No.Invoice"
                   textAlign="Center"
                 />
 
                 <ColumnDirective
-                  field="Password"
-                  headerText="Password"
-                  textAlign="Center"
-                />
-                <ColumnDirective
-                  field="Posisi"
-                  headerText="Posisi"
+                  field="tanggal"
+                  headerText="Tanggal"
                   textAlign="Center"
                 />
 
                 <ColumnDirective
-                  field="Akses"
-                  headerText="Akses"
+                  field="customer"
+                  headerText="Customer"
+                  textAlign="Left"
+                />
+
+                <ColumnDirective
+                  field="dpp"
+                  headerText="DPP"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="nominal_ppn"
+                  headerText="PPN"
+                  textAlign="Left"
+                />
+
+                <ColumnDirective
+                  field="harga_bayar"
+                  headerText="Harga Bayar"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="total_bayar"
+                  headerText="Total Bayar"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="sisa_bayar"
+                  headerText="Sisa Bayar"
                   textAlign="Center"
                 />
 
@@ -251,4 +241,4 @@ const User = () => {
     </div>
   );
 };
-export default User;
+export default InvoiceOutstanding;

@@ -57,8 +57,18 @@ const OrderDetail = () => {
             sisa: item.sisa,
             selesai: item.selesai,
             no_po: item.no_po,
-            tanggal_order: item.tanggal_order,
-            tanggal_kirim: item.tanggal_kirim,
+            tanggal_order:
+              item.tanggal_order[0].split("-")[2] +
+              "-" +
+              item.tanggal_order[0].split("-")[1] +
+              "-" +
+              item.tanggal_order[0].split("-")[0],
+            tanggal_kirim:
+              item.tanggal_kirim[0].split("-")[2] +
+              "-" +
+              item.tanggal_kirim[0].split("-")[1] +
+              "-" +
+              item.tanggal_kirim[0].split("-")[0],
             customer: item.customer[0],
             kualitas: item.kualitas,
             ukuran: item.ukuran,

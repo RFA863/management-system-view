@@ -59,11 +59,16 @@ const JobDetail = () => {
           warna: listJob.warna,
           perekat: listJob.perekat,
           ukuran: listJob.ukuran,
-          harga: listJob.harga,
+          harga: "Rp. " + listJob.harga.toLocaleString(),
           customer: listJob.customer,
           keterangan: listJob.keterangan,
           ukuran_pengiriman: listJob.ukuran_pengiriman,
-          tanggal_order: listJob.tanggal_order,
+          tanggal_order:
+            listJob.tanggal_order.split("-")[2] +
+            "-" +
+            listJob.tanggal_order.split("-")[1] +
+            "-" +
+            listJob.tanggal_order.split("-")[0],
         });
       })
       .catch((error) => {
@@ -90,93 +95,102 @@ const JobDetail = () => {
       </div>
 
       <div className="flex justify-between">
-        <div className="border border-slate-700 rounded-xl">
-          <table className=" text-left border-collapse border-spacing-2 ">
-            <tr>
-              <th colSpan={2} className=" border-b border-slate-700 py-2 pl-2">
-                Detail Job
-              </th>
-            </tr>
+        <div className="border border-slate-300 rounded-xl overflow-hidden">
+          <table className="w-full text-left border-collapse border-spacing-0">
+            <thead className="bg-slate-300 text-gray-600">
+              <tr>
+                <th colSpan={2} className="py-2 pl-4">
+                  Detail Job
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Customer
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.customer}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                Customer
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.customer}`}</td>
-            </tr>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  No. Job
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.no_job}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                No. Job
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.no_job}`}</td>
-            </tr>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Type Box
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.tipebox}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                Type Box
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.tipebox}`}</td>
-            </tr>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Kualitas
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.kualitas}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                Kualitas
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.kualitas}`}</td>
-            </tr>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Ukuran Pengiriman
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.ukuran_pengiriman}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                Ukuran Pengiriman
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.ukuran_pengiriman}`}</td>
-            </tr>
+              <tr>
+                <th className="border-b border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Ukuran Produksi
+                </th>
+                <td className="border-b border-slate-300 px-4">{`${job.ukuran}`}</td>
+              </tr>
 
-            <tr>
-              <th className=" border-b border-r  border-slate-700 pr-6  pl-2">
-                Ukuran Produksi
-              </th>
-              <td className=" border-b  border-slate-700 px-3">{`${job.ukuran}`}</td>
-            </tr>
-
-            <tr>
-              <th className="border-r  border-slate-700 pr-6 pl-2">
-                keterangan
-              </th>
-              <td className="px-3">{`${job.keterangan}`}</td>
-            </tr>
+              <tr>
+                <th className="border-r border-slate-300 pr-4 pl-4 text-gray-600">
+                  Keterangan
+                </th>
+                <td className="px-4">{`${job.keterangan}`}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
 
-        <div className="border border-slate-700 rounded-xl h-fit">
-          <table className=" text-center border-collapse border-spacing-y-4 ">
-            <tr>
-              <th
-                colSpan={4}
-                className="border-b border-slate-700 px-6 text-left py-2"
-              >
-                Harga
-              </th>
-            </tr>
-            <tr>
-              <th className="border-b border-r border-slate-700 px-3">
-                No. NT
-              </th>
-              <th className="border-b border-r border-slate-700 px-3">
-                Tanggal Order
-              </th>
-              <th className="border-b border-r border-slate-700 px-3">
-                Quantity
-              </th>
-              <th className="border-b border-slate-700 px-3">Harga</th>
-            </tr>
-            <tr>
-              <td className="border-r border-slate-700 px-3">{`${job.no_nt}`}</td>
-              <td className="border-r border-slate-700 px-3">{`${job.tanggal_order}`}</td>
-              <td className="border-r border-slate-700 px-3">{`${job.jumlah}`}</td>
-              <td className=" px-3">{`${job.harga}`}</td>
-            </tr>
+        <div className="border border-slate-300 rounded-xl overflow-hidden h-fit">
+          <table className="w-full text-center border-collapse border-spacing-y-4">
+            <thead className="bg-slate-300 text-gray-600">
+              <tr>
+                <th
+                  colSpan={4}
+                  className="border-b border-slate-300 px-6 text-left py-2"
+                >
+                  Harga
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th className="border-b border-r border-slate-300 px-3 text-gray-600">
+                  No. NT
+                </th>
+                <th className="border-b border-r border-slate-300 px-3 text-gray-600">
+                  Tanggal Order
+                </th>
+                <th className="border-b border-r border-slate-300 px-3 text-gray-600">
+                  Quantity
+                </th>
+                <th className="border-b border-slate-300 px-3 text-gray-600">
+                  Harga
+                </th>
+              </tr>
+              <tr>
+                <td className="border-r border-slate-300 px-3">{`${job.no_nt}`}</td>
+                <td className="border-r border-slate-300 px-3">{`${job.tanggal_order}`}</td>
+                <td className="border-r border-slate-300 px-3">{`${job.jumlah}`}</td>
+                <td className="px-3">{`${job.harga}`}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>

@@ -8,20 +8,38 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { useStateContext } from "../../contexts/ContextProvider";
 
-const TambahKualitasTipeBox = () => {
+const UpdateKualitasTipeBox = () => {
   const navigate = useNavigate();
+  const { data } = useStateContext();
 
-  const [Kuping, setKuping] = useState("");
-  const [idTipeBox, setIdTipeBox] = useState();
-  const [idKualitas, setIdKualitas] = useState();
-  const [konstantaPanjang, setKonstantaPanjang] = useState("");
-  const [konstantaLebarGenap, setKonstantaLebarGenap] = useState("");
-  const [konstantaLebarGanjil, setKonstantaLebarGanjil] = useState("");
+  if (data.length === 0) {
+    navigate("/dashboard/master/kualitas-type%20box");
+  }
+
+  const [Kuping, setKuping] = useState(data.kuping);
+  const [idTipeBox, setIdTipeBox] = useState({
+    value: data.id_tipebox,
+    label: data.tipebox,
+  });
+  const [idKualitas, setIdKualitas] = useState({
+    value: data.id_kualitas,
+    label: data.kualitas,
+  });
+  const [konstantaPanjang, setKonstantaPanjang] = useState(
+    data.konstanta_panjang
+  );
+  const [konstantaLebarGenap, setKonstantaLebarGenap] = useState(
+    data.konstanta_lebar_genap
+  );
+  const [konstantaLebarGanjil, setKonstantaLebarGanjil] = useState(
+    data.konstanta_lebar_ganjil
+  );
 
   const [tipeBox, setTipeBox] = useState([]);
   const [kualitas, setKualitas] = useState([]);
-
+  console.log(idKualitas);
   const Validator = () => {
     if (
       !(Kuping, konstantaPanjang, konstantaLebarGanjil, konstantaLebarGenap) ||
@@ -102,8 +120,8 @@ const TambahKualitasTipeBox = () => {
       return;
     }
     await axios
-      .post(
-        HOST + "/marketing/kualitas_tipebox/input",
+      .put(
+        HOST + "/marketing/kualitas_tipebox/update/" + data.id,
         {
           kuping: Number(Kuping),
           id_tipebox: idTipeBox.value,
@@ -175,7 +193,7 @@ const TambahKualitasTipeBox = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah Kualitas Tipe Box" />
+          <Header title="Update Kualitas Tipe Box" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -315,4 +333,4 @@ const TambahKualitasTipeBox = () => {
     </div>
   );
 };
-export default TambahKualitasTipeBox;
+export default UpdateKualitasTipeBox;

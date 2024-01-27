@@ -252,15 +252,19 @@ const Customer = () => {
                   field="Alamat"
                   headerText="Alamat"
                   textAlign="center"
-                />
-
+                /> */}
+                {/*
                 <ColumnDirective
                   field="AlamatInvoice"
                   headerText="Alamat Invoice"
                   textAlign="center"
                 /> */}
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

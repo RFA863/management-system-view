@@ -43,15 +43,25 @@ const Order = () => {
       })
       .then((response) => {
         const listOrder = response.data.data;
-
+        console.log(listOrder);
         setOrder(() =>
           listOrder.map((item, index) => ({
             id: item.id,
             No: index + 1,
             id_customer: item.id_customer,
             no_po: item.no_po,
-            tanggal_order: item.tanggal_order,
-            tanggal_kirim: item.tanggal_kirim,
+            tanggal_order:
+              item.tanggal_order.split("-")[2] +
+              "-" +
+              item.tanggal_order.split("-")[1] +
+              "-" +
+              item.tanggal_order.split("-")[0],
+            tanggal_kirim:
+              item.tanggal_kirim.split("-")[2] +
+              "-" +
+              item.tanggal_kirim.split("-")[1] +
+              "-" +
+              item.tanggal_kirim.split("-")[0],
             Customer: item.Customer[0],
           }))
         );

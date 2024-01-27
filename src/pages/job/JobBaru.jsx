@@ -144,7 +144,7 @@ const JobBaru = () => {
       .then((response) => {
         if (response.status === 200) {
           const indexValue = response.data.data.indexvalue;
-          setIndexHarga(indexValue);
+          setIndexHarga("Rp. " + indexValue.toLocaleString());
         }
       })
       .catch((error) => {
@@ -211,8 +211,8 @@ const JobBaru = () => {
       .then((response) => {
         if (response.status === 200) {
           const indexValue = response.data.data;
-          setTotalHarga(indexValue.totalHarga);
-          setSubTotal(indexValue.subTotal);
+          setTotalHarga("Rp. " + indexValue.totalHarga.toLocaleString());
+          setSubTotal("Rp. " + indexValue.subTotal.toLocaleString());
           if (isDisabled) {
             setTotalHarga(0);
             setSubTotal(0);

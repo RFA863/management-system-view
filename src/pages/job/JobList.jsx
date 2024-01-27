@@ -52,7 +52,7 @@ const JobList = () => {
             kualitas: item.kualitas,
             ukuran: item.ukuran,
             ukuran_pengiriman: item.ukuran_pengiriman,
-            total_harga: item.total_harga,
+            total_harga: "Rp. " + item.total_harga.toLocaleString(),
             keterangan: item.keterangan,
           }))
         );

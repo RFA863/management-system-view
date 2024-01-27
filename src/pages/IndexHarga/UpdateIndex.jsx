@@ -28,7 +28,9 @@ const UpdateIndex = () => {
     value: data.id_kualitasdetail,
     label: data.Kualitas_Detail,
   });
-  const [IndexValue, setIndexValue] = useState(data.indexvalue);
+  const [IndexValue, setIndexValue] = useState(
+    parseInt(data.indexvalue.replace(/\D+/g, ""))
+  );
 
   const [customer, setCustomer] = useState([]);
   const [kualitasDetail, setKualitasDetail] = useState([]);

@@ -60,7 +60,12 @@ import {
   InvoiceLunas,
   KualitasTipeBox,
   TambahKualitasTipeBox,
-  Pembayaran,
+  UpdateKualitasTipeBox,
+  InvoiceBlmBayar,
+  InvoiceOutstanding,
+  UpdateInvoice,
+  InputPembayaran,
+  UpdatePembayaran,
 } from "../pages";
 
 import {
@@ -226,8 +231,18 @@ const Main = () => {
                 element={<UpdateKualitasDetail />}
               />
 
-              <Route path="/master/kualitas-type%20box" element={<KualitasTipeBox />} />
-              <Route path="/master/kualitas_tipebox/input" element={<TambahKualitasTipeBox />} />
+              <Route
+                path="/master/kualitas-type%20box"
+                element={<KualitasTipeBox />}
+              />
+              <Route
+                path="/master/kualitas_tipebox/input"
+                element={<TambahKualitasTipeBox />}
+              />
+              <Route
+                path="/master/kualitas_tipebox/update"
+                element={<UpdateKualitasTipeBox />}
+              />
 
               <Route path="/order/list" element={<Order />} />
               <Route path="/order/detail/:id" element={<Detail />} />
@@ -272,13 +287,28 @@ const Main = () => {
                 element={<SudahInvoice />}
               />
 
+              <Route path="/invoice/list" element={<Invoice />} />
               <Route path="/invoice/input/:id" element={<Input_invoice />} />
+              <Route path="/invoice/update/:id" element={<UpdateInvoice />} />
 
-              <Route path="/invoice/belum-bayar/" element={<Invoice />} />
- 
-              <Route path="/lunas/lunas/" element={<InvoiceLunas />} />
+              <Route path="/lunas/lunas" element={<InvoiceLunas />} />
+              <Route
+                path="/invoice/belum-bayar"
+                element={<InvoiceBlmBayar />}
+              />
+              <Route
+                path="/invoice/outstanding"
+                element={<InvoiceOutstanding />}
+              />
 
-              <Route path="/pembayaran/input/:id" element={<Pembayaran />} />
+              <Route
+                path="/pembayaran/input/:id"
+                element={<InputPembayaran />}
+              />
+              <Route
+                path="/pembayaran/update/:id"
+                element={<UpdatePembayaran />}
+              />
             </Routes>
           </div>
           <Footer />

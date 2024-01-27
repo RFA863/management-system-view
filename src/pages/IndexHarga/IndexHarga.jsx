@@ -24,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const IndexHarga = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -49,7 +49,7 @@ const IndexHarga = () => {
             No: index + 1,
             id_customer: item.id_customer,
             id_kualitasdetail: item.id_kualitasdetail,
-            indexvalue: item.indexvalue,
+            indexvalue: "Rp. " + item.indexvalue.toLocaleString(),
             Customer: item.Customer,
             Kualitas_Detail: item.Kualitas_Detail,
           }))
@@ -223,7 +223,11 @@ const IndexHarga = () => {
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

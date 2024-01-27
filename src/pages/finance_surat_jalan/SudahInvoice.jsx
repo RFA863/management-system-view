@@ -42,9 +42,9 @@ const SudahInvoice = () => {
 
         setSuratJalan(() =>
           listSuratJalan.map((item, index) => ({
-            id: item.id,
+            id: item.id_suratjalan,
             No: index + 1,
-            id_job: item.id_job,
+            id_job: item.id,
             id_supir: item.id_supir,
             id_mobil: item.id_mobil,
             supir: item.supir,

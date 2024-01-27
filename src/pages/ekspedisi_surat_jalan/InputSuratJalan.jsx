@@ -3,8 +3,17 @@ import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
+import {
+  GridComponent,
+  Inject,
+  ColumnsDirective,
+  ColumnDirective,
+  Sort,
+  Resize,
+} from "@syncfusion/ej2-react-grids";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
@@ -12,6 +21,7 @@ import { Header } from "../../components";
 const InputSuratJalan = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const gridRef = useRef(null);
 
   const [idSupir, setIdSupir] = useState();
   const [idMobil, setIdMobil] = useState();
@@ -20,7 +30,8 @@ const InputSuratJalan = () => {
   const [tanggalKirim, setTanggalKirim] = useState("");
   const [noSuratJalan, setNoSuratJalan] = useState("");
 
-  const [job, setJob] = useState();
+  const [job, setJob] = useState([]);
+
   const [supir, setSupir] = useState([]);
   const [mobil, setMobil] = useState([]);
 
@@ -119,7 +130,18 @@ const InputSuratJalan = () => {
       .then((response) => {
         const listJob = response.data.data;
 
-        setJob(listJob);
+        setJob([
+          {
+            id: listJob.id,
+            id_order: listJob.id_order,
+            no_nt: listJob.no_nt,
+            nama_barang:
+              "BOX " + listJob.kualitas + " Uk. " + listJob.ukuran_pengiriman,
+            jumlah: listJob.jumlah,
+            keterangan: listJob.keterangan,
+          },
+        ]);
+
         setSelesai(listJob.jumlah);
       })
       .catch((error) => {
@@ -200,12 +222,18 @@ const InputSuratJalan = () => {
       });
   };
 
+  const dataBound = () => {
+    if (gridRef.current) {
+      gridRef.current.autoFitColumns();
+    }
+  };
+
   useEffect(() => {
     getSupir();
     getMobil();
     getJob();
   }, []);
-
+  // console.log(job);
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
@@ -340,6 +368,66 @@ const InputSuratJalan = () => {
             </div>
           </div>
         </form>
+        <div className="overflow-x-auto">
+          <div className="w-fit cursor-pointer">
+            <GridComponent
+              dataSource={job}
+              width="auto"
+              allowSorting
+              allowTextWrap={true}
+              textWrapSettings={{ wrapMode: "Content" }}
+              selectionSettings={{ type: "Single", mode: "Both" }}
+              dataBound={dataBound}
+              ref={gridRef}
+            >
+              <ColumnsDirective>
+                <ColumnDirective
+                  field="id"
+                  headerText="Id"
+                  isPrimaryKey={true}
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="id_order"
+                  headerText="id_customer"
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="no_nt"
+                  headerText="No. NT"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="nama_barang"
+                  headerText="Nama Barang"
+                  textAlign="left"
+                />
+
+                <ColumnDirective
+                  field="jumlah"
+                  headerText="Quantity"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="keterangan"
+                  headerText="Keterangan"
+                  textAlign="left"
+                />
+
+                {/* <ColumnDirective
+                  headerText="Action"
+                  template={updateOrder}
+                  textAlign="Center"
+                /> */}
+              </ColumnsDirective>
+              <Inject services={[Sort, Resize]} />
+            </GridComponent>
+          </div>
+        </div>
       </div>
       <ToastContainer
         position="top-center"

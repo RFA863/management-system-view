@@ -102,11 +102,11 @@ const Rekening = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (customer.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [customer]);
+  // useEffect(() => {
+  //   if (customer.length !== 0) {
+  //     setPageLoading(false);
+  //   }
+  // }, [customer]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -166,9 +166,10 @@ const Rekening = () => {
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  // return pageLoading ? (
+  //   <PageLoading />
+  // ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
@@ -238,7 +239,11 @@ const Rekening = () => {
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

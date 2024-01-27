@@ -233,7 +233,11 @@ const Typebox = () => {
                   headerText="Kode"
                   textAlign="center"
                 />
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject
                 services={[Search, Toolbar, Page, Sort, Resize, ExcelExport]}

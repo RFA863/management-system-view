@@ -149,7 +149,7 @@ const TambahRekening = () => {
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noRekening}
                     onChange={(e) => {
-                      setnoRekening(e.target.value);
+                      setnoRekening(e.target.value.replace(/[^0-9-]/g, ""));
                     }}
                     required
                   />

@@ -5,6 +5,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import { list } from "postcss";
 
 const SidebarFinance = () => {
   const [openSection, setOpenSection] = useState(null);
@@ -36,6 +37,9 @@ const SidebarFinance = () => {
     {
       title: "invoice",
       links: [
+        {
+          name: "list",
+        },
         {
           name: "belum bayar",
         },

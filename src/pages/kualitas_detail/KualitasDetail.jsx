@@ -240,7 +240,7 @@ const KualitasDetail = () => {
                 <ColumnDirective
                   headerText="Action"
                   template={actionButton}
-                  // textAlign="Center"
+                  textAlign="center"
                 />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />

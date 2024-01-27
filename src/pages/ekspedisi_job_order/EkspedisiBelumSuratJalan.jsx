@@ -192,17 +192,17 @@ const EkspedisiBelumSuratJalan = () => {
                 <ColumnDirective
                   field="customer"
                   headerText="Customer"
-                  textAlign="Center"
+                  textAlign="left"
                 />
                 <ColumnDirective
                   field="kualitas"
                   headerText="Kualitas"
-                  textAlign="Center"
+                  textAlign="left"
                 />
                 <ColumnDirective
                   field="ukuran"
                   headerText="Ukuran"
-                  textAlign="Center"
+                  textAlign="left"
                 />
                 <ColumnDirective
                   field="tanggal_order"

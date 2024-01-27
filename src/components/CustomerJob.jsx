@@ -53,8 +53,18 @@ const CustomerJob = ({ idOrder }) => {
         setOrder({
           id: listOrder.id,
           no_po: listOrder.no_po,
-          tanggal_order: listOrder.tanggal_order,
-          tanggal_kirim: listOrder.tanggal_kirim,
+          tanggal_order:
+            listOrder.tanggal_order.split("-")[2] +
+            "-" +
+            listOrder.tanggal_order.split("-")[1] +
+            "-" +
+            listOrder.tanggal_order.split("-")[0],
+          tanggal_kirim:
+            listOrder.tanggal_kirim.split("-")[2] +
+            "-" +
+            listOrder.tanggal_kirim.split("-")[1] +
+            "-" +
+            listOrder.tanggal_kirim.split("-")[0],
         });
       })
       .catch((error) => {
@@ -70,93 +80,103 @@ const CustomerJob = ({ idOrder }) => {
 
   return (
     <div>
-      <div className="border border-slate-700 rounded-xl">
-        <table className=" text-left border-collapse border-spacing-2 ">
-          <tr>
-            <th colSpan={2} className=" border-b border-slate-700 py-2 pl-2">
-              Customer
-            </th>
-          </tr>
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              Kode
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${customer.kode}`}</td>
-          </tr>
+      <div className="border border-slate-300 rounded-xl overflow-hidden">
+        <table className="w-full text-left border-collapse border-spacing-0">
+          <thead className="bg-slate-300 text-gray-600">
+            <tr>
+              <th colSpan={2} className="py-2 pl-4">
+                Customer
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                Kode
+              </th>
+              <td className="border-b border-slate-300 px-4">{`${customer.kode}`}</td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              No
-            </th>
-            <td className=" border-b border-slate-700 px-3">
-              {`${customer.nomor}`}
-            </td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                No
+              </th>
+              <td className="border-b border-slate-300 px-4">
+                {`${customer.nomor}`}
+              </td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              Nama
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${customer.nama}`}</td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                Nama
+              </th>
+              <td className="border-b border-slate-300 px-4">{`${customer.nama}`}</td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              Alamat
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${customer.alamat}`}</td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                Alamat
+              </th>
+              <td className="border-b border-slate-300 px-4">{`${customer.alamat}`}</td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              No. Telpn
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${customer.notelp}`}</td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                No. Telpn
+              </th>
+              <td className="border-b border-slate-300 px-4">{`${customer.notelp}`}</td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              No. Fax
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${customer.nofax}`}</td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                No. Fax
+              </th>
+              <td className="border-b border-slate-300 px-4">{`${customer.nofax}`}</td>
+            </tr>
 
-          <tr>
-            <th className="border-r border-slate-700 pr-6 pl-2">Email</th>
-            <td className="px-3">{`${customer.email}`}</td>
-          </tr>
+            <tr>
+              <th className="border-r border-slate-300 pr-4 pl-4  text-gray-600">
+                Email
+              </th>
+              <td className="px-4">{`${customer.email}`}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
-      <div className="border border-slate-700 rounded-xl mt-6">
-        <table className=" text-left border-collapse border-spacing-2 ">
-          <tr>
-            <th colSpan={2} className=" border-b border-slate-700 py-2 pl-2">
-              Order
-            </th>
-          </tr>
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              No. PO
-            </th>
-            <td className=" border-b border-slate-700 px-3">{`${order.no_po}`}</td>
-          </tr>
+      <div className="border border-slate-300 rounded-xl mt-6 overflow-hidden">
+        <table className="w-full text-left border-collapse border-spacing-0">
+          <thead className="bg-slate-300  text-gray-600">
+            <tr>
+              <th colSpan={2} className="py-2 pl-4">
+                Order
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th className="border-b border-r border-slate-300  text-gray-600 pr-4 pl-4">
+                No. PO
+              </th>
+              <td className="border-b border-slate-300   px-4">{`${order.no_po}`}</td>
+            </tr>
 
-          <tr>
-            <th className=" border-b border-r border-slate-700 pr-6  pl-2">
-              Tanggal Order
-            </th>
-            <td className=" border-b border-slate-700 px-3">
-              {`${order.tanggal_order}`}
-            </td>
-          </tr>
+            <tr>
+              <th className="border-b border-r border-slate-300  text-gray-600 pr-4 pl-4">
+                Tanggal Order
+              </th>
+              <td className="border-b border-slate-300   px-4">
+                {`${order.tanggal_order}`}
+              </td>
+            </tr>
 
-          <tr>
-            <th className="border-r border-slate-700 pr-6 pl-2">
-              Tanggal Kirim
-            </th>
-            <td className=" px-3">{`${order.tanggal_kirim}`}</td>
-          </tr>
+            <tr>
+              <th className="border-r border-slate-300  text-gray-600 pr-4 pl-4">
+                Tanggal Kirim
+              </th>
+              <td className="px-4">{`${order.tanggal_kirim}`}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

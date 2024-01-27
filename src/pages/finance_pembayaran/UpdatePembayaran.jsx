@@ -3,40 +3,87 @@ import Select from "react-select";
 import { getCookie } from "cookies-next";
 import { CgClose } from "react-icons/cg";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
+import {
+  GridComponent,
+  Inject,
+  ColumnsDirective,
+  ColumnDirective,
+  Sort,
+  Resize,
+} from "@syncfusion/ej2-react-grids";
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { convertPixelToValue } from "@syncfusion/ej2/lineargauge";
 
-const Pembayaran = () => {
+const UpdatePembayaran = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const gridRef = useRef(null);
 
   const [tglKontraBon, setTglKontraBon] = useState();
   const [tglBayar, setTglBayar] = useState();
-  const [metodeBayar, setmetodeBayar] = useState("");
+  const [MetodeBayar, setmetodeBayar] = useState();
   const [TotalBayar, setTotalBayar] = useState("");
-  const [Pembulatan, setlPembulatan] = useState("");
+  const [Pembulatan, setlPembulatan] = useState("0");
   const [keterangan, setKeterangan] = useState("");
 
-  const Validator = () => {
-    // const isNumeric = (input) => {
-    //   // Menggunakan ekspresi reguler untuk mengecek apakah input hanya berisi karakter angka
-    //   const numericRegex = /^[0-9]+$/;
-    //   return numericRegex.test(input);
-    // };
+  const [pembayaran, setPembayaran] = useState([]);
 
-    if (
-      !(
-        tglKontraBon &&
-        tglBayar &&
-        metodeBayar &&
-        TotalBayar &&
-        Pembulatan &&
-        keterangan
-      )
-    ) {
+  const getPembayaran = async () => {
+    await axios
+      .get(HOST + "/finance/pembayaran/get/" + id, {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listInvoice = response.data.data;
+
+        setTglKontraBon(listInvoice.tgl_kontrabon);
+        setTglBayar(listInvoice.tgl_bayar);
+        setmetodeBayar({
+          value: listInvoice.metode_bayar,
+          label: listInvoice.metode_bayar,
+        });
+        setTotalBayar(listInvoice.sisa_bayar);
+        setlPembulatan(listInvoice.pembulatan);
+        setKeterangan(listInvoice.keterangan);
+
+        setPembayaran([
+          {
+            id: listInvoice.id,
+            no_invoice: listInvoice.no_invoice,
+            customer: listInvoice.customer,
+            nama_barang:
+              "BOX " +
+              listInvoice.kualitas +
+              " Uk. " +
+              listInvoice.ukuran_pengiriman,
+            jumlah: listInvoice.jumlah,
+            dpp: "Rp. " + listInvoice.dpp.toLocaleString("id-ID"),
+            ppn: "Rp. " + listInvoice.ppn.toLocaleString("id-ID"),
+            harga_bayar:
+              "Rp. " + listInvoice.harga_bayar.toLocaleString("id-ID"),
+            total_bayar:
+              "Rp. " + listInvoice.total_bayar.toLocaleString("id-ID"),
+            sisa_bayar: "Rp. " + listInvoice.sisa_bayar.toLocaleString("id-ID"),
+          },
+        ]);
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  const Validator = () => {
+    if (!(tglKontraBon && tglBayar && MetodeBayar && TotalBayar)) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -61,12 +108,12 @@ const Pembayaran = () => {
       return;
     }
     await axios
-      .post(
-        HOST + "/finance/pembayaran/input/" + id,
+      .put(
+        HOST + "/finance/pembayaran/update/" + id,
         {
           tglKontraBon,
           tglBayar,
-          metodeBayar,
+          metodeBayar: MetodeBayar.value,
           totalBayar: Number(TotalBayar),
           pembulatan: Number(Pembulatan),
           keterangan,
@@ -125,17 +172,31 @@ const Pembayaran = () => {
       });
   };
 
-const PayMethod = [{value:"Transfer", label:"Transfer"},{value:"Cek/Giro", label:"Cek/Giro"}, {value:"Cash", label:"Cash"}]
+  const PayMethod = [
+    { value: "Transfer", label: "Transfer" },
+    { value: "Cek/Giro", label: "Cek/Giro" },
+    { value: "Cash", label: "Cash" },
+  ];
+
+  const dataBound = () => {
+    if (gridRef.current) {
+      gridRef.current.autoFitColumns();
+    }
+  };
+
+  useEffect(() => {
+    getPembayaran();
+  }, []);
 
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Input Pembayaran" />
+          <Header title="Update Pembayaran" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/job-order/belum-dibuat%20surat%20jalan");
+              navigate("/dashboard/invoice/outstanding");
             }}
           />
         </div>
@@ -176,10 +237,10 @@ const PayMethod = [{value:"Transfer", label:"Transfer"},{value:"Cek/Giro", label
                 <td>Metode Bayar</td>
                 <td className="px-4">:</td>
                 <td>
-                <Select
+                  <Select
                     options={PayMethod}
                     isClearable={true}
-                    value={metodeBayar}
+                    value={MetodeBayar}
                     onChange={(e) => {
                       setmetodeBayar(e);
                     }}
@@ -243,6 +304,91 @@ const PayMethod = [{value:"Transfer", label:"Transfer"},{value:"Cek/Giro", label
             </div>
           </div>
         </form>
+
+        <div className="overflow-x-auto">
+          <div className="w-fit cursor-pointer">
+            <GridComponent
+              dataSource={pembayaran}
+              width="auto"
+              allowSorting
+              allowTextWrap={true}
+              textWrapSettings={{ wrapMode: "Content" }}
+              selectionSettings={{ type: "Single", mode: "Both" }}
+              dataBound={dataBound}
+              ref={gridRef}
+            >
+              <ColumnsDirective>
+                <ColumnDirective
+                  field="id"
+                  headerText="Id"
+                  isPrimaryKey={true}
+                  visible={false}
+                />
+
+                <ColumnDirective
+                  field="no_invoice"
+                  headerText="No. Invoice"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="customer"
+                  headerText="Customer"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="nama_barang"
+                  headerText="Nama Barang"
+                  textAlign="left"
+                />
+
+                <ColumnDirective
+                  field="jumlah"
+                  headerText="Quantity"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="dpp"
+                  headerText="DPP"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="ppn"
+                  headerText="PPN"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="harga_bayar"
+                  headerText="Harga Bayar"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_bayar"
+                  headerText="Total Bayar"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="sisa_bayar"
+                  headerText="Sisa Bayar"
+                  textAlign="center"
+                />
+
+                {/* <ColumnDirective
+                  headerText="Action"
+                  template={updateOrder}
+                  textAlign="Center"
+                /> */}
+              </ColumnsDirective>
+              <Inject services={[Sort, Resize]} />
+            </GridComponent>
+          </div>
+        </div>
       </div>
       <ToastContainer
         position="top-center"
@@ -260,4 +406,4 @@ const PayMethod = [{value:"Transfer", label:"Transfer"},{value:"Cek/Giro", label
   );
 };
 
-export default Pembayaran;
+export default UpdatePembayaran;

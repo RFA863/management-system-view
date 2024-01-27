@@ -80,11 +80,11 @@ const InvoiceLunas = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (suratJalan.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [suratJalan]);
+  // useEffect(() => {
+  //   if (suratJalan.length !== 0) {
+  //     setPageLoading(false);
+  //   }
+  // }, [suratJalan]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -98,9 +98,11 @@ const InvoiceLunas = () => {
     }
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  // return pageLoading ? (
+  //   <PageLoading />
+  // ) : (
+
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">

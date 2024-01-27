@@ -32,6 +32,7 @@ export { default as UpdateKualitasDetail } from "./kualitas_detail/UpdateKualita
 
 export { default as KualitasTipeBox } from "./kualitas_tipebox/KualitasTipeBox";
 export { default as TambahKualitasTipeBox } from "./kualitas_tipebox/TambahKualitasTipeBox";
+export { default as UpdateKualitasTipeBox } from "./kualitas_tipebox/UpdateKualitasTipeBox";
 
 export { default as Rekening } from "./rekening/Rekening";
 export { default as TambahRekening } from "./rekening/TambahRekening";
@@ -70,9 +71,12 @@ export { default as ListSuratJalan } from "./finance_surat_jalan/ListSuratJalan"
 export { default as BelumInvoice } from "./finance_surat_jalan/BelumInvoice";
 export { default as SudahInvoice } from "./finance_surat_jalan/SudahInvoice";
 
-export { default as Input_invoice } from "./finance_invoice/Input_invoice";
 export { default as Invoice } from "./finance_invoice/Invoice";
+export { default as UpdateInvoice } from "./finance_invoice/UpdateInvoice";
+export { default as InvoiceLunas } from "./finance_invoice/InvoiceLunas";
+export { default as Input_invoice } from "./finance_invoice/Input_invoice";
+export { default as InvoiceBlmBayar } from "./finance_invoice/InvoiceBlmBayar";
+export { default as InvoiceOutstanding } from "./finance_invoice/InvoiceOutstanding";
 
-export { default as InvoiceLunas } from "./finance_lunas/InvoiceLunas";
-
-export { default as Pembayaran } from "./finance_pembayaran/Pembayaran";
+export { default as InputPembayaran } from "./finance_pembayaran/InputPembayaran";
+export { default as UpdatePembayaran } from "./finance_pembayaran/UpdatePembayaran";

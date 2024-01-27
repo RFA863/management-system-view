@@ -116,21 +116,6 @@ const TypeboxDetail = () => {
     }
   };
 
-  // const rowSelected = () => {
-  //   console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
-  //   if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 8) {
-  //     setData(gridRef.current.selectionModule.data);
-  //     if (getActionButton === "update") {
-  //       if (data.length !== 0) {
-  //         console.log(data);
-  //         navigate("/dashboard/TypeboxDetail/Update");
-  //       }
-  //     } else if (getActionButton === "delete") {
-  //       deleteData(data.id);
-  //     }
-  //   }
-  // };
-
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 8) {
       setData(gridRef.current.selectionModule.data);
@@ -161,7 +146,7 @@ const TypeboxDetail = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -262,7 +247,11 @@ const TypeboxDetail = () => {
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

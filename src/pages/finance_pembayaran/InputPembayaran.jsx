@@ -17,58 +17,70 @@ import {
 
 import { HOST } from "../../config";
 import { Header } from "../../components";
+import { convertPixelToValue } from "@syncfusion/ej2/lineargauge";
 
-const Input_invoice = () => {
+const InputPembayaran = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const gridRef = useRef(null);
 
-  const [noInvoice, setnoInvoice] = useState();
-  const [tanggal, setTanggal] = useState();
-  const [Berikat, setBerikat] = useState("");
-  const [Ppn, setPpn] = useState("11");
-  const [UbahHarga, setUbahHarga] = useState("false");
-  const [Harga, setHarga] = useState("");
+  const [tglKontraBon, setTglKontraBon] = useState();
+  const [tglBayar, setTglBayar] = useState();
+  const [MetodeBayar, setmetodeBayar] = useState();
+  const [TotalBayar, setTotalBayar] = useState("");
+  const [Pembulatan, setlPembulatan] = useState("0");
+  const [keterangan, setKeterangan] = useState("");
 
-  const [suratJalan, setSuratJalan] = useState([]);
+  const [invoice, setInvoice] = useState([]);
 
-  const getSuratJalan = async () => {
+  const getInvoice = async () => {
     await axios
-      .get(HOST + "/ekspedisi/suratjalan/get/" + id, {
+      .get(HOST + "/finance/invoice/get/" + id, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
         },
       })
       .then((response) => {
-        const listSuratJalan = response.data.data;
+        const listInvoice = response.data.data;
+        console.log(listInvoice);
 
-        setSuratJalan([
+        setInvoice([
           {
-            id: listSuratJalan.id,
-            no_suratjalan: listSuratJalan.no_suratjalan,
-            customer: listSuratJalan.customer,
+            id: listInvoice.id,
+            no_invoice: listInvoice.no_invoice,
+            customer: listInvoice.customer,
             nama_barang:
               "BOX " +
-              listSuratJalan.kualitas +
+              listInvoice.kualitas +
               " Uk. " +
-              listSuratJalan.ukuran_pengiriman,
-            jumlah: listSuratJalan.selesai,
-            harga_satuan: "Rp. " + listSuratJalan.harga_satuan.toLocaleString(),
-            total_harga: "Rp. " + listSuratJalan.total_harga.toLocaleString(),
+              listInvoice.ukuran_pengiriman,
+            jumlah: listInvoice.jumlah,
+            dpp: "Rp. " + listInvoice.total_harga.toLocaleString("id-ID"),
+            ppn: "Rp. " + listInvoice.nominal_ppn.toLocaleString("id-ID"),
+            total_bayar:
+              "Rp. " + listInvoice.harga_bayar.toLocaleString("id-ID"),
           },
         ]);
-        setHarga(listSuratJalan.total_harga);
       })
       .catch((error) => {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           navigate("/dashboard/login");
         }
       });
   };
 
   const Validator = () => {
-    if (!(noInvoice && tanggal && Berikat && Ppn)) {
+    if (
+      !(
+        tglKontraBon &&
+        tglBayar &&
+        MetodeBayar &&
+        TotalBayar &&
+        Pembulatan &&
+        keterangan
+      )
+    ) {
       toast.error("Data must be entered", {
         position: "top-center",
         autoClose: 5000,
@@ -94,14 +106,14 @@ const Input_invoice = () => {
     }
     await axios
       .post(
-        HOST + "/finance/invoice/input/" + id,
+        HOST + "/finance/pembayaran/input/" + id,
         {
-          noInvoice,
-          tanggal,
-          ppn: Number(Ppn),
-          berikat: JSON.parse(Berikat),
-          ubahHarga: JSON.parse(UbahHarga),
-          harga: Number(Harga),
+          tglKontraBon,
+          tglBayar,
+          metodeBayar: MetodeBayar.value,
+          totalBayar: Number(TotalBayar),
+          pembulatan: Number(Pembulatan),
+          keterangan,
         },
         {
           headers: {
@@ -157,6 +169,12 @@ const Input_invoice = () => {
       });
   };
 
+  const PayMethod = [
+    { value: "Transfer", label: "Transfer" },
+    { value: "Cek/Giro", label: "Cek/Giro" },
+    { value: "Cash", label: "Cash" },
+  ];
+
   const dataBound = () => {
     if (gridRef.current) {
       gridRef.current.autoFitColumns();
@@ -164,18 +182,22 @@ const Input_invoice = () => {
   };
 
   useEffect(() => {
-    getSuratJalan();
+    getInvoice();
   }, []);
+
+  useEffect(() => {
+    console.log(invoice);
+  }, [invoice]);
 
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Input Invoice" />
+          <Header title="Input Pembayaran" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
-              navigate("/dashboard/job-order/belum-dibuat%20surat%20jalan");
+              navigate("/dashboard/invoice/belum-bayar");
             }}
           />
         </div>
@@ -183,132 +205,95 @@ const Input_invoice = () => {
           <div className="flex items-end justify-evenly">
             <table className="border-separate border-spacing-y-2">
               <tr>
-                <td>No. Invoice</td>
-                <td className="px-4">:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={noInvoice}
-                    onChange={(e) => {
-                      setnoInvoice(e.target.value);
-                    }}
-                    required
-                  />
-                </td>
-              </tr>
-
-              <tr>
-                <td>Tanggal</td>
+                <td>Tanggal Kontra Bon</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="date"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={tanggal}
+                    value={tglKontraBon}
                     onChange={(e) => {
-                      setTanggal(e.target.value);
+                      setTglKontraBon(e.target.value);
                     }}
                     required
                   />
                 </td>
               </tr>
               <tr>
-                <td>Berikat</td>
+                <td>Tanggal Bayar</td>
                 <td className="px-4">:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="Berikat"
-                      value="true"
-                      checked={Berikat === "true"}
-                      onChange={(e) => {
-                        setBerikat(e.target.value);
-                      }}
-                      required
-                    />
-                    True
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="Berikat"
-                      value="false"
-                      checked={Berikat === "false"}
-                      onChange={(e) => {
-                        setBerikat(e.target.value);
-                      }}
-                      required
-                    />
-                    false
-                  </label>
+                <td>
+                  <input
+                    type="date"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={tglBayar}
+                    onChange={(e) => {
+                      setTglBayar(e.target.value);
+                    }}
+                    required
+                  />
                 </td>
               </tr>
-
               <tr>
-                <td>PPN</td>
+                <td>Metode Bayar</td>
+                <td className="px-4">:</td>
+                <td>
+                  <Select
+                    options={PayMethod}
+                    isClearable={true}
+                    value={MetodeBayar}
+                    onChange={(e) => {
+                      setmetodeBayar(e);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Total Bayar</td>
                 <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={Ppn}
+                    value={TotalBayar}
                     onChange={(e) => {
-                      setPpn(e.target.value);
+                      setTotalBayar(e.target.value);
                     }}
+                    required
                   />
                 </td>
               </tr>
-
               <tr>
-                <td>Ubah Harga</td>
+                <td>Pembulatan</td>
                 <td className="px-4">:</td>
-                <td className="flex gap-4">
-                  <label>
-                    <input
-                      type="radio"
-                      name="UbahHarga"
-                      value="true"
-                      checked={UbahHarga === "true"}
-                      onChange={(e) => {
-                        setUbahHarga(e.target.value);
-                      }}
-                      required
-                    />
-                    Ya
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="UbahHarga"
-                      value="false"
-                      checked={UbahHarga === "false"}
-                      onChange={(e) => {
-                        setUbahHarga(e.target.value);
-                      }}
-                      required
-                    />
-                    Tidak
-                  </label>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={Pembulatan}
+                    onChange={(e) => {
+                      setlPembulatan(e.target.value);
+                    }}
+                    required
+                  />
                 </td>
               </tr>
-              {UbahHarga === "true" && (
-                <tr>
-                  <td>Harga</td>
-                  <td className="px-4">:</td>
-                  <td>
-                    <input
-                      type="text"
-                      className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                      value={Harga}
-                      onChange={(e) => {
-                        setHarga(e.target.value);
-                      }}
-                    />
-                  </td>
-                </tr>
-              )}
+              <tr>
+                <td>Keterangan</td>
+                <td className="px-4">:</td>
+                <td>
+                  <input
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    value={keterangan}
+                    onChange={(e) => {
+                      setKeterangan(e.target.value);
+                    }}
+                    required
+                  />
+                </td>
+              </tr>
             </table>
             <div>
               <button
@@ -324,7 +309,7 @@ const Input_invoice = () => {
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={suratJalan}
+              dataSource={invoice}
               width="auto"
               allowSorting
               allowTextWrap={true}
@@ -342,8 +327,8 @@ const Input_invoice = () => {
                 />
 
                 <ColumnDirective
-                  field="no_suratjalan"
-                  headerText="No. Surat Jalan"
+                  field="no_invoice"
+                  headerText="No. Invoice"
                   textAlign="Center"
                 />
 
@@ -366,14 +351,20 @@ const Input_invoice = () => {
                 />
 
                 <ColumnDirective
-                  field="harga_satuan"
-                  headerText="Harga Satuan"
+                  field="dpp"
+                  headerText="DPP"
                   textAlign="center"
                 />
 
                 <ColumnDirective
-                  field="total_harga"
-                  headerText="Total Harga"
+                  field="ppn"
+                  headerText="PPN"
+                  textAlign="center"
+                />
+
+                <ColumnDirective
+                  field="total_bayar"
+                  headerText="Harga Bayar"
                   textAlign="center"
                 />
 
@@ -404,4 +395,4 @@ const Input_invoice = () => {
   );
 };
 
-export default Input_invoice;
+export default InputPembayaran;

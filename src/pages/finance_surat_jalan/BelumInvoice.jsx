@@ -44,9 +44,9 @@ const BelumInvoice = () => {
 
         setSuratJalan(() =>
           listSuratJalan.map((item, index) => ({
-            id: item.id,
+            id: item.id_suratjalan,
             No: index + 1,
-            id_job: item.id_job,
+            id_job: item.id,
             id_supir: item.id_supir,
             id_mobil: item.id_mobil,
             supir: item.supir,
@@ -199,7 +199,11 @@ const BelumInvoice = () => {
                   textAlign="center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

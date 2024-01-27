@@ -51,7 +51,7 @@ const TambahIndex = () => {
         const listCustomer = response.data.data;
 
         setCustomer(() =>
-          listCustomer.map((item, index) => ({
+          listCustomer.map((item) => ({
             label: item.nama,
             value: item.id,
           }))
@@ -166,7 +166,7 @@ const TambahIndex = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <Header title="Tambah Customer" />
+          <Header title="Tambah Index" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -217,7 +217,7 @@ const TambahIndex = () => {
                     className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={IndexValue}
                     onChange={(e) => {
-                      setIndexValue(e.target.value);
+                      setIndexValue(e.target.value.replace(/[^0-9-]/g, ""));
                     }}
                     required
                   />

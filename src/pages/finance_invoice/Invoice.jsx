@@ -1,7 +1,7 @@
 import axios from "axios";
-import Swal from "sweetalert2";
+
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
+
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,17 +19,16 @@ import {
 
 import { HOST } from "../../config";
 import { Header, PageLoading } from "../../components";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { CetakInvoice, cetakInvoice } from "../cetak";
 
 import "react-toastify/dist/ReactToastify.css";
 
 const Invoice = () => {
   const navigate = useNavigate();
-
-  const { data, setData } = useStateContext();
+  const [id, setId] = useState(0);
   const [getActionButton, setActionButton] = useState("");
-  const [pageLoading, setPageLoading] = useState(true);
-  const [customer, setCustomer] = useState([]);
+
+  const [invoice, setInvoice] = useState([]);
   const gridRef = useRef(null);
 
   const fetchData = async () => {
@@ -41,33 +40,37 @@ const Invoice = () => {
         },
       })
       .then((response) => {
-        const listCustomer = response.data.data;
+        const listInvoice = response.data.data;
 
-        setCustomer(() =>
-          listCustomer.map((item, index) => ({
+        setInvoice(() =>
+          listInvoice.map((item, index) => ({
             id: item.id,
             No: index + 1,
             id_suratjalan: item.id_suratjalan,
             id_job: item.id_job,
             no_invoice: item.no_invoice,
-            tanggal: item.tanggal,
-            berikat : item.berikat,
+            tanggal:
+              item.tanggal.split("-")[2] +
+              "-" +
+              item.tanggal.split("-")[1] +
+              "-" +
+              item.tanggal.split("-")[0],
+            berikat: item.berikat,
             ppn: item.ppn,
-            nominal_ppn : item.nominal_ppn,
-            harga_bayar : item.harga_bayar,
+            nominal_ppn: "Rp. " + item.nominal_ppn.toLocaleString(),
+            harga_bayar: "Rp. " + item.harga_bayar.toLocaleString(),
             id_customer: item.id_customer,
-            sub_total: item.sub_total,
-            customer : item.customer,
+            sub_total: "Rp. " + item.sub_total.toLocaleString(),
+            customer: item.customer,
           }))
         );
       })
       .catch((error) => {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           navigate("/dashboard/login");
         }
       });
   };
-
 
   // const deleteData = async () => {
   //   // console.log(data);
@@ -97,7 +100,6 @@ const Invoice = () => {
   //         // });
   //       }
 
-
   //       setData([]);
   //       fetchData();
   //     })
@@ -109,15 +111,15 @@ const Invoice = () => {
   // };
 
   useEffect(() => {
-    setData([]);
+    setId(0);
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (customer.length !== 0) {
-      setPageLoading(false);
-    }
-  }, [customer]);
+  // useEffect(() => {
+  //   if (invoice.length !== 0) {
+  //     setPageLoading(false);
+  //   }
+  // }, [invoice]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -126,40 +128,22 @@ const Invoice = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 8) {
-      setData(gridRef.current.selectionModule.data);
+    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
+      setId(0);
+      setId(gridRef.current.selectionModule.data.id);
     }
   };
 
-  // const rowSelected = () => {
-  //   if (gridRef) {
-  //     /** Get the selected row indexes */
-  //     const selectedrowindex = gridRef.getSelectedRowIndexes();
-  //     /** Get the selected records. */
-  //     const selectedrecords = gridRef.getSelectedRecords();
-  //     alert(selectedrowindex + " : " + JSON.stringify(selectedrecords));
-  //   }
-  // };
-
   useEffect(() => {
-    if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/customer/update");
-    } else if (getActionButton === "order" && data.length !== 0) {
-      navigate("/dashboard/customer/order/" + data.id);
+    if (getActionButton === "update" && id !== 0) {
+      navigate("/dashboard/invoice/update/" + id);
     }
-  }, [data, getActionButton]);
+  }, [id, getActionButton]);
 
   const actionButton = () => {
     return (
       <div className="flex gap-2">
-        <button
-          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("order");
-          }}
-        >
-          Order
-        </button>
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -168,31 +152,31 @@ const Invoice = () => {
         >
           Update
         </button>
+        <button
+          className="bg-green-700 rounded-xl py-2 px-4 text-white m-0"
+          onClick={() => {
+            setActionButton("cetak");
+          }}
+        >
+          Cetak
+        </button>
       </div>
     );
   };
 
-  return pageLoading ? (
-    <PageLoading />
-  ) : (
+  // return pageLoading ? (
+  //   <PageLoading />
+  // ) : (
+  return (
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Customer" />
-        <div className="mb-4 -mt-4">
-          <button
-            className="bg-blue-700 rounded-xl text-white px-4 py-2"
-            onClick={() => {
-              navigate("/dashboard/customer/tambah");
-            }}
-          >
-            Tambah Customer
-          </button>
-        </div>
+        <Header title="Invoice" />
+
         <div className="overflow-x-auto">
           <div className="w-fit cursor-pointer">
             <GridComponent
-              dataSource={customer}
+              dataSource={invoice}
               width="auto"
               allowPaging
               allowSorting
@@ -273,12 +257,23 @@ const Invoice = () => {
                   textAlign="center"
                 /> */}
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>
+      </div>
+      <div>
+        {id !== 0 && getActionButton === "cetak" && (
+          <div className="relative -z-[2]">
+            <CetakInvoice id={id} />
+          </div>
+        )}
       </div>
     </div>
   );

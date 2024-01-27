@@ -28,7 +28,7 @@ const KualitasTipeBox = () => {
 
   const [getActionButton, setActionButton] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
-  const [customer, setCustomer] = useState([]);
+  const [kualitasTipeBox, setKualitasTipeBox] = useState([]);
   const gridRef = useRef(null);
 
   const fetchData = async () => {
@@ -40,10 +40,10 @@ const KualitasTipeBox = () => {
         },
       })
       .then((response) => {
-        const listCustomer = response.data.data;
+        const listKualitasTipeBox = response.data.data;
 
-        setCustomer(() =>
-          listCustomer.map((item, index) => ({
+        setKualitasTipeBox(() =>
+          listKualitasTipeBox.map((item, index) => ({
             id: item.id,
             No: index + 1,
             id_tipebox: item.id_tipebox,
@@ -52,8 +52,6 @@ const KualitasTipeBox = () => {
             konstanta_lebar_ganjil: item.konstanta_lebar_ganjil,
             konstanta_lebar_genap: item.konstanta_lebar_genap,
             kuping: item.kuping,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
             tipebox: item.tipebox,
             kualitas: item.kualitas,
           }))
@@ -107,10 +105,10 @@ const KualitasTipeBox = () => {
   }, []);
 
   useEffect(() => {
-    if (customer.length !== 0) {
+    if (kualitasTipeBox.length !== 0) {
       setPageLoading(false);
     }
-  }, [customer]);
+  }, [kualitasTipeBox]);
 
   const dataBound = () => {
     if (gridRef.current) {
@@ -119,18 +117,18 @@ const KualitasTipeBox = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 6) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 10) {
       setData(gridRef.current.selectionModule.data);
     }
   };
 
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
-      navigate("/dashboard/kualitas-detail/update");
+      navigate("/dashboard/master/kualitas_tipebox/update");
     } else if (getActionButton === "delete" && data.length !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -189,7 +187,7 @@ const KualitasTipeBox = () => {
         <div className="overflow-x-auto">
           <div className=" cursor-pointer">
             <GridComponent
-              dataSource={customer}
+              dataSource={kualitasTipeBox}
               width="fit-content"
               allowPaging
               allowSorting
@@ -232,6 +230,18 @@ const KualitasTipeBox = () => {
                 />
 
                 <ColumnDirective
+                  field="tipebox"
+                  headerText="Tipe Box"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
+                  field="kualitas"
+                  headerText="Kualitas"
+                  textAlign="Center"
+                />
+
+                <ColumnDirective
                   field="konstanta_panjang"
                   headerText="Konstanta Panjang"
                   textAlign="Center"
@@ -256,33 +266,9 @@ const KualitasTipeBox = () => {
                 />
 
                 <ColumnDirective
-                  field="created_at"
-                  headerText="Created At"
-                  textAlign="Center"
-                />
-
-                <ColumnDirective
-                  field="updated_at"
-                  headerText="Updated At"
-                  textAlign="Center"
-                />
-
-                <ColumnDirective
-                  field="tipebox"
-                  headerText="Tipe Box"
-                  textAlign="Center"
-                />
-
-                <ColumnDirective
-                  field="kualitas"
-                  headerText="Kualitas"
-                  textAlign="Center"
-                />
-
-                <ColumnDirective
                   headerText="Action"
                   template={actionButton}
-                  // textAlign="Center"
+                  textAlign="center"
                 />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />

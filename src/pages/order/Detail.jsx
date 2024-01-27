@@ -46,8 +46,18 @@ const Detail = () => {
             id: item.id,
             id_customer: item.id_customer,
             no_po: item.no_po,
-            tanggal_order: item.tanggal_order,
-            tanggal_kirim: item.tanggal_kirim,
+            tanggal_order:
+              item.tanggal_order.split("-")[2] +
+              "-" +
+              item.tanggal_order.split("-")[1] +
+              "-" +
+              item.tanggal_order.split("-")[0],
+            tanggal_kirim:
+              item.tanggal_kirim.split("-")[2] +
+              "-" +
+              item.tanggal_kirim.split("-")[1] +
+              "-" +
+              item.tanggal_kirim.split("-")[0],
             Customer: item.Customer,
           }))
         );
@@ -88,7 +98,7 @@ const Detail = () => {
             warna: item.warna,
             perekat: item.perekat,
             ukuran: item.ukuran,
-            harga: item.harga,
+            harga: "Rp. " + item.harga.toLocaleString(),
           }))
         );
       })
@@ -120,6 +130,7 @@ const Detail = () => {
             icon: "success",
           });
           fetchJobOrder();
+          setIdJob(0);
         }
       })
       .catch((error) => {
@@ -217,7 +228,6 @@ const Detail = () => {
     }
   }, [idJob, getActionButton]);
 
-  console.log(getActionButton);
   // console.log(idJob);
   const actionButton = () => {
     return (
