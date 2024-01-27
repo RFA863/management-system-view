@@ -5,8 +5,9 @@ import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import { useStateContext } from "../contexts/ContextProvider";
+import { list } from "postcss";
 
-const Sidebar = () => {
+const SidebarFinance = () => {
   const [openSection, setOpenSection] = useState(null);
 
   const handleSectionClick = (sectionIndex) => {
@@ -19,86 +20,47 @@ const Sidebar = () => {
 
   const links = [
     {
-      title: "master",
+      title: "Surat Jalan",
 
       links: [
         {
-          name: "type box",
+          name: "list",
         },
         {
-          name: "kualitas",
+          name: "belum invoice",
         },
         {
-          name: "kualitas detail",
-        },
-        {
-          name: "type box detail",
-        },
-        {
-          name: "kualitas type box",
-        },
-        {
-          name: "rekening",
-        },
-        {
-          name: "user",
-        },
-        {
-          name: "mobil",
-        },
-        {
-          name: "sopir",
+          name: "sudah invoice",
         },
       ],
     },
     {
-      title: "index",
+      title: "invoice",
       links: [
-        {
-          name: "index",
-        },
-      ],
-    },
-    {
-      title: "customer",
-      links: [
-        {
-          name: "customers",
-        },
-      ],
-    },
-    {
-      title: "order",
-      links: [
-        {
-          name: "order baru",
-        },
         {
           name: "list",
         },
-      ],
-    },
-    {
-      title: "order detail",
-      links: [
         {
-          name: "detail",
+          name: "belum bayar",
+        },
+        {
+          name: "outstanding",
         },
       ],
     },
+    // {
+    //   title: "pembayaran",
+    //   links: [
+    //     {
+    //       name: "pembayaran",
+    //     },
+    //   ],
+    // },
     {
-      title: "job",
+      title: "lunas",
       links: [
         {
-          name: "job",
-        },
-      ],
-    },
-    {
-      title: "cancel job",
-      links: [
-        {
-          name: "cancel job",
+          name: "lunas",
         },
       ],
     },
@@ -191,4 +153,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarFinance;
