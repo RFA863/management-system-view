@@ -75,6 +75,8 @@ const TambahTypeboxDetail = () => {
             progress: undefined,
             theme: "colored",
           });
+
+          navigate("/dashboard/master/type-box%20detail");
         }
       })
       .catch((error) => {
@@ -111,7 +113,6 @@ const TambahTypeboxDetail = () => {
       });
   };
 
-  
   const get = async () => {
     await axios
       .get(HOST + "/marketing/tipebox/get", {
@@ -139,11 +140,6 @@ const TambahTypeboxDetail = () => {
     get();
   }, []);
 
-  const memew = [
-    { value: "ariyadi", label: "ariyadi" },
-    { value: "rachman", label: "rachman" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
   console.log(Id_tipebox);
 
   return (

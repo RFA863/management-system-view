@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import Select from "react-select";
+import { useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
@@ -14,16 +15,20 @@ import "react-toastify/dist/ReactToastify.css";
 const UpdateTypeboxDetail = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
-
+  console.log(data);
   if (data.length === 0) {
     navigate("/dashboard/master/type-box%20detail");
   }
 
-  const [Id_tipebox, setId_tipebox] = useState(data.id_tipebox);
+  const [Id_tipebox, setId_tipebox] = useState({
+    value: data.id_tipebox,
+    label: data.Nama,
+  });
   const [nama, setNama] = useState(data.Nama);
   const [rumusPanjang, setRumusPanjang] = useState(data.rumus_panjang);
   const [rumusLebar, setRumusLebar] = useState(data.rumus_lebar);
   const [rumusOversize, setRumusOversize] = useState(data.rumus_oversize);
+  const [tipebox, setTipeBox] = useState([]);
 
   const Validator = () => {
     if (!(Id_tipebox && rumusPanjang && rumusLebar && rumusOversize)) {
@@ -86,7 +91,6 @@ const UpdateTypeboxDetail = () => {
       })
       .catch((error) => {
         if (error.response) {
-      
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -118,6 +122,33 @@ const UpdateTypeboxDetail = () => {
       });
   };
 
+  const get = async () => {
+    await axios
+      .get(HOST + "/marketing/tipebox/get", {
+        headers: {
+          Authorization: getCookie("admin_auth"),
+        },
+      })
+      .then((response) => {
+        const listTipeBox = response.data.data;
+        setTipeBox(() =>
+          listTipeBox.map((item) => ({
+            label: item.nama,
+            value: item.id,
+          }))
+        );
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          navigate("/dashboard/login");
+        }
+      });
+  };
+
+  useEffect(() => {
+    get();
+  }, []);
+
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
@@ -132,20 +163,22 @@ const UpdateTypeboxDetail = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-          <table className="border-separate border-spacing-y-2">
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>ID Typebox</td>
                 <td className="px-4">:</td>
                 <td>
-                  <input
-                    type="text"
-                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
-                    value={Id_tipebox}
-                    onChange={(e) => {
-                      setId_tipebox(e.target.value);
-                    }}
-                    required
-                  />
+                  <td>
+                    <Select
+                      options={tipebox}
+                      value={Id_tipebox}
+                      onChange={(e) => {
+                        setId_tipebox(e);
+                      }}
+                      isClearable={true}
+                      required
+                    />
+                  </td>
                 </td>
               </tr>
               <tr>
@@ -168,7 +201,8 @@ const UpdateTypeboxDetail = () => {
                 <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusPanjang}
                     onChange={(e) => {
                       setRumusPanjang(e.target.value);
@@ -182,7 +216,8 @@ const UpdateTypeboxDetail = () => {
                 <td className="px-4">:</td>
                 <td>
                   <input
-                    type="email"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    type="email"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusLebar}
                     onChange={(e) => {
                       setRumusLebar(e.target.value);
@@ -196,7 +231,8 @@ const UpdateTypeboxDetail = () => {
                 <td className="px-4">:</td>
                 <td>
                   <input
-                    type="text"className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                    type="text"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={rumusOversize}
                     onChange={(e) => {
                       setRumusOversize(e.target.value);

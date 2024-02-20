@@ -77,7 +77,6 @@ const UpdateTypebox = () => {
             theme: "colored",
           });
 
-          navigate("/dashboard/master/Kualitas");
           navigate("/dashboard/master/type-box");
         }
       })

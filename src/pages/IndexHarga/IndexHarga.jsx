@@ -118,8 +118,6 @@ const IndexHarga = () => {
   useEffect(() => {
     if (getActionButton === "update" && data.length !== 0) {
       navigate("/dashboard/UpdateIndex/UpdateIndex");
-    } else if (getActionButton === "order" && data.length !== 0) {
-      navigate("/dashboard/customer/order/" + data.id);
     }
   }, [data, getActionButton]);
 
@@ -133,14 +131,6 @@ const IndexHarga = () => {
           }}
         >
           Update
-        </button>
-        <button
-          className="bg-red-700 rounded-xl py-2 px-4 text-white m-0"
-          onClick={() => {
-            setActionButton("delete");
-          }}
-        >
-          Delete
         </button>
       </div>
     );

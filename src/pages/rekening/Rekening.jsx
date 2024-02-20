@@ -64,7 +64,7 @@ const Rekening = () => {
   const deleteData = async () => {
     await axios
       .put(
-        HOST + "/marketing/rekening/delete/" + data.id,
+        HOST + "/marketing/rekening/delete/",
         {},
         {
           headers: {
