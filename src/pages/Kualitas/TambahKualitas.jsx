@@ -65,6 +65,7 @@ const TambahKualitas = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/Kualitas");
         }
       })
       .catch((error) => {

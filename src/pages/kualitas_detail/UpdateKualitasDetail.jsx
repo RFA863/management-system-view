@@ -111,6 +111,7 @@ const UpdateKualitasDetail = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/kualitas-detail");
         }
       })
       .catch((error) => {

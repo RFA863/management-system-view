@@ -149,6 +149,7 @@ const UpdateKualitasTipeBox = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/kualitas-type%20box");
         }
       })
       .catch((error) => {

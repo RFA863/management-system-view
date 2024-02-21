@@ -136,8 +136,7 @@ const UpdateIndex = () => {
             progress: undefined,
             theme: "colored",
           });
-
-          // navigate("/dashboard/index/index");
+          navigate("/dashboard/index/index");
         }
       })
       .catch((error) => {

@@ -122,6 +122,7 @@ const TambahIndex = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/index/index");
         }
       })
       .catch((error) => {

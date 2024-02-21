@@ -99,6 +99,7 @@ const TambahKualitasDetail = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/kualitas-detail");
         }
       })
       .catch((error) => {

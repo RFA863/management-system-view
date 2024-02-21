@@ -68,6 +68,7 @@ const TambahSopir = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/sopir");
         }
       })
       .catch((error) => {

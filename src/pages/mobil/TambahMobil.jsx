@@ -68,6 +68,7 @@ const TambahMobil = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/Mobil");
         }
       })
       .catch((error) => {

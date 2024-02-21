@@ -71,6 +71,7 @@ const UpdateKualitas = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/Kualitas");
         }
       })
       .catch((error) => {
