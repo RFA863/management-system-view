@@ -89,7 +89,7 @@ const UpdateCustomer = () => {
       .put(
         HOST + "/marketing/customer/update/" + data.id,
         {
-          nomor: Number(Nomor),
+          nomor: Nomor,
           nama,
           kode,
           email,

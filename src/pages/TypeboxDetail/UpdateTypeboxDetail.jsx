@@ -22,7 +22,7 @@ const UpdateTypeboxDetail = () => {
 
   const [Id_tipebox, setId_tipebox] = useState({
     value: data.id_tipebox,
-    label: data.Nama,
+    label: data.tipebox,
   });
   const [nama, setNama] = useState(data.Nama);
   const [rumusPanjang, setRumusPanjang] = useState(data.rumus_panjang);
@@ -59,13 +59,13 @@ const UpdateTypeboxDetail = () => {
       .put(
         HOST + "/marketing/tipebox_detail/update/" + data.id,
         {
-          id_tipebox: Number(Id_tipebox),
+          id_tipebox: Id_tipebox.value,
           nama,
           rumusPanjang,
           rumusLebar,
           rumusOversize,
-          konstantaPanjang: JSON.parse(KonstantaPanjang),
-          konstantaLebar: JSON.parse(KonstantaLebar),
+          // konstantaPanjang: JSON.parse(KonstantaPanjang),
+          // konstantaLebar: JSON.parse(KonstantaLebar),
         },
         {
           headers: {

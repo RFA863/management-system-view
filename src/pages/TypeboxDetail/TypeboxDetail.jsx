@@ -43,7 +43,6 @@ const TypeboxDetail = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
@@ -227,8 +226,8 @@ const TypeboxDetail = () => {
                   textAlign="Center"
                 />
                 <ColumnDirective
-                  field="No. Plat"
-                  headerText="No.Plat"
+                  field="Nama"
+                  headerText="Nama"
                   textAlign="Center"
                 />
                 <ColumnDirective
