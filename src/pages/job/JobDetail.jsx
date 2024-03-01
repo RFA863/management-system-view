@@ -59,7 +59,7 @@ const JobDetail = () => {
           warna: listJob.warna,
           perekat: listJob.perekat,
           ukuran: listJob.ukuran,
-          harga: "Rp. " + listJob.harga.toLocaleString(),
+          harga: "Rp. " + listJob.harga.toLocaleString("id-ID"),
           customer: listJob.customer,
           keterangan: listJob.keterangan,
           ukuran_pengiriman: listJob.ukuran_pengiriman,

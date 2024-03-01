@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 const UpdateTypeboxDetail = () => {
   const navigate = useNavigate();
   const { data } = useStateContext();
-  console.log(data);
+
   if (data.length === 0) {
     navigate("/dashboard/master/type-box%20detail");
   }

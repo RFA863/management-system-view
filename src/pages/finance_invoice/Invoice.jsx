@@ -57,10 +57,10 @@ const Invoice = () => {
               item.tanggal.split("-")[0],
             berikat: item.berikat,
             ppn: item.ppn,
-            nominal_ppn: "Rp. " + item.nominal_ppn.toLocaleString(),
-            harga_bayar: "Rp. " + item.harga_bayar.toLocaleString(),
+            nominal_ppn: "Rp. " + item.nominal_ppn.toLocaleString("id-ID"),
+            harga_bayar: "Rp. " + item.harga_bayar.toLocaleString("id-ID"),
             id_customer: item.id_customer,
-            sub_total: "Rp. " + item.sub_total.toLocaleString(),
+            sub_total: "Rp. " + item.sub_total.toLocaleString("id-ID"),
             customer: item.customer,
           }))
         );
@@ -71,44 +71,6 @@ const Invoice = () => {
         }
       });
   };
-
-  // const deleteData = async () => {
-  //   // console.log(data);
-  //   await axios
-  //     .delete(HOST + "/marketing/customer/delete/" + data.id, {
-  //       headers: {
-  //         "ngrok-skip-browser-warning": "true",
-  //         Authorization: getCookie("admin_auth"),
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         Swal.fire({
-  //           title: "Deleted!",
-  //           text: "Your file has been deleted.",
-  //           icon: "success",
-  //         });
-  //         // toast.success("Data successfully deleted", {
-  //         //   position: "top-center",
-  //         //   autoClose: 5000,
-  //         //   hideProgressBar: false,
-  //         //   closeOnClick: true,
-  //         //   pauseOnHover: true,
-  //         //   draggable: true,
-  //         //   progress: undefined,
-  //         //   theme: "colored",
-  //         // });
-  //       }
-
-  //       setData([]);
-  //       fetchData();
-  //     })
-  //     .catch((error) => {
-  //       if (error.response.status == 401) {
-  //         navigate("/dashboard/login");
-  //       }
-  //     });
-  // };
 
   useEffect(() => {
     setId(0);
@@ -128,7 +90,6 @@ const Invoice = () => {
   };
 
   const rowSelected = () => {
-    console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 7) {
       setId(0);
       setId(gridRef.current.selectionModule.data.id);
@@ -143,7 +104,7 @@ const Invoice = () => {
 
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex justify-center gap-2">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {

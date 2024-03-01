@@ -39,7 +39,7 @@ const UpdateKualitasTipeBox = () => {
 
   const [tipeBox, setTipeBox] = useState([]);
   const [kualitas, setKualitas] = useState([]);
-  console.log(idKualitas);
+
   const Validator = () => {
     if (
       !(Kuping, konstantaPanjang, konstantaLebarGanjil, konstantaLebarGenap) ||

@@ -42,7 +42,7 @@ const Rekening = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-        console.log(listCustomer);
+
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
@@ -133,7 +133,6 @@ const Rekening = () => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           deleteData();
         } else if (result.isDismissed) {

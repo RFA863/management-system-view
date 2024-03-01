@@ -54,8 +54,10 @@ const Input_invoice = () => {
               " Uk. " +
               listSuratJalan.ukuran_pengiriman,
             jumlah: listSuratJalan.selesai,
-            harga_satuan: "Rp. " + listSuratJalan.harga_satuan.toLocaleString(),
-            total_harga: "Rp. " + listSuratJalan.total_harga.toLocaleString(),
+            harga_satuan:
+              "Rp. " + listSuratJalan.harga_satuan.toLocaleString("id-ID"),
+            total_harga:
+              "Rp. " + listSuratJalan.total_harga.toLocaleString("id-ID"),
           },
         ]);
         setHarga(listSuratJalan.total_harga);
@@ -122,6 +124,7 @@ const Input_invoice = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/invoice/belum-bayar");
         }
       })
       .catch((error) => {

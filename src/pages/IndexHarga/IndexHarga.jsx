@@ -49,7 +49,7 @@ const IndexHarga = () => {
             No: index + 1,
             id_customer: item.id_customer,
             id_kualitasdetail: item.id_kualitasdetail,
-            indexvalue: "Rp. " + item.indexvalue.toLocaleString(),
+            indexvalue: "Rp. " + item.indexvalue.toLocaleString("id-ID"),
             Customer: item.Customer,
             Kualitas_Detail: item.Kualitas_Detail,
           }))

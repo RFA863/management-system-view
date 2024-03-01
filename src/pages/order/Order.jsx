@@ -43,7 +43,7 @@ const Order = () => {
       })
       .then((response) => {
         const listOrder = response.data.data;
-        console.log(listOrder);
+
         setOrder(() =>
           listOrder.map((item, index) => ({
             id: item.id,
@@ -74,7 +74,7 @@ const Order = () => {
   };
 
   // const deleteData = async () => {
-  //   // console.log(data);
+
   //   await axios
   //     .delete(HOST + "/marketing/order/delete/" + data.id, {
   //       headers: {
@@ -145,7 +145,7 @@ const Order = () => {
   //   //     cancelButtonColor: "#d33",
   //   //     confirmButtonText: "Yes, delete it!",
   //   //   }).then((result) => {
-  //   //     console.log(result);
+  //   //
   //   //     if (result.isConfirmed) {
   //   //       deleteData();
   //   //     } else if (result.isDismissed) {

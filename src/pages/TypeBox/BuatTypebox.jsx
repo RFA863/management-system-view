@@ -114,7 +114,6 @@ const BuatTypebox = () => {
               })
               .catch((error) => {
                 if (error.response) {
-                  console.log(error.response.data.message);
                   if (
                     error.response.data.type === "token" &&
                     error.response.data.data.code === -2

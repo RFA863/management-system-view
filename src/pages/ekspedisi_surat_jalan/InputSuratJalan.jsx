@@ -187,6 +187,7 @@ const InputSuratJalan = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/surat-jalan/surat-jalan");
         }
       })
       .catch((error) => {
@@ -233,7 +234,7 @@ const InputSuratJalan = () => {
     getMobil();
     getJob();
   }, []);
-  // console.log(job);
+
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">

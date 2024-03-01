@@ -63,11 +63,11 @@ const UpdateJob = () => {
         setPerekat(listJob.perekat);
         setPanjang(listJob.panjang);
         setLebarKirim(lebarPengiriman);
-        setSubTotal("Rp. " + listJob.sub_total.toLocaleString());
+        setSubTotal("Rp. " + listJob.sub_total.toLocaleString("id-ID"));
         setTinggiKirim(tinggiPengiriman);
         setKeterangan(listJob.keterangan);
         setIndexLebar(listJob.index_lebar);
-        setTotalHarga("Rp. " + listJob.total_harga.toLocaleString());
+        setTotalHarga("Rp. " + listJob.total_harga.toLocaleString("id-ID"));
         setPanjangKirim(panjangPengiriman);
         setIndex(String(listJob.use_index));
         setIndexPanjang(listJob.index_panjang);
@@ -197,7 +197,7 @@ const UpdateJob = () => {
       .then((response) => {
         if (response.status === 200) {
           const indexValue = response.data.data.indexvalue;
-          setIndexHarga("Rp. " + indexValue.toLocaleString());
+          setIndexHarga("Rp. " + indexValue.toLocaleString("id-ID"));
         }
       })
       .catch((error) => {
@@ -264,8 +264,8 @@ const UpdateJob = () => {
       .then((response) => {
         if (response.status === 200) {
           const indexValue = response.data.data;
-          setTotalHarga("Rp. " + indexValue.totalHarga.toLocaleString());
-          setSubTotal("Rp. " + indexValue.subTotal.toLocaleString());
+          setTotalHarga("Rp. " + indexValue.totalHarga.toLocaleString("id-ID"));
+          setSubTotal("Rp. " + indexValue.subTotal.toLocaleString("id-ID"));
           if (isDisabled) {
             setTotalHarga(0);
             setSubTotal(0);
