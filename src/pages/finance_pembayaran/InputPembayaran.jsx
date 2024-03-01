@@ -43,7 +43,6 @@ const InputPembayaran = () => {
       })
       .then((response) => {
         const listInvoice = response.data.data;
-        console.log(listInvoice);
 
         setInvoice([
           {
@@ -185,9 +184,7 @@ const InputPembayaran = () => {
     getInvoice();
   }, []);
 
-  useEffect(() => {
-    console.log(invoice);
-  }, [invoice]);
+  useEffect(() => {}, [invoice]);
 
   return (
     <div>

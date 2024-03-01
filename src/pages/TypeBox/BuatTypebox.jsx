@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
-import { Header, PageLoading } from "../../components";
+import { Header } from "../../components";
 import { getCookie } from "cookies-next";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -78,7 +78,7 @@ const BuatTypebox = () => {
             </td>
           </tr>
         </table>
-      
+
         <button
           className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
           onClick={(e) => {
@@ -109,11 +109,11 @@ const BuatTypebox = () => {
                     progress: undefined,
                     theme: "colored",
                   });
+                  navigate("/dashboard/master/type-box");
                 }
               })
               .catch((error) => {
                 if (error.response) {
-                  console.log(error.response.data.message);
                   if (
                     error.response.data.type === "token" &&
                     error.response.data.data.code === -2

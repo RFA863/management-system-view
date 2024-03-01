@@ -55,11 +55,11 @@ const InvoiceOutstanding = () => {
               item.tanggal.split("-")[1] +
               "-" +
               item.tanggal.split("-")[0],
-            nominal_ppn: "Rp. " + item.ppn.toLocaleString(),
-            harga_bayar: "Rp. " + item.total_harga.toLocaleString(),
-            total_bayar: "Rp. " + item.total_bayar.toLocaleString(),
-            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString(),
-            dpp: "Rp. " + item.dpp.toLocaleString(),
+            nominal_ppn: "Rp. " + item.ppn.toLocaleString("id-ID"),
+            harga_bayar: "Rp. " + item.total_harga.toLocaleString("id-ID"),
+            total_bayar: "Rp. " + item.total_bayar.toLocaleString("id-ID"),
+            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString("id-ID"),
+            dpp: "Rp. " + item.dpp.toLocaleString("id-ID"),
             customer: item.customer,
           }))
         );

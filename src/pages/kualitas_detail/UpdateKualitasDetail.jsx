@@ -14,7 +14,6 @@ const UpdateKualitasDetail = () => {
   const navigate = useNavigate();
 
   const { data } = useStateContext();
-  console.log(data);
 
   if (data.length === 0) {
     navigate("/dashboard/master/kualitas-detail");
@@ -111,6 +110,7 @@ const UpdateKualitasDetail = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/kualitas-detail");
         }
       })
       .catch((error) => {

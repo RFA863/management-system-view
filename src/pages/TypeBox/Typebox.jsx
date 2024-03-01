@@ -112,15 +112,6 @@ const Typebox = () => {
     }
   };
 
-  const toolbarClick = (args) => {
-    if (gridRef.current && args.item.id.includes("excelexport")) {
-      const excelExportProperties = {
-        fileName: "Data Pelamar.xlsx",
-      };
-      gridRef.current.excelExport(excelExportProperties);
-    }
-  };
-
   const rowSelected = () => {
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 4) {
       setData(gridRef.current.selectionModule.data);
@@ -133,7 +124,7 @@ const Typebox = () => {
     } else if (getActionButton === "delete" && data.length !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -202,11 +193,9 @@ const Typebox = () => {
                 pageSizes: ["All", "10", "25", "50"],
               }}
               textWrapSettings={{ wrapMode: "Content" }}
-              toolbar={["Search", "ExcelExport"]}
+              toolbar={["Search"]}
               selectionSettings={{ type: "Single", mode: "Both" }}
               rowSelected={rowSelected}
-              allowExcelExport={true}
-              toolbarClick={toolbarClick}
               dataBound={dataBound}
               ref={gridRef}
             >
@@ -239,9 +228,7 @@ const Typebox = () => {
                   textAlign="center"
                 />
               </ColumnsDirective>
-              <Inject
-                services={[Search, Toolbar, Page, Sort, Resize, ExcelExport]}
-              />
+              <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>
           </div>
         </div>

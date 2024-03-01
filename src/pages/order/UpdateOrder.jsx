@@ -30,8 +30,6 @@ const UpdateOrder = () => {
       .then((response) => {
         const listOrder = response.data.data;
 
-        console.log(listOrder[0].tanggal_order);
-
         setNoPo(listOrder[0].no_po);
         setTanggalOrder(listOrder[0].tanggal_order);
         setTanggalKirim(listOrder[0].tanggal_kirim);

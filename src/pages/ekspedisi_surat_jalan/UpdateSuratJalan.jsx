@@ -215,6 +215,7 @@ const UpdateSuratJalan = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/surat-jalan/surat-jalan");
         }
       })
       .catch((error) => {

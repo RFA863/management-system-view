@@ -67,7 +67,7 @@ const KualitasTipeBox = () => {
   const deleteData = async () => {
     await axios
       .put(
-        HOST + "/marketing/kualitas_tipebox/delete/" + data.id,
+        HOST + "/marketing/kualitas_tipebox/delete/",
         {},
         {
           headers: {

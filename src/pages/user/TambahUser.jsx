@@ -74,6 +74,7 @@ const TambahUser = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/user");
         }
       })
       .catch((error) => {

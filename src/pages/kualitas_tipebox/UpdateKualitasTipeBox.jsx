@@ -39,7 +39,7 @@ const UpdateKualitasTipeBox = () => {
 
   const [tipeBox, setTipeBox] = useState([]);
   const [kualitas, setKualitas] = useState([]);
-  console.log(idKualitas);
+
   const Validator = () => {
     if (
       !(Kuping, konstantaPanjang, konstantaLebarGanjil, konstantaLebarGenap) ||
@@ -149,6 +149,7 @@ const UpdateKualitasTipeBox = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/kualitas-type%20box");
         }
       })
       .catch((error) => {

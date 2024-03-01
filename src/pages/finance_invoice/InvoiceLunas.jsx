@@ -60,12 +60,12 @@ const InvoiceLunas = () => {
               item.tgl_bayar.split("-")[0],
             tgl_cair: item.tgl_cair,
             metode_bayar: item.metode_bayar,
-            total_bayar: "Rp. " + item.total_bayar.toLocaleString(),
-            pembulatan: "Rp. " + item.pembulatan.toLocaleString(),
-            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString(),
-            dpp: "Rp. " + item.dpp.toLocaleString(),
-            ppn: "Rp. " + item.ppn.toLocaleString(),
-            total_harga: "Rp. " + item.total_harga.toLocaleString(),
+            total_bayar: "Rp. " + item.total_bayar.toLocaleString("id-ID"),
+            pembulatan: "Rp. " + item.pembulatan.toLocaleString("id-ID"),
+            sisa_bayar: "Rp. " + item.sisa_bayar.toLocaleString("id-ID"),
+            dpp: "Rp. " + item.dpp.toLocaleString("id-ID"),
+            ppn: "Rp. " + item.ppn.toLocaleString("id-ID"),
+            total_harga: "Rp. " + item.total_harga.toLocaleString("id-ID"),
           }))
         );
       })

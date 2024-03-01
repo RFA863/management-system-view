@@ -136,13 +136,11 @@ const UpdateIndex = () => {
             progress: undefined,
             theme: "colored",
           });
-
-          // navigate("/dashboard/index/index");
+          navigate("/dashboard/index/index");
         }
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2

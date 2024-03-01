@@ -120,7 +120,7 @@ const OrderDetail = () => {
   // };
 
   // useEffect(() => {
-  //   console.log(id);
+
   // }, [id]);
 
   const actionButton = () => {

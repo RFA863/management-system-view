@@ -52,7 +52,7 @@ const JobList = () => {
             kualitas: item.kualitas,
             ukuran: item.ukuran,
             ukuran_pengiriman: item.ukuran_pengiriman,
-            total_harga: "Rp. " + item.total_harga.toLocaleString(),
+            total_harga: "Rp. " + item.total_harga.toLocaleString("id-ID"),
             keterangan: item.keterangan,
           }))
         );
@@ -83,7 +83,7 @@ const JobList = () => {
   const rowSelected = () => {
     if (gridRef.current.selectionModule) {
       const id = gridRef.current.selectionModule.data.id;
-      console.log(id);
+
       navigate("/dashboard/job/detail/" + id);
     }
   };

@@ -123,14 +123,13 @@ const Sopir = () => {
     } else if (getActionButton === "delete" && data.length !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.nama,
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           deleteData();
         } else if (result.isDismissed) {

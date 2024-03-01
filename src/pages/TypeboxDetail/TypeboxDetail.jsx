@@ -43,7 +43,6 @@ const TypeboxDetail = () => {
       })
       .then((response) => {
         const listCustomer = response.data.data;
-
         setCustomer(() =>
           listCustomer.map((item, index) => ({
             id: item.id,
@@ -128,7 +127,7 @@ const TypeboxDetail = () => {
     } else if (getActionButton === "delete" && data.length !== 0) {
       Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!" + data.Nama,
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -227,8 +226,8 @@ const TypeboxDetail = () => {
                   textAlign="Center"
                 />
                 <ColumnDirective
-                  field="No. Plat"
-                  headerText="No.Plat"
+                  field="Nama"
+                  headerText="Nama"
                   textAlign="Center"
                 />
                 <ColumnDirective

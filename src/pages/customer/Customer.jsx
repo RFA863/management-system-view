@@ -68,7 +68,7 @@ const Customer = () => {
   };
 
   // const deleteData = async () => {
-  //   // console.log(data);
+
   //   await axios
   //     .delete(HOST + "/marketing/customer/delete/" + data.id, {
   //       headers: {

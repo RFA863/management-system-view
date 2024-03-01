@@ -53,9 +53,11 @@ const UpdateInvoice = () => {
               listInvoice.kualitas +
               " Uk. " +
               listInvoice.ukuran_pengiriman,
-            jumlah: listInvoice.selesai,
-            harga_satuan: "Rp. " + listInvoice.harga_satuan.toLocaleString(),
-            total_harga: "Rp. " + listInvoice.total_harga.toLocaleString(),
+            jumlah: listInvoice.jumlah,
+            harga_satuan:
+              "Rp. " + listInvoice.harga_satuan.toLocaleString("id-ID"),
+            total_harga:
+              "Rp. " + listInvoice.total_harga.toLocaleString("id-ID"),
           },
         ]);
         setHarga(listInvoice.total_harga);
@@ -126,6 +128,8 @@ const UpdateInvoice = () => {
             progress: undefined,
             theme: "colored",
           });
+
+          navigate("/dashboard/invoice/list");
         }
       })
       .catch((error) => {

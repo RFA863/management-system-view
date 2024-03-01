@@ -80,7 +80,7 @@ const TambahCustomer = () => {
       .post(
         HOST + "/marketing/customer/input",
         {
-          nomor: Number(Nomor),
+          nomor: Nomor,
           nama,
           kode,
           email,
@@ -110,6 +110,7 @@ const TambahCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/customer/customers");
         }
       })
       .catch((error) => {

@@ -98,7 +98,7 @@ const Detail = () => {
             warna: item.warna,
             perekat: item.perekat,
             ukuran: item.ukuran,
-            harga: "Rp. " + item.harga.toLocaleString(),
+            harga: "Rp. " + item.harga.toLocaleString("id-ID"),
           }))
         );
       })
@@ -185,9 +185,7 @@ const Detail = () => {
   };
 
   const rowSelected = () => {
-    // console.log(gridRef.current.selectionModule.focus.prevIndexes.cellIndex);
     if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 16) {
-      console.log(gridRef.current.selectionModule.data.id);
       setIdJob(gridRef.current.selectionModule.data.id);
     }
   };
@@ -218,7 +216,6 @@ const Detail = () => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           cancelJob();
         } else if (result.isDismissed) {
@@ -228,7 +225,6 @@ const Detail = () => {
     }
   }, [idJob, getActionButton]);
 
-  // console.log(idJob);
   const actionButton = () => {
     return (
       <div className="flex gap-2">

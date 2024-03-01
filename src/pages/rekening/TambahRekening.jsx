@@ -75,6 +75,7 @@ const TambahRekening = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/master/rekening");
         }
       })
       .catch((error) => {
