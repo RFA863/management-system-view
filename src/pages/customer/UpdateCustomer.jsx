@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { getCookie } from "cookies-next";
@@ -13,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateCustomer = () => {
   const navigate = useNavigate();
-  const { data } = useStateContext();
+  const { data, setData } = useStateContext();
 
   if (data.length === 0) {
     navigate("/dashboard/customer/customers");
@@ -88,7 +89,7 @@ const UpdateCustomer = () => {
       .put(
         HOST + "/marketing/customer/update/" + data.id,
         {
-          nomor: Number(Nomor),
+          nomor: Nomor,
           nama,
           kode,
           email,
@@ -118,13 +119,12 @@ const UpdateCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
-
+          setData([]);
           navigate("/dashboard/customer/customers");
         }
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -160,8 +160,7 @@ const UpdateCustomer = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl ">
         <div className="flex justify-between">
-          <p>{data.Nama}</p>
-          <Header title="Tambah Customer" />
+          <Header title="Update Customer" />
           <CgClose
             className="text-4xl cursor-pointer"
             onClick={() => {
@@ -171,17 +170,17 @@ const UpdateCustomer = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>Nomor</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Nomor}
                     onChange={(e) => {
-                      setNomor(e.target.value);
+                      setNomor(e.target.value.replace(/[^0-9-]/g, ""));
                     }}
                     required
                   />
@@ -189,11 +188,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -204,11 +203,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Kode</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={kode}
                     onChange={(e) => {
                       setKode(e.target.value);
@@ -219,11 +218,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Email</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="email"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -234,7 +233,7 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Npwp</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
@@ -266,11 +265,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>No. Npwp</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noNpwp}
                     onChange={(e) => {
                       setNoNpwp(e.target.value);
@@ -280,11 +279,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>No. Telpn</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noTelp}
                     onChange={(e) => {
                       setNoTelp(e.target.value);
@@ -295,11 +294,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>No. Fax</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noFax}
                     onChange={(e) => {
                       setNoFax(e.target.value);
@@ -309,11 +308,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Alamat</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={alamat}
                     onChange={(e) => {
                       setAlamat(e.target.value);
@@ -324,11 +323,11 @@ const UpdateCustomer = () => {
               </tr>
               <tr>
                 <td>Alamat Invoice</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={alamatInvoice}
                     onChange={(e) => {
                       setAlamatInvoice(e.target.value);
@@ -340,7 +339,7 @@ const UpdateCustomer = () => {
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={updateData}
               >
                 Submit

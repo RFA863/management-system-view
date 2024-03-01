@@ -8,8 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { HOST } from "../../config";
 import { Header } from "../../components";
 
-import "react-toastify/dist/ReactToastify.css";
-
 const TambahCustomer = () => {
   const navigate = useNavigate();
 
@@ -82,7 +80,7 @@ const TambahCustomer = () => {
       .post(
         HOST + "/marketing/customer/input",
         {
-          nomor: Number(Nomor),
+          nomor: Nomor,
           nama,
           kode,
           email,
@@ -112,11 +110,11 @@ const TambahCustomer = () => {
             progress: undefined,
             theme: "colored",
           });
+          navigate("/dashboard/customer/customers");
         }
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.type);
           if (
             error.response.data.type === "token" &&
             error.response.data.data.code === -2
@@ -162,17 +160,17 @@ const TambahCustomer = () => {
         </div>
         <form>
           <div className="flex items-end justify-evenly">
-            <table className="font-semibold">
+            <table className="border-separate border-spacing-y-2">
               <tr>
                 <td>Nomor</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px]"
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={Nomor}
                     onChange={(e) => {
-                      setNomor(e.target.value);
+                      setNomor(e.target.value.replace(/[^0-9-]/g, ""));
                     }}
                     required
                   />
@@ -180,11 +178,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Nama</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
@@ -195,11 +193,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Kode</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={kode}
                     onChange={(e) => {
                       setKode(e.target.value);
@@ -210,11 +208,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Email</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="email"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -225,7 +223,7 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Npwp</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td className="flex gap-4">
                   <label>
                     <input
@@ -255,27 +253,30 @@ const TambahCustomer = () => {
                   </label>
                 </td>
               </tr>
-              <tr>
-                <td>No. Npwp</td>
-                <td>:</td>
-                <td>
-                  <input
-                    type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
-                    value={noNpwp}
-                    onChange={(e) => {
-                      setNoNpwp(e.target.value);
-                    }}
-                  />
-                </td>
-              </tr>
+              {Npwp === "true" && (
+                <tr>
+                  <td>No. Npwp</td>
+                  <td className="px-4">:</td>
+                  <td>
+                    <input
+                      type="text"
+                      className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
+                      value={noNpwp}
+                      onChange={(e) => {
+                        setNoNpwp(e.target.value);
+                      }}
+                    />
+                  </td>
+                </tr>
+              )}
+
               <tr>
                 <td>No. Telpn</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noTelp}
                     onChange={(e) => {
                       setNoTelp(e.target.value);
@@ -286,11 +287,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>No. Fax</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={noFax}
                     onChange={(e) => {
                       setNoFax(e.target.value);
@@ -300,11 +301,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Alamat</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={alamat}
                     onChange={(e) => {
                       setAlamat(e.target.value);
@@ -315,11 +316,11 @@ const TambahCustomer = () => {
               </tr>
               <tr>
                 <td>Alamat Invoice</td>
-                <td>:</td>
+                <td className="px-4">:</td>
                 <td>
                   <input
                     type="text"
-                    className="border-b-2 focus:outline-none focus:border-blue-700 w-[300px] "
+                    className="w-full border-2 py-1 px-2 rounded-md focus:outline-none focus:border-blue-700"
                     value={alamatInvoice}
                     onChange={(e) => {
                       setAlamatInvoice(e.target.value);
@@ -331,7 +332,7 @@ const TambahCustomer = () => {
             </table>
             <div>
               <button
-                className="bg-blue-700 rounded-xl text-white px-4 py-2"
+                className="bg-blue-700 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
                 onClick={postData}
               >
                 Submit

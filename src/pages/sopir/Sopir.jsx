@@ -1,6 +1,7 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
+
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -24,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Sopir = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -45,9 +46,9 @@ const Sopir = () => {
 
         setCustomer(() =>
           listCustomer.map((item, index) => ({
-            id: 1,
-            nama : Asep
-           
+            id: item.id,
+            no: index + 1,
+            nama: item.nama,
           }))
         );
       })
@@ -58,14 +59,18 @@ const Sopir = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "marketing/supir/get" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/supir/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data successfully deleted", {
@@ -79,6 +84,7 @@ const Sopir = () => {
             theme: "colored",
           });
         }
+        setData([]);
         fetchData();
       })
       .catch((error) => {
@@ -89,6 +95,7 @@ const Sopir = () => {
   };
 
   useEffect(() => {
+    setData([]);
     fetchData();
   }, []);
 
@@ -105,22 +112,36 @@ const Sopir = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 3) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/customer/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
     }
   };
 
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/master/sopir/update");
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
+    }
+  }, [data, getActionButton]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -152,7 +173,7 @@ const Sopir = () => {
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/customer/tambah");
+              navigate("/dashboard/master/sopir/tambah");
             }}
           >
             Tambah Sopir
@@ -185,18 +206,22 @@ const Sopir = () => {
                   visible={false}
                 />
                 <ColumnDirective
-                  field="No"
+                  field="no"
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
-                  field="Nama"
+                  field="nama"
                   headerText="Nama"
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

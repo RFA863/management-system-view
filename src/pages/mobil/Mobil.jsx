@@ -1,6 +1,6 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-// import { HiDocument } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -24,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Mobil = () => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+
   const { data, setData } = useStateContext();
 
   const [getActionButton, setActionButton] = useState("");
@@ -34,7 +34,7 @@ const Mobil = () => {
 
   const fetchData = async () => {
     await axios
-      .get(HOST + "/marketing/supir/get", {
+      .get(HOST + "/marketing/mobil/get", {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: getCookie("admin_auth"),
@@ -47,8 +47,7 @@ const Mobil = () => {
           listCustomer.map((item, index) => ({
             id: item.id,
             No: index + 1,
-            Nama: item.noplat,
-           
+            Noplat: item.noplat,
           }))
         );
       })
@@ -59,14 +58,18 @@ const Mobil = () => {
       });
   };
 
-  const deleteData = async (id) => {
+  const deleteData = async () => {
     await axios
-      .delete(HOST + "/marketing/customer/delete/" + id, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: getCookie("admin_auth"),
-        },
-      })
+      .put(
+        HOST + "/marketing/mobil/delete/" + data.id,
+        {},
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: getCookie("admin_auth"),
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data successfully deleted", {
@@ -80,6 +83,8 @@ const Mobil = () => {
             theme: "colored",
           });
         }
+
+        setData([]);
         fetchData();
       })
       .catch((error) => {
@@ -90,6 +95,7 @@ const Mobil = () => {
   };
 
   useEffect(() => {
+    setData([]);
     fetchData();
   }, []);
 
@@ -106,22 +112,36 @@ const Mobil = () => {
   };
 
   const rowSelected = () => {
-    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex == 12) {
+    if (gridRef.current.selectionModule.focus.prevIndexes.cellIndex === 3) {
       setData(gridRef.current.selectionModule.data);
-      if (getActionButton === "update") {
-        if (data.length !== 0) {
-          console.log(data);
-          navigate("/dashboard/customer/update");
-        }
-      } else if (getActionButton === "delete") {
-        deleteData(data.id);
-      }
     }
   };
 
+  useEffect(() => {
+    if (getActionButton === "update" && data.length !== 0) {
+      navigate("/dashboard/master/mobil/update");
+    } else if (getActionButton === "delete" && data.length !== 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteData();
+        } else if (result.isDismissed) {
+          setData([]);
+        }
+      });
+    }
+  }, [data, getActionButton]);
+
   const actionButton = () => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <button
           className="bg-blue-700 rounded-xl py-2 px-4 text-white m-0"
           onClick={() => {
@@ -148,15 +168,15 @@ const Mobil = () => {
     <div>
       <ToastContainer hideProgressBar={true} autoClose={2000} theme="colored" />
       <div className="m-2 md:m-10 mt-24 px-2 py-10 md:p-10 bg-white rounded-3xl">
-        <Header title="Data Sopir" />
+        <Header title="Data Mobil" />
         <div className="mb-4 -mt-4">
           <button
             className="bg-blue-700 rounded-xl text-white px-4 py-2"
             onClick={() => {
-              navigate("/dashboard/customer/tambah");
+              navigate("/dashboard/master/mobil/tambah");
             }}
           >
-            Tambah Sopir
+            Tambah Mobil
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -190,14 +210,18 @@ const Mobil = () => {
                   headerText="No"
                   textAlign="Center"
                 />
-                
+
                 <ColumnDirective
-                  field="No. Plat"
+                  field="Noplat"
                   headerText="No.Plat"
                   textAlign="Center"
                 />
 
-                <ColumnDirective headerText="Action" template={actionButton} />
+                <ColumnDirective
+                  headerText="Action"
+                  template={actionButton}
+                  textAlign="center"
+                />
               </ColumnsDirective>
               <Inject services={[Search, Toolbar, Page, Sort, Resize]} />
             </GridComponent>

@@ -20,11 +20,10 @@ const Sidebar = () => {
   const links = [
     {
       title: "master",
-      icon: <IoMdContacts />,
+
       links: [
         {
           name: "type box",
-          icon: <IoMdContacts />,
         },
         {
           name: "kualitas",
